@@ -1,0 +1,22 @@
+.login-container {
+  margin-top: 2.5rem;
+  padding: 1rem;
+  display: flex;
+
+  .inputs {
+    flex: 1;
+    input {
+      font-weight: 700;
+    }
+  }
+
+  .login-button {
+    display: flex;
+    flex: 0.4;
+    flex-direction: column;
+    button {
+      flex: 1;
+      font-weight: 700;
+    }
+  }
+}
