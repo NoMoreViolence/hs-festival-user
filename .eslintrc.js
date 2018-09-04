@@ -7,6 +7,7 @@ module.exports = {
   extends: 'airbnb',
   plugins: ['react', 'jsx-a11y', 'import'],
   rules: {
+    'no-unused-vars': 1,
     'react/prefer-stateless-function': 0,
     'react/no-access-state-in-setstate': 0,
     'react/destructuring-assignment': 0,
