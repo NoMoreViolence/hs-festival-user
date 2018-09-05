@@ -1,13 +1,29 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import './App.scss';
+
+import { ToastContainer } from 'react-toastify';
 
 import InformationTemplate from './template/information/information.template';
 
-const App = () => (
-  <div className="root-container">
-    <Route exact path="/" component={InformationTemplate} />
-  </div>
-);
+import './App.scss';
 
-export default App;
+export default class App extends React.Component {
+  state = {
+    isOpen: false,
+  };
+
+  toggle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  };
+
+  render() {
+    return (
+      <div className="app-container">
+        <ToastContainer />
+        <Route exact path="/" component={InformationTemplate} />
+      </div>
+    );
+  }
+}

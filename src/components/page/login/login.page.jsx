@@ -1,56 +1,62 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
+import * as PropTypes from 'prop-types';
+import { Input, Button } from 'reactstrap';
 import './login.page.scss';
+import { toast } from 'react-toastify';
 
 class LoginPage extends Component {
   state = {
-    clicked: false,
+    id: '',
+    pw: '',
   };
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    pw: PropTypes.string.isRequired,
-    idChange: PropTypes.func.isRequired,
-    pwChange: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    pending: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { clicked } = this.state;
+    const { id, pw } = this.state;
+    const { login, pending } = this.props;
     return (
-      <div className="login-container has-background-primary">
-        <div className="login-banner">
-          <h1 className="title">로그인</h1>
+      <div className="login-container">
+        <div className="login-inputs">
+          <Input
+            type="text"
+            placeholder="ID"
+            value={id}
+            onChange={(e) => {
+              this.setState({ id: e.target.value });
+            }}
+          />
+          <Input
+            type="password"
+            placeholder="PW"
+            value={pw}
+            onChange={(e) => {
+              this.setState({ pw: e.target.value });
+            }}
+          />
         </div>
-        <div className="login-article">
-          <div className="inputs">
-            <input
-              type="text"
-              className="input has-text-success is-success"
-              placeholder="아이디를 입력해 주세요"
-              value={this.props.id}
-              onChange={this.props.idChange}
-            />
-            <input
-              type="password"
-              className="input has-text-success is-success"
-              placeholder="비밀번호를 입력해 주세요"
-              value={this.props.pw}
-              onChange={this.props.pwChange}
-            />
-          </div>
-
-          <div className="login-button">
-            <button
-              type="button"
-              className={`button has-text-success ${clicked && 'is-loading'}`}
-              onClick={() => {
-                this.setState({ clicked: !clicked });
-              }}
-            >
-              로그인
-            </button>
-          </div>
+        <div className="login-button">
+          <Button
+            outline
+            color="primary"
+            onClick={() => {
+              pending === true
+                ? toast('로그인이 진행 중 입니다 !', { type: 'info' })
+                : login(id, pw)
+                  .then((res) => {
+                    toast('로그인 성공 ! 환영합니다', { type: 'success' });
+                  })
+                  .catch((err) => {
+                    toast('로그인 에러 !', { type: 'error' });
+                    console.log(err.response);
+                  });
+            }}
+          >
+            로그인
+          </Button>
         </div>
       </div>
     );

@@ -1,49 +1,8 @@
 .information-container {
-  .card {
-    .card-header {
-      .header {
-        padding: 1rem;
-      }
-    }
+  width: 100%;
+}
 
-    .card-content {
-      .content {
-        line-height: 2rem;
-        .content-text {
-          font: {
-            weight: 700;
-          }
-        }
-      }
-    }
-
-    .card-footer {
-      width: 100%;
-      .buttons {
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 1rem;
-
-        .button {
-          font: {
-            weight: 600;
-          }
-        }
-      }
-    }
-  }
-
-  .login-and-register {
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -o-transition: 0.5s;
-    transition: 0.5s;
-    opacity: 0;
-  }
-
-  .login-and-register.show {
-    opacity: 1;
-  }
+.information-button-parent {
+  display: flex;
+  justify-content: center;
 }

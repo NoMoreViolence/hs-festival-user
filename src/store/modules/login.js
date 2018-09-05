@@ -1,26 +1,74 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
+import * as axios from 'axios';
 
-const CHANGE_ID = 'login/CHANGE_ID';
-const CHANGE_PASSWORD = 'login/CHANGE_PASSWORD';
+const LOGIN = 'login/LOGIN';
+const LOGIN_PENDING = 'login/LOGIN_PENDING';
+const LOGIN_SUCCESS = 'login/LOGIN_SUCCESS';
+const LOGIN_FAILURE = 'login/LOGIN_FAILURE';
+
+const LOGIN_AUTO = 'login/LOGIN_AUTO';
+const LOGIN_AUTO_PENDING = 'login/LOGIN_AUTO_PENDING';
+const LOGIN_AUTO_SUCCESS = 'login/LOGIN_AUTO_SUCCESS';
+const LOGIN_AUTO_FAILURE = 'login/LOGIN_AUTO_FAILURE';
+
+export const loginAuto = () => {
+  console.log('awejfo;iawjeo;ij;o');
+  return axios.default.post('/', { body: { token: localStorage.getItem('token') } });
+};
+
+export const loginRequest = (id, pw) => {
+  console.log(id, pw);
+  return axios.default.get(
+    '/',
+    {
+      body: {
+        id,
+        pw,
+      },
+    },
+    {},
+  );
+};
 
 export const LoginActions = {
-  changeId: createAction(CHANGE_ID, value => value),
-  changePassword: createAction(CHANGE_PASSWORD, value => value),
+  login: createAction(LOGIN, loginRequest),
+  loginAuto: createAction(LOGIN_AUTO, loginAuto),
 };
 
 const initialState = {
-  id: '',
-  password: '',
+  pending: false,
+  logined: false,
+  error: false,
 };
 
 const login = handleActions(
   {
-    [CHANGE_ID]: (state, action) => produce(state, (draft) => {
-      draft.id = action.payload;
+    [LOGIN_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.pending = true;
+      draft.error = false;
     }),
-    [CHANGE_PASSWORD]: (state, action) => produce(state, (draft) => {
-      draft.password = action.payload;
+    [LOGIN_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.pending = false;
+      draft.error = false;
+      draft.logined = true;
+    }),
+    [LOGIN_FAILURE]: (state, action) => produce(state, (draft) => {
+      draft.pending = false;
+      draft.error = true;
+    }),
+    [LOGIN_AUTO_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.pending = true;
+      draft.error = false;
+    }),
+    [LOGIN_AUTO_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.pending = false;
+      draft.error = false;
+      draft.logined = true;
+    }),
+    [LOGIN_AUTO_FAILURE]: (state, action) => produce(state, (draft) => {
+      draft.pending = false;
+      draft.error = true;
     }),
   },
   initialState,

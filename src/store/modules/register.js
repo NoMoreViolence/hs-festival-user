@@ -9,18 +9,20 @@ const DOUBLE_CHECK_ID_SUCCESS = 'register/DOUBLE_CHECK_ID_SUCCESS';
 const DOUBLE_CHECK_ID_FAILURE = 'register/DOUBLE_CHECK_ID_FAILURE';
 const CHANGE_PASSWORD = 'register/CHANGE_PASSWORD';
 const CHANGE_RE_PASSWORD = 'register/CHANGE_RE_PASSWORD';
+const DOUBLE_CHECK_PASSWORD = 'register/DOUBLE_CHECK_PASSWORD';
 
 const RERISTER = 'register/REGISTER';
 const RERISTER_PENDING = 'register/REGISTER_PENDING';
 const RERISTER_SUCCESS = 'register/REGISTER_SUCCESS';
 const RERISTER_FAILURE = 'register/REGISTER_FAILURE';
 
-export const LoginActions = {
+export const RegisterActions = {
   changeRandomKey: createAction(CHANGE_RANDOM_KEY, value => value),
   changeId: createAction(CHANGE_ID, value => value),
   doubleCheckId: createAction(DOUBLE_CHECK_ID, value => value), // 서버 개발자랑 맞춰야 하는 부분
   changePassword: createAction(CHANGE_PASSWORD, value => value),
   changeRePassword: createAction(CHANGE_RE_PASSWORD, value => value),
+  doubleCheckPassword: createAction(DOUBLE_CHECK_PASSWORD, value => value), //
   register: createAction(RERISTER, value => value), // 서버 개발자랑 맞춰보야아 함
 };
 
@@ -28,7 +30,7 @@ const initialState = {
   randomKey: '',
   id: '',
   idChecked: false,
-  idCheckPending: false,
+  idCheckedPending: false,
   password: '',
   rePassword: '',
   pwChecked: false,
