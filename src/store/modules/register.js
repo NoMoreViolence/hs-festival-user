@@ -37,7 +37,7 @@ const initialState = {
 
 const register = handleActions(
   {
-    [DOUBLE_CHECK_ID_PENDING]: (state, action) => produce(state, (draft) => {
+    [DOUBLE_CHECK_ID_PENDING]: state => produce(state, (draft) => {
       draft.doubleCheckPending = true;
       draft.doubleCheckSuccess = false;
       draft.doubleCheckFailure = false;
@@ -52,7 +52,7 @@ const register = handleActions(
       draft.doubleCheckSuccess = false;
       draft.doubleCheckFailure = true;
     }),
-    [REGISTER_PENDING]: (state, action) => produce(state, (draft) => {
+    [REGISTER_PENDING]: state => produce(state, (draft) => {
       draft.registerPending = true;
       draft.registerSuccess = false;
       draft.registerFailure = false;

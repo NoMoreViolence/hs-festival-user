@@ -1,8 +1,29 @@
 .information-container {
   width: 100%;
+  .information-jumbo {
+    padding-bottom: 0px !important;
+    background-color: #fff;
+    margin: 1rem;
+    // border: none;
+    border-radius: 4px;
+  }
 }
 
 .information-button-parent {
   display: flex;
   justify-content: center;
+  padding: {
+    top: 0px;
+    bottom: 0px;
+    right: 0px !important;
+    left: 0px !important;
+  }
+  border-top: 1px solid #007bff;
+
+  button {
+    border: none !important;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0 !important;
+  }
 }

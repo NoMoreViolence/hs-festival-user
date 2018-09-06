@@ -22,18 +22,18 @@ class InformationTemplate extends React.Component {
 
     return (
       <div className="information-container">
-        <Jumbotron fluid style={{ boxShadow: '3px 3px 3px 3px #999' }}>
+        <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="information-jumbo">
           <Container fluid>
             <p className="display-4">한세의 민족</p>
-            <p className="lead">탄감자의 쇄국정책 축제 잘 즐기세요</p>
-            <p className="lead">이 개발자는 무보수로 모든걸 해결합니다</p>
-            <p className="lead">앱 디자인이 조잡해 보이면 니가 하세요 시ㅣㅣ발롬아</p>
+            <p className="lead">탄감자의 쇄국정책 축제 잘 즐기세요!</p>
+            <p className="lead">이 개발자는 무보수로 모든걸 해결합니다~</p>
+            <p className="lead">앱 디자인이 조잡해 보이면 니가 하라고</p>
             <p className="lead">2018 / 10 / 4 한세 멸망의 날</p>
           </Container>
 
           <Container>
             <Row>
-              <Col className="information-button-parent">
+              <Col className="information-button-parent" style={{ borderRight: '1px solid #007bff' }}>
                 <Button
                   outline
                   color="primary"

@@ -19,8 +19,11 @@ class LoginPage extends Component {
           toast('로그인 성공 ! 환영합니다', { type: 'success' });
         })
         .catch((err) => {
-          toast('토큰값 유효하지 않음 ! 재 로그인해 주세요', { type: 'error' });
+          this.props.history.push('/');
+          toast('로그인 에러 발생 ! 재 로그인해 주세요', { type: 'error' });
         });
+    } else {
+      this.props.history.push('/');
     }
   }
 

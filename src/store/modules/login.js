@@ -22,7 +22,6 @@ export const loginAuto = () => {
 // 로그인 요청
 export const loginRequest = (id, pw) => {
   console.log('login');
-  console.log(id, pw);
   return axios.default.get(
     'https://baconipsum.com/api/?type=meat-and-filler',
     {
@@ -48,7 +47,7 @@ const initialState = {
 
 const login = handleActions(
   {
-    [LOGIN_PENDING]: (state, action) => produce(state, (draft) => {
+    [LOGIN_PENDING]: state => produce(state, (draft) => {
       draft.pending = true;
       draft.error = false;
     }),
@@ -61,7 +60,7 @@ const login = handleActions(
       draft.pending = false;
       draft.error = true;
     }),
-    [LOGIN_AUTO_PENDING]: (state, action) => produce(state, (draft) => {
+    [LOGIN_AUTO_PENDING]: state => produce(state, (draft) => {
       draft.pending = true;
       draft.error = false;
     }),
