@@ -1,89 +1,74 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
+import axios from 'axios';
 
-const CHANGE_RANDOM_KEY = 'register/CHANGE_RANDOM_KEY';
-const CHANGE_ID = 'register/CHANGE_ID';
 const DOUBLE_CHECK_ID = 'register/DOUBLE_CHECK_ID';
 const DOUBLE_CHECK_ID_PENDING = 'register/DOUBLE_CHECK_ID_PENDING';
 const DOUBLE_CHECK_ID_SUCCESS = 'register/DOUBLE_CHECK_ID_SUCCESS';
 const DOUBLE_CHECK_ID_FAILURE = 'register/DOUBLE_CHECK_ID_FAILURE';
-const CHANGE_PASSWORD = 'register/CHANGE_PASSWORD';
-const CHANGE_RE_PASSWORD = 'register/CHANGE_RE_PASSWORD';
-const DOUBLE_CHECK_PASSWORD = 'register/DOUBLE_CHECK_PASSWORD';
 
-const RERISTER = 'register/REGISTER';
-const RERISTER_PENDING = 'register/REGISTER_PENDING';
-const RERISTER_SUCCESS = 'register/REGISTER_SUCCESS';
-const RERISTER_FAILURE = 'register/REGISTER_FAILURE';
+const REGISTER = 'register/REGISTER';
+const REGISTER_PENDING = 'register/REGISTER_PENDING';
+const REGISTER_SUCCESS = 'register/REGISTER_SUCCESS';
+const REGISTER_FAILURE = 'register/REGISTER_FAILURE';
+
+export const doubleCheckRequest = (id) => {
+  console.log('doubleCheck');
+  return axios.get('', { body: { id } });
+};
+export const registerRequest = (id, password, randomKey) => {
+  console.log('register');
+  return axios.get('', { body: { id, password, randomKey } });
+};
 
 export const RegisterActions = {
-  changeRandomKey: createAction(CHANGE_RANDOM_KEY, value => value),
-  changeId: createAction(CHANGE_ID, value => value),
-  doubleCheckId: createAction(DOUBLE_CHECK_ID, value => value), // 서버 개발자랑 맞춰야 하는 부분
-  changePassword: createAction(CHANGE_PASSWORD, value => value),
-  changeRePassword: createAction(CHANGE_RE_PASSWORD, value => value),
-  doubleCheckPassword: createAction(DOUBLE_CHECK_PASSWORD, value => value), //
-  register: createAction(RERISTER, value => value), // 서버 개발자랑 맞춰보야아 함
+  DoubleCheckId: createAction(DOUBLE_CHECK_ID, doubleCheckRequest),
+  register: createAction(REGISTER, registerRequest),
 };
 
 const initialState = {
-  randomKey: '',
-  id: '',
-  idChecked: false,
-  idCheckedPending: false,
-  password: '',
-  rePassword: '',
-  pwChecked: false,
+  doubleCheckPending: false,
+  doubleCheckSuccess: false,
+  doubleCheckFailure: false,
   registerPending: false,
+  registerSuccess: false,
+  registerFailure: false,
 };
 
-const login = handleActions(
+const register = handleActions(
   {
-    [CHANGE_RANDOM_KEY]: (state, action) => produce(state, (draft) => {
-      draft.randomKey = action.payload;
-    }),
-
-    [CHANGE_ID]: (state, action) => produce(state, (draft) => {
-      draft.id = action.payload;
-    }),
     [DOUBLE_CHECK_ID_PENDING]: (state, action) => produce(state, (draft) => {
-      draft.idCheckPending = true;
+      draft.doubleCheckPending = true;
+      draft.doubleCheckSuccess = false;
+      draft.doubleCheckFailure = false;
     }),
     [DOUBLE_CHECK_ID_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.idCheckPending = false;
+      draft.doubleCheckPending = false;
+      draft.doubleCheckSuccess = true;
+      draft.doubleCheckFailure = false;
     }),
     [DOUBLE_CHECK_ID_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.idCheckPending = false;
+      draft.doubleCheckPending = false;
+      draft.doubleCheckSuccess = false;
+      draft.doubleCheckFailure = true;
     }),
-
-    [CHANGE_PASSWORD]: (state, action) => produce(state, (draft) => {
-      if (action.payload === state.rePassword) {
-        draft.pwChecked = true;
-      } else {
-        draft.pwChecked = false;
-      }
-      draft.password = action.payload;
-    }),
-    [CHANGE_RE_PASSWORD]: (state, action) => produce(state, (draft) => {
-      if (action.payload === state.password) {
-        draft.pwChecked = true;
-      } else {
-        draft.pwChecked = false;
-      }
-      draft.rePassword = action.payload;
-    }),
-
-    [RERISTER_PENDING]: (state, action) => produce(state, (draft) => {
+    [REGISTER_PENDING]: (state, action) => produce(state, (draft) => {
       draft.registerPending = true;
+      draft.registerSuccess = false;
+      draft.registerFailure = false;
     }),
-    [RERISTER_SUCCESS]: (state, action) => produce(state, (draft) => {
+    [REGISTER_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.registerPending = false;
+      draft.registerSuccess = true;
+      draft.registerFailure = false;
     }),
-    [RERISTER_FAILURE]: (state, action) => produce(state, (draft) => {
+    [REGISTER_FAILURE]: (state, action) => produce(state, (draft) => {
       draft.registerPending = false;
+      draft.registerSuccess = false;
+      draft.registerFailure = true;
     }),
   },
   initialState,
 );
 
-export default login;
+export default register;

@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Input, Button } from 'reactstrap';
 import './login.page.scss';
 import { toast } from 'react-toastify';
+import { withRouter } from 'react-router-dom';
 
 class LoginPage extends Component {
   state = {
@@ -13,6 +14,7 @@ class LoginPage extends Component {
   static propTypes = {
     login: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
+    history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   render() {
@@ -43,11 +45,13 @@ class LoginPage extends Component {
             outline
             color="primary"
             onClick={() => {
+              toast('로그인 중...');
               pending === true
                 ? toast('로그인이 진행 중 입니다 !', { type: 'info' })
                 : login(id, pw)
                   .then((res) => {
                     toast('로그인 성공 ! 환영합니다', { type: 'success' });
+                    this.props.history.push('/menu');
                   })
                   .catch((err) => {
                     toast('로그인 에러 !', { type: 'error' });
@@ -62,5 +66,4 @@ class LoginPage extends Component {
     );
   }
 }
-
-export default LoginPage;
+export default withRouter(LoginPage);

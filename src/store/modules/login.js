@@ -12,15 +12,19 @@ const LOGIN_AUTO_PENDING = 'login/LOGIN_AUTO_PENDING';
 const LOGIN_AUTO_SUCCESS = 'login/LOGIN_AUTO_SUCCESS';
 const LOGIN_AUTO_FAILURE = 'login/LOGIN_AUTO_FAILURE';
 
+// 자동 로그인
 export const loginAuto = () => {
-  console.log('awejfo;iawjeo;ij;o');
-  return axios.default.post('/', { body: { token: localStorage.getItem('token') } });
+  console.log('login auto');
+  return axios.default.get('https://baconipsum.com/api/?type=meat-and-filler', {
+    body: { token: localStorage.getItem('token') },
+  });
 };
-
+// 로그인 요청
 export const loginRequest = (id, pw) => {
+  console.log('login');
   console.log(id, pw);
   return axios.default.get(
-    '/',
+    'https://baconipsum.com/api/?type=meat-and-filler',
     {
       body: {
         id,

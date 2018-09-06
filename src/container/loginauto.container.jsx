@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoginActions } from '../store/modules/login';
-import Login from '../components/page/login/login.page';
+import LoginAuto from '../components/page/loginauto/loginauto.page';
 
-class LoginContainer extends React.Component {
+class LoginAutoContainer extends React.Component {
   static propTypes = {
     loginAuto: PropTypes.func.isRequired,
   };
 
   render() {
-    return <Login loginAuto={this.props.loginAuto} />;
+    return <LoginAuto loginAuto={this.props.loginAuto} />;
   }
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   loginAuto: bindActionCreators(LoginActions.loginAuto, dispatch),
@@ -25,4 +25,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginContainer);
+)(LoginAutoContainer);

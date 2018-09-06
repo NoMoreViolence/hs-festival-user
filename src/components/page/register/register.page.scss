@@ -1,0 +1,30 @@
+.register-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #e9ecef;
+  box-shadow: 3px 3px 3px 3px #999;
+
+  .random-input {
+    input {
+      background-color: #e9ecef;
+    }
+    margin-bottom: 1rem;
+  }
+
+  .id-input {
+    input {
+      background-color: #e9ecef;
+    }
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  .pw-input {
+    input {
+      background-color: #e9ecef;
+    }
+    margin-bottom: 1rem;
+  }
+}
