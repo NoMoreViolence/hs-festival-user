@@ -27,6 +27,10 @@ class LoginPage extends Component {
     }
   }
 
+  componentDidUpdate() {
+    console.log('someting changed');
+  }
+
   render() {
     return <div />;
   }

@@ -38,7 +38,6 @@ class RegisterPage extends Component {
             value={random}
             onChange={(e) => {
               this.setState({
-                checked: false,
                 random: e.target.value,
               });
             }}
@@ -51,8 +50,8 @@ class RegisterPage extends Component {
             value={id}
             onChange={(e) => {
               this.setState({
-                id: e.target.value,
                 checked: false,
+                id: e.target.value,
               });
             }}
           />
