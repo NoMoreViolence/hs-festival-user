@@ -27,7 +27,6 @@ class InformationTemplate extends React.Component {
             <p className="display-4">한세의 민족</p>
             <p className="lead">탄감자의 쇄국정책 축제 잘 즐기세요!</p>
             <p className="lead">이 개발자는 무보수로 모든걸 해결합니다~</p>
-            <p className="lead">앱 디자인이 조잡해 보이면 니가 하라고</p>
             <p className="lead">2018 / 10 / 4 한세 멸망의 날</p>
           </Container>
 

@@ -2,6 +2,8 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import * as axios from 'axios';
 
+const ERROR = 'login/ERROR';
+
 const LOGIN = 'login/LOGIN';
 const LOGIN_PENDING = 'login/LOGIN_PENDING';
 const LOGIN_SUCCESS = 'login/LOGIN_SUCCESS';
@@ -37,6 +39,7 @@ export const loginRequest = (id, pw) => {
 export const LoginActions = {
   login: createAction(LOGIN, loginRequest),
   loginAuto: createAction(LOGIN_AUTO, loginAuto),
+  error: createAction(ERROR, value => value),
 };
 
 const initialState = {
@@ -47,6 +50,10 @@ const initialState = {
 
 const login = handleActions(
   {
+    [ERROR]: state => produce(state, (draft) => {
+      draft.logined = false;
+    }),
+
     [LOGIN_PENDING]: state => produce(state, (draft) => {
       draft.pending = true;
       draft.error = false;

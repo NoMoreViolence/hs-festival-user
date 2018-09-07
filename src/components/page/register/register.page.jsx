@@ -101,7 +101,6 @@ class RegisterPage extends Component {
           <Button
             outline
             color="primary"
-            block
             onClick={() => {
               if (registerPending === false) {
                 if (pw === rePw && checked === true) {

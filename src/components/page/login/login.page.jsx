@@ -15,6 +15,7 @@ class LoginPage extends Component {
     login: PropTypes.func.isRequired,
     pending: PropTypes.bool.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+    contain: PropTypes.func.isRequired,
   };
 
   render() {
@@ -50,6 +51,12 @@ class LoginPage extends Component {
                 ? toast('로그인이 진행 중 입니다 !', { type: 'info' })
                 : login(id, pw)
                   .then((res) => {
+                    this.props.contain({
+                      admin: false,
+                      username: '추승원',
+                      luckyNumber: 123,
+                      money: 1500,
+                    });
                     toast('로그인 성공 ! 환영합니다', { type: 'success' });
                     this.props.history.push('/menu');
                   })

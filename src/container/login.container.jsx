@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoginActions } from '../store/modules/login';
 import Login from '../components/page/login/login.page';
+import { UserActions } from '../store/modules/user';
 
 class LoginContainer extends React.Component {
   static propTypes = {
@@ -12,10 +13,19 @@ class LoginContainer extends React.Component {
     logined: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
+    contain: PropTypes.func.isRequired,
   };
 
   render() {
-    return <Login pending={this.props.pending} logined={this.props.logined} error={this.props.error} login={this.props.login} />;
+    return (
+      <Login
+        pending={this.props.pending}
+        logined={this.props.logined}
+        error={this.props.error}
+        login={this.props.login}
+        contain={this.props.contain}
+      />
+    );
   }
 }
 
@@ -25,6 +35,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  contain: bindActionCreators(UserActions.contain, dispatch),
   login: bindActionCreators(LoginActions.login, dispatch),
 });
 

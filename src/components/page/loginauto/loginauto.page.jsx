@@ -7,6 +7,7 @@ class LoginPage extends Component {
   static propTypes = {
     loginAuto: PropTypes.func.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+    contain: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -15,6 +16,12 @@ class LoginPage extends Component {
       this.props
         .loginAuto()
         .then((res) => {
+          this.props.contain({
+            admin: false,
+            username: '추승원',
+            money: 1500,
+            luckyNumber: 123,
+          });
           this.props.history.push('/menu');
           toast('로그인 성공 ! 환영합니다', { type: 'success' });
         })
@@ -29,6 +36,10 @@ class LoginPage extends Component {
 
   componentDidUpdate() {
     console.log('someting changed');
+  }
+
+  componentWillUnmount() {
+    console.log('난 사라져');
   }
 
   render() {

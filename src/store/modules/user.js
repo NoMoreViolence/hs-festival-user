@@ -2,79 +2,67 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import * as axios from 'axios';
 
-const LOGIN = 'login/LOGIN';
-const LOGIN_PENDING = 'login/LOGIN_PENDING';
-const LOGIN_SUCCESS = 'login/LOGIN_SUCCESS';
-const LOGIN_FAILURE = 'login/LOGIN_FAILURE';
+const CONTAIN = 'user/CONTAIN';
+const MONEY_UPDATE = 'user/MONEY_UPDATE';
 
-const LOGIN_AUTO = 'login/LOGIN_AUTO';
-const LOGIN_AUTO_PENDING = 'login/LOGIN_AUTO_PENDING';
-const LOGIN_AUTO_SUCCESS = 'login/LOGIN_AUTO_SUCCESS';
-const LOGIN_AUTO_FAILURE = 'login/LOGIN_AUTO_FAILURE';
+const BRING_DATA_OF_USER = 'BRING_DATA_OF_USER';
+const BRING_DATA_OF_USER_PENDING = 'BRING_DATA_OF_USER_PENDING';
+const BRING_DATA_OF_USER_SUCCESS = 'BRING_DATA_OF_USER_SUCCESS';
+const BRING_DATA_OF_USER_FAILURE = 'BRING_DATA_OF_USER_FAILURE';
 
-// 자동 로그인
-export const loginAuto = () => {
-  console.log('login auto');
-  return axios.default.get('https://baconipsum.com/api/?type=meat-and-filler', {
-    body: { token: localStorage.getItem('token') },
-  });
-};
-// 로그인 요청
-export const loginRequest = (id, pw) => {
-  console.log('login');
-  return axios.default.get(
-    'https://baconipsum.com/api/?type=meat-and-filler',
-    {
-      body: {
-        id,
-        pw,
-      },
-    },
-    {},
-  );
+const bringDataOfUser = () => {
+  console.log('bringDataOfUser');
+  return axios.post('/', { body: { token: localStorage.getItem('token') } });
 };
 
-export const LoginActions = {
-  login: createAction(LOGIN, loginRequest),
-  loginAuto: createAction(LOGIN_AUTO, loginAuto),
+export const UserActions = {
+  contain: createAction(CONTAIN, value => value),
+  moneyUpdate: createAction(MONEY_UPDATE, value => value),
+  bringDataOfUser: createAction(BRING_DATA_OF_USER, bringDataOfUser),
 };
 
 const initialState = {
-  pending: false,
-  logined: false,
-  error: false,
+  admin: false,
+  username: '',
+  luckyNumber: -1,
+  money: 0,
+  bringPending: false,
+  bringSuccess: false,
+  bringFailure: false,
 };
 
-const login = handleActions(
+const user = handleActions(
   {
-    [LOGIN_PENDING]: state => produce(state, (draft) => {
-      draft.pending = true;
-      draft.error = false;
+    [CONTAIN]: (state, action) => produce(state, (draft) => {
+      draft.admin = action.payload.admin;
+      draft.username = action.payload.username;
+      draft.luckyNumber = action.payload.luckyNumber;
+      draft.money = action.payload.money;
     }),
-    [LOGIN_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = false;
-      draft.logined = true;
+    [MONEY_UPDATE]: (state, action) => produce(state, (draft) => {
+      draft.money = action.payload;
     }),
-    [LOGIN_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = true;
+    [BRING_DATA_OF_USER_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.bringPending = true;
+      draft.bringSuccess = false;
+      draft.bringFailure = false;
     }),
-    [LOGIN_AUTO_PENDING]: state => produce(state, (draft) => {
-      draft.pending = true;
-      draft.error = false;
+    [BRING_DATA_OF_USER_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.bringPending = false;
+      draft.bringSuccess = true;
+      draft.bringFailure = false;
+      draft.admin = false;
+      draft.username = '추승원';
+      draft.luckyNumber = 123;
+      draft.money = 1500;
     }),
-    [LOGIN_AUTO_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = false;
-      draft.logined = true;
-    }),
-    [LOGIN_AUTO_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = true;
+    [BRING_DATA_OF_USER_FAILURE]: (state, action) => produce(state, (draft) => {
+      draft.bringPending = false;
+      draft.bringSuccess = false;
+      draft.bringFailure = true;
     }),
   },
   initialState,
 );
 
-export default login;
+export default user;

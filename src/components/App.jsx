@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import InformationTemplate from './template/information/information.template';
 import LoginAutoTemplate from './template/loginauto/loginauto.template';
 import MenuTemplate from './template/menu/menu.template';
+import MainLoginCheckTemplate from './template/mainlogincheck/mainlogincheck.template';
 
 import './App.scss';
 
@@ -29,8 +30,16 @@ class App extends React.Component {
       <div className="app-container">
         <ToastContainer />
         <LoginAutoTemplate />
-        <Route exect path="/" component={LoginAutoTemplate} />
-        <Route exact path="/" component={InformationTemplate} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <React.Fragment>
+              <InformationTemplate />
+              <MainLoginCheckTemplate />
+            </React.Fragment>
+          )}
+        />
         <Route exact path="/menu" component={MenuTemplate} />
       </div>
     );
