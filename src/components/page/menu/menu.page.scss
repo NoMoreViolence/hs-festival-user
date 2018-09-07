@@ -1,0 +1,15 @@
+.menu-container {
+  display: flex;
+  flex-direction: column;
+
+  .menu-jumbo {
+    padding: {
+      top: 1rem !important;
+      bottom: 0rem !important;
+    }
+  }
+
+  .menu-buttons {
+    width: 100%;
+  }
+}

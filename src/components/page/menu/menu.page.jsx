@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import withRouter from 'react-router-dom/withRouter';
 import { Jumbotron, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
-import withRouter from 'react-router-dom/withRouter';
+import UserMenuPage from '../usermenu/usermenu.page';
+import './menu.page.scss';
 
 class MenuPage extends Component {
   static propTypes = {
@@ -39,21 +41,16 @@ class MenuPage extends Component {
   render() {
     const { username, money, luckyNumber } = this.props;
     return (
-      <div>
+      <div className="menu-container">
         <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="menu-jumbo">
-          <Container fluid>
+          <Container>
             <p className="display-4">{`${username} 님`}</p>
             <p className="lead">{`남은 돈: ${money}`}</p>
             <p className="lead">{`내 행운권 추첨 번호: ${luckyNumber}`}</p>
             <p className="lead">2018 / 10 / 4</p>
           </Container>
+          <div className="menu-buttons">{this.props.admin === true ? <div>aewijfaio;ew</div> : <UserMenuPage />}</div>
         </Jumbotron>
-        {this.props.admin && (
-          <div>
-            awjefio;jawe;iofjwae;oifjdiv
-            <div>awjeoifjawe;oifjawio;</div>
-          </div>
-        )}
       </div>
     );
   }
