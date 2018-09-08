@@ -1,7 +1,18 @@
 .usermenu-container {
   width: 100%;
   display: flex;
+  border-top: 1px solid #007bff;
+
+  .border-button {
+    border-right: 1px solid #007bff !important;
+  }
+
   button {
+    padding: 0.5rem !important;
+    border-radius: 0px !important;
+    border: 0px !important;
     flex: 1;
+    display: flex;
+    justify-content: space-around;
   }
 }

@@ -12,11 +12,13 @@ class MenuContainer extends React.Component {
     logined: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
+    basicInfo: PropTypes.string.isRequired,
     money: PropTypes.number.isRequired,
     luckyNumber: PropTypes.number.isRequired,
     bringDataOfUser: PropTypes.func.isRequired,
     bringSuccess: PropTypes.bool.isRequired,
     bringPending: PropTypes.bool.isRequired,
+    logout: PropTypes.func.isRequired,
     error: PropTypes.func.isRequired,
   };
 
@@ -26,11 +28,13 @@ class MenuContainer extends React.Component {
         logined={this.props.logined}
         admin={this.props.admin}
         username={this.props.username}
+        basicInfo={this.props.basicInfo}
         money={this.props.money}
         luckyNumber={this.props.luckyNumber}
         bringDataOfUser={this.props.bringDataOfUser}
         bringSuccess={this.props.bringSuccess}
         bringPending={this.props.bringPending}
+        logout={this.props.logout}
         error={this.props.error}
       />
     );
@@ -44,6 +48,7 @@ const mapStateToProps = (state) => {
     logined: login.logined,
     admin: user.admin,
     username: user.username,
+    basicInfo: user.basicInfo,
     money: user.money,
     luckyNumber: user.luckyNumber,
     bringSuccess: user.bringSuccess,
@@ -55,6 +60,7 @@ const mapDispatchToProps = dispatch => ({
   // contain: bindActionCreators(UserActions.contain, dispatch),
   bringDataOfUser: bindActionCreators(UserActions.bringDataOfUser, dispatch),
   error: bindActionCreators(LoginActions.error, dispatch),
+  logout: bindActionCreators(LoginActions.logout, dispatch),
 });
 
 export default connect(

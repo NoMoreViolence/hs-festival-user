@@ -14,6 +14,8 @@ const LOGIN_AUTO_PENDING = 'login/LOGIN_AUTO_PENDING';
 const LOGIN_AUTO_SUCCESS = 'login/LOGIN_AUTO_SUCCESS';
 const LOGIN_AUTO_FAILURE = 'login/LOGIN_AUTO_FAILURE';
 
+const LOGOUT = 'login/LOGOUT';
+
 // 자동 로그인
 export const loginAuto = () => {
   console.log('login auto');
@@ -39,6 +41,7 @@ export const loginRequest = (id, pw) => {
 export const LoginActions = {
   login: createAction(LOGIN, loginRequest),
   loginAuto: createAction(LOGIN_AUTO, loginAuto),
+  logout: createAction(LOGOUT, value => value),
   error: createAction(ERROR, value => value),
 };
 
@@ -51,6 +54,10 @@ const initialState = {
 const login = handleActions(
   {
     [ERROR]: state => produce(state, (draft) => {
+      draft.logined = false;
+    }),
+
+    [LOGOUT]: state => produce(state, (draft) => {
       draft.logined = false;
     }),
 

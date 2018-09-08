@@ -54,6 +54,7 @@ class LoginPage extends Component {
                     this.props.contain({
                       admin: false,
                       username: '추승원',
+                      basicInfo: 'H3120',
                       luckyNumber: 123,
                       money: 1500,
                     });

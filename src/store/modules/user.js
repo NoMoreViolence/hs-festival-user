@@ -24,6 +24,7 @@ export const UserActions = {
 const initialState = {
   admin: false,
   username: '',
+  basicInfo: '', // 학번
   luckyNumber: -1,
   money: 0,
   bringPending: false,
@@ -36,6 +37,7 @@ const user = handleActions(
     [CONTAIN]: (state, action) => produce(state, (draft) => {
       draft.admin = action.payload.admin;
       draft.username = action.payload.username;
+      draft.basicInfo = action.payload.basicInfo;
       draft.luckyNumber = action.payload.luckyNumber;
       draft.money = action.payload.money;
     }),
@@ -53,6 +55,7 @@ const user = handleActions(
       draft.bringFailure = false;
       draft.admin = false;
       draft.username = '추승원';
+      draft.basicInfo = 'H3120';
       draft.luckyNumber = 123;
       draft.money = 1500;
     }),

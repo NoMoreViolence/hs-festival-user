@@ -11,13 +11,19 @@ class MenuPage extends Component {
     logined: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
+    basicInfo: PropTypes.string.isRequired,
     money: PropTypes.number.isRequired,
     luckyNumber: PropTypes.number.isRequired,
     bringDataOfUser: PropTypes.func.isRequired,
     // bringSuccess: PropTypes.bool.isRequired,
     // bringPending: PropTypes.bool.isRequired,
     error: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+  };
+
+  state = {
+    doubleCheck: 0,
   };
 
   componentDidMount() {
@@ -44,7 +50,33 @@ class MenuPage extends Component {
       <div className="menu-container">
         <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="menu-jumbo">
           <Container>
-            <p className="display-4">{`${username} 님`}</p>
+            <p className="display-4">
+              {`${username} 님`}
+              <span
+                className="logout-button"
+                onClick={() => {
+                  if (this.state.doubleCheck === 0) {
+                    toast('정말 로그아웃 하시려면 한번 더 눌러주세요');
+                    this.setState({
+                      doubleCheck: 1,
+                    });
+
+                    setTimeout(() => {
+                      this.setState({
+                        doubleCheck: 0,
+                      });
+                    }, 5000);
+                  } else {
+                    this.props.logout();
+                    toast(`${this.props.username}님! 로그아웃 처리 되었습니다 !`);
+                    this.props.history.push('/');
+                  }
+                }}
+              >
+                로그아웃
+              </span>
+            </p>
+            <p className="lead">{`학번: ${this.props.basicInfo}`}</p>
             <p className="lead">{`남은 돈: ${money}`}</p>
             <p className="lead">{`내 행운권 추첨 번호: ${luckyNumber}`}</p>
             <p className="lead">2018 / 10 / 4</p>

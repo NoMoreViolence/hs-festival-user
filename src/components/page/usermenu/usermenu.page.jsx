@@ -7,17 +7,17 @@ class UserMenuPage extends Component {
   render() {
     return (
       <div className="usermenu-container">
-        <Button type="button" outline color="primary">
-          <span>상점 보기</span>
-          <img src="/images/image/store.svg" alt="" />
+        <Button type="button" outline color="primary" className="border-button">
+          <img src="/images/image/store.svg" alt="" className="usermenu-img" />
+          <span>상점</span>
+        </Button>
+        <Button type="button" outline color="primary" className="border-button">
+          <img src="/images/image/history.svg" alt="" className="usermenu-img" />
+          <span>계산서</span>
         </Button>
         <Button type="button" outline color="primary">
-          <span>구매 내역</span>
-          <img src="/images/image/history.svg" alt="" />
-        </Button>
-        <Button type="button" outline color="primary">
-          <span>축제 시간표</span>
-          <img src="/images/image/timetable.svg" alt="" />
+          <img src="/images/image/timetable.svg" alt="" className="usermenu-img" />
+          <span>시간표</span>
         </Button>
       </div>
     );
