@@ -27,6 +27,7 @@ const initialState = {
   basicInfo: '', // 학번
   luckyNumber: -1,
   money: 0,
+  userBill: [],
   bringPending: false,
   bringSuccess: false,
   bringFailure: false,
@@ -40,9 +41,11 @@ const user = handleActions(
       draft.basicInfo = action.payload.basicInfo;
       draft.luckyNumber = action.payload.luckyNumber;
       draft.money = action.payload.money;
+      draft.userBill = action.payload.userBill;
     }),
     [MONEY_UPDATE]: (state, action) => produce(state, (draft) => {
       draft.money = action.payload;
+      draft.userBill = action.payload;
     }),
     [BRING_DATA_OF_USER_PENDING]: (state, action) => produce(state, (draft) => {
       draft.bringPending = true;
@@ -58,6 +61,24 @@ const user = handleActions(
       draft.basicInfo = 'H3120';
       draft.luckyNumber = 123;
       draft.money = 1500;
+      draft.userBill = [
+        {
+          type: 'up',
+          who: '학생회 중 한명',
+          where: '응 충전이야',
+          what: '응 충전이야',
+          count: '응 충전이야',
+          how: 1500,
+        },
+        {
+          type: 'down',
+          who: '병신아 이건 돈 쓰는거야',
+          where: 'H1-1',
+          what: ['핫도그', '김치'],
+          count: [2, 1],
+          how: 119,
+        },
+      ];
     }),
     [BRING_DATA_OF_USER_FAILURE]: (state, action) => produce(state, (draft) => {
       draft.bringPending = false;

@@ -46,9 +46,9 @@ class LoginPage extends Component {
             outline
             color="primary"
             onClick={() => {
-              toast('로그인 중...');
+              toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
               pending === true
-                ? toast('로그인이 진행 중 입니다 !', { type: 'info' })
+                ? toast('로그인이 진행 중 입니다 !', { type: 'info', position: toast.POSITION.BOTTOM_CENTER })
                 : login(id, pw)
                   .then((res) => {
                     this.props.contain({
@@ -58,11 +58,12 @@ class LoginPage extends Component {
                       luckyNumber: 123,
                       money: 1500,
                     });
-                    toast('로그인 성공 ! 환영합니다', { type: 'success' });
+                    toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+                    localStorage.setItem('token', 'fucking token value');
                     this.props.history.push('/menu');
                   })
                   .catch((err) => {
-                    toast('로그인 에러 !', { type: 'error' });
+                    toast('로그인 에러 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                     console.log(err.response);
                   });
             }}

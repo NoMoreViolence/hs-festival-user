@@ -2,6 +2,11 @@
   display: flex;
   flex-direction: column;
 
+  .name-and-logout {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .menu-jumbo {
     padding: {
       top: 1rem !important;
@@ -15,5 +20,12 @@
 
   .logout-button {
     font-size: 1rem !important;
+  }
+
+  .selected-container {
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 1px #999;
+    background: white;
+    margin: 1rem;
   }
 }

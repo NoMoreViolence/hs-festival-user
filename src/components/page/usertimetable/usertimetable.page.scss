@@ -1,0 +1,22 @@
+.table-container {
+  thead {
+    tr {
+      th {
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      th,
+      td {
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+  }
+}

@@ -61,18 +61,18 @@ class RegisterPage extends Component {
             color="primary"
             onClick={() => {
               if (doubleCheckPending !== true) {
-                toast('ID 중복확인 시작...');
+                toast('ID 중복확인 시작...', { position: toast.POSITION.BOTTOM_CENTER });
                 doubleCheckId(id)
                   .then((res) => {
                     this.setState({ checked: true });
-                    toast('ID 중복확인 성공 !', { type: 'success' });
+                    toast('ID 중복확인 성공 !', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                   })
                   .catch((err) => {
                     this.setState({ checked: false, id: '' });
-                    toast('ID 중복확인 실패 !', { type: 'error' });
+                    toast('ID 중복확인 실패 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                   });
               } else {
-                toast('ID 중복확인이 진행 중 입니다. 잠시만 기다려 주세요 !');
+                toast('ID 중복확인이 진행 중 입니다. 잠시만 기다려 주세요 !', { position: toast.POSITION.BOTTOM_CENTER });
               }
             }}
           >
@@ -104,11 +104,11 @@ class RegisterPage extends Component {
             onClick={() => {
               if (registerPending === false) {
                 if (pw === rePw && checked === true) {
-                  toast('회원가입 시작...');
+                  toast('회원가입 시작...', { position: toast.POSITION.BOTTOM_CENTER });
                   register(id, pw, random)
                     .then((res) => {
                       console.log('');
-                      toast('회원가입 성공 ! 로그인 해 주세요', { type: 'success' });
+                      toast('회원가입 성공 ! 로그인 해 주세요', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                       this.setState({
                         checked: false,
                         id: '',
@@ -118,17 +118,17 @@ class RegisterPage extends Component {
                       });
                     })
                     .catch(() => {
-                      toast('회원가입 실패...', { type: 'error' });
-                      toast('ERR message', { type: 'error' });
+                      toast('회원가입 실패...', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                      toast('ERR message', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                     });
                 }
                 if (checked === false) {
-                  toast('ID 중복확인을 해 주세요');
+                  toast('ID 중복확인을 해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                 } else if (pw !== rePw) {
-                  toast('비밀번호가 일치하지 않습니다 !');
+                  toast('비밀번호가 일치하지 않습니다 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                 }
               } else {
-                toast('회원가입이 진행 중입니다. 잠시만 기다려 주세요 !');
+                toast('회원가입이 진행 중입니다. 잠시만 기다려 주세요 !', { position: toast.POSITION.BOTTOM_CENTER });
               }
             }}
           >

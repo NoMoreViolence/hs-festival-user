@@ -11,12 +11,10 @@ class LoginPage extends Component {
 
   componentDidMount() {
     if (this.props.logined === true) {
-      toast('접근 권한이 없습니다 !', { type: 'error' });
+      toast('접근 권한이 없습니다 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
       this.props.history.push('/menu');
     }
   }
-
-  componentWillUnmount(nextProps) {}
 
   render() {
     return <div />;
