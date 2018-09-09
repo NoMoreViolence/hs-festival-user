@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { UserActions } from '../store/modules/user';
 import Menu from '../components/page/menu/menu.page';
 import { LoginActions } from '../store/modules/login';
+import { UserMenuActions } from '../store/modules/usermenu';
 
 class MenuContainer extends React.Component {
   static propTypes = {
@@ -20,6 +21,11 @@ class MenuContainer extends React.Component {
     bringPending: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     error: PropTypes.func.isRequired,
+    timeTable: PropTypes.array.isRequired,
+    stores: PropTypes.array.isRequired,
+    myStoreProduct: PropTypes.array.isRequired,
+    add: PropTypes.func.isRequired,
+    myBill: PropTypes.array.isRequired,
   };
 
   render() {
@@ -36,13 +42,18 @@ class MenuContainer extends React.Component {
         bringPending={this.props.bringPending}
         logout={this.props.logout}
         error={this.props.error}
+        timeTable={this.props.timeTable}
+        stores={this.props.stores}
+        myStoreProduct={this.props.myStoreProduct}
+        add={this.props.add}
+        myBill={this.props.myBill}
       />
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { user, login } = state;
+  const { user, login, userMenu } = state;
 
   return {
     logined: login.logined,
@@ -53,6 +64,10 @@ const mapStateToProps = (state) => {
     luckyNumber: user.luckyNumber,
     bringSuccess: user.bringSuccess,
     bringPending: user.bringPending,
+    timeTable: userMenu.timeTable,
+    stores: userMenu.stores,
+    myStoreProduct: userMenu.myStoreProduct,
+    myBill: userMenu.myBill,
   };
 };
 
@@ -61,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   bringDataOfUser: bindActionCreators(UserActions.bringDataOfUser, dispatch),
   error: bindActionCreators(LoginActions.error, dispatch),
   logout: bindActionCreators(LoginActions.logout, dispatch),
+  add: bindActionCreators(UserMenuActions.add, dispatch),
 });
 
 export default connect(

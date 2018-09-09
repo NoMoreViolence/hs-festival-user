@@ -38,13 +38,20 @@ export const UserMenuActions = {
   Down: createAction(DOWN_STORE_PRODUCT, value => value),
   del: createAction(ADD_STORE_PRODUCT, value => value),
 
-  buy: createAction(BUY),
+  buy: createAction(BUY, buy),
 };
 
 const initialState = {
   timeTable: [],
   stores: [],
   myStoreProduct: [],
+  myBill: [],
+  updatePending: false,
+  updateSuccess: false,
+  updateFailure: false,
+  buyPending: false,
+  buySuccess: false,
+  buyFailure: false,
 };
 
 const userMenu = handleActions(
@@ -55,6 +62,63 @@ const userMenu = handleActions(
         { time: '10:00 - 13:00', what: '먹거리 장터' },
         { time: '13:00 - 16:00', what: '공연이나 해라 이것들아' },
       ];
+      draft.stores = [
+        {
+          storename: 'H 1-1',
+          message: 'WHY DO FUCKBOIS',
+          what: [
+            { name: '핫도그', price: 10, stock: 301 },
+            { name: '김치', price: 99, stock: 305 },
+            { name: '드래곤', price: 234, stock: 3000 },
+          ],
+        },
+        {
+          storename: 'H 1-2',
+          message: '잊지마',
+          what: [
+            { name: '머그컵', price: 340, stock: 23 },
+            { name: '간장게장', price: 5934, stock: 123 },
+            { name: '휴대폰', price: 2000, stock: 3123 },
+          ],
+        },
+        {
+          storename: 'U 1-1',
+          message: '달리반피카소',
+          what: [
+            { name: '에스프레소', price: 3600, stock: 12 },
+            { name: '콜드브루', price: 4100, stock: 13 },
+            { name: '아메리카노', price: 4100, stock: 14 },
+          ],
+        },
+        {
+          storename: 'U 1-2',
+          message: 'Journey',
+          what: [
+            { name: '토끼', price: 3600, stock: 12 },
+            { name: '강아지', price: 4100, stock: 13 },
+            { name: '고양이', price: 4100, stock: 14 },
+          ],
+        },
+      ];
+      draft.myStoreProduct = [
+        {
+          what: '토끼',
+          class: 'U 1-2',
+          price: 3600,
+          count: 2,
+        },
+      ];
+      draft.myBill = [{ storename: 'H1-3', what: [{ name: '' }] }];
+    }),
+    [UPDATE_STORE_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.updatePending = true;
+      draft.updateSuccess = false;
+      draft.updateFailure = false;
+    }),
+    [UPDATE_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.updatePending = false;
+      draft.updateSuccess = true;
+      draft.updateFailure = false;
       draft.stores = [
         {
           storename: 'H1-1',
@@ -81,32 +145,41 @@ const userMenu = handleActions(
           ],
         },
       ];
-      draft.myStoreProduct = [];
-    }),
-    [UPDATE_STORE_PENDING]: (state, action) => produce(state, (draft) => {
-      draft.pending = true;
-      draft.success = false;
-      draft.failure = false;
-    }),
-    [UPDATE_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.success = true;
-      draft.failure = false;
     }),
     [UPDATE_STORE_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.success = false;
-      draft.failure = true;
+      draft.updatePending = false;
+      draft.updateSuccess = false;
+      draft.updateFailure = true;
     }),
-    [ADD_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      //  add Data
-      const addData = state.stores
-        .filter(value => value.storename === action.payload.className)
-        .what.filter(value => value.name === action.payload.product);
-      addData.count = 1;
 
-      draft.myStoreProduct = Array.push(state.myStoreProduct, addData);
-    }),
+    [ADD_STORE_PRODUCT]: (state, action) => {
+      console.log(state.myStoreProduct);
+      return {
+        ...state,
+        myStoreProduct: [
+          ...state.myStoreProduct,
+          {
+            ...state.stores
+              .filter(value => value.storename === action.payload.className)[0]
+              .what.filter(value => value.name === action.payload.product)[0],
+            count: 1,
+            class: action.payload.className,
+          },
+        ],
+      };
+    },
+    // produce(state, (draft) => {
+    //   //  add Data
+    //   const addData = {
+    //     ...state.stores
+    //       .filter(value => value.storename === action.payload.className)[0]
+    //       .what.filter(value => value.name === action.payload.product)[0],
+    //     count: 1,
+    //     class: action.payload.className,
+    //   };
+
+    //   draft.myStoreProduct = state.myStoreProduct.concat(addData);
+    // }),
     [DEL_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
       // del data
       draft.myStoreProduct = state.myStoreProduct.filter(value => value.name !== action.payload);
@@ -122,9 +195,23 @@ const userMenu = handleActions(
       );
     }),
 
-    [BUY_PENDING]: (state, action) => produce(state, (draft) => {}),
-    [BUY_SUCCESS]: (state, action) => produce(state, (draft) => {}),
-    [BUY_FAILURE]: (state, action) => produce(state, (draft) => {}),
+    [BUY_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = true;
+      draft.buySuccess = false;
+      draft.buyFailure = false;
+    }),
+    [BUY_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = false;
+      draft.buySuccess = true;
+      draft.buyFailure = false;
+      draft.myStoreProduct = [];
+      draft.myBill = [{ text: 'awef', what: 'awef' }];
+    }),
+    [BUY_FAILURE]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = false;
+      draft.buySuccess = false;
+      draft.buyFailure = true;
+    }),
   },
   initialState,
 );

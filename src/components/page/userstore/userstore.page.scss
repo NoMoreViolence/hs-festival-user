@@ -1,10 +1,14 @@
-.timetable-container {
+.storetable-container {
   thead {
     tr {
       th {
         flex: 1;
         text-align: center;
         white-space: nowrap;
+        padding: {
+          top: 1rem !important;
+          bottom: 1rem !important;
+        }
       }
     }
   }
@@ -16,6 +20,10 @@
         flex: 1;
         text-align: center;
         white-space: nowrap;
+        padding: {
+          top: 1rem !important;
+          bottom: 1rem !important;
+        }
       }
     }
   }

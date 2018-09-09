@@ -5,6 +5,8 @@ import { Jumbotron, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
 import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
+import UserStorePage from '../userstore/userstore.page';
+import UserMyProductPage from '../usermyproduct/usermyproduct.page';
 import './menu.page.scss';
 
 class MenuPage extends Component {
@@ -21,6 +23,11 @@ class MenuPage extends Component {
     error: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+    timeTable: PropTypes.array.isRequired,
+    stores: PropTypes.array.isRequired,
+    myStoreProduct: PropTypes.array.isRequired,
+    add: PropTypes.func.isRequired,
+    // myBill: PropTypes.array.isRequired,
   };
 
   state = {
@@ -53,6 +60,22 @@ class MenuPage extends Component {
       userTimeTable: !this.state.userTimeTable,
       userBill: false,
       userStore: false,
+    });
+  };
+
+  changeBill = () => {
+    this.setState({
+      userTimeTable: false,
+      userBill: !this.state.userBill,
+      userStore: false,
+    });
+  };
+
+  changeStore = () => {
+    this.setState({
+      userTimeTable: false,
+      userBill: false,
+      userStore: !this.state.userStore,
     });
   };
 
@@ -91,14 +114,33 @@ class MenuPage extends Component {
             <p className="lead">2018 / 10 / 4</p>
           </Container>
           <div className="menu-buttons">
-            {this.props.admin === true ? <div>aewijfaio;ew</div> : <UserMenuPage timeTable={this.changeTimeTable} />}
+            {this.props.admin === true ? (
+              <div>aewijfaio;ew</div>
+            ) : (
+              <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
+            )}
           </div>
         </Jumbotron>
 
         {this.state.userTimeTable && (
           <div className="selected-container">
+            <UserTimeTablePage timeTable={this.props.timeTable} />
+          </div>
+        )}
+        {/* {this.state.userBill && (
+          <div className="selected-container">
             <UserTimeTablePage />
           </div>
+        )} */}
+        {this.state.userStore && (
+          <React.Fragment>
+            <div className="selected-container">
+              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} />
+            </div>
+            <div className="selected-container">
+              <UserStorePage stores={this.props.stores} myStoreProduct={this.props.myStoreProduct} add={this.props.add} />
+            </div>
+          </React.Fragment>
         )}
       </div>
     );

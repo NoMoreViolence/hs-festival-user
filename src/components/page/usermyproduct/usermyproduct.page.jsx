@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './usermyproduct.page.scss';
 import { Table } from 'reactstrap';
-import './usertimetable.page.scss';
 
-class UserTimeTablePage extends Component {
-  static propTypes = {
-    timeTable: PropTypes.array.isRequired,
-  };
+class UserMyProductPage extends Component {
+  static propTypes = {};
 
   render() {
-    const returnTime = value => value.map((object, i) => (
-      <tr key={i}>
-        <th scope="row">{i + 1}</th>
-        <td>{object.time}</td>
-        <td>{object.what}</td>
-      </tr>
-    ));
-
     return (
       <Table responsive hover className="timetable-container">
         <thead>
@@ -30,10 +20,16 @@ class UserTimeTablePage extends Component {
             </th>
           </tr>
         </thead>
-        <tbody>{returnTime(this.props.timeTable)}</tbody>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>ajweiof;jw</td>
+            <td>aiowejfo</td>
+          </tr>
+        </tbody>
       </Table>
     );
   }
 }
 
-export default UserTimeTablePage;
+export default UserMyProductPage;

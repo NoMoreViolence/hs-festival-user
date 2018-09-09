@@ -8,6 +8,7 @@ class LoginPage extends Component {
     loginAuto: PropTypes.func.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
     contain: PropTypes.func.isRequired,
+    dataIn: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -23,6 +24,7 @@ class LoginPage extends Component {
             money: 1500,
             luckyNumber: 123,
           });
+          this.props.dataIn();
           this.props.history.push('/menu');
           toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
         })

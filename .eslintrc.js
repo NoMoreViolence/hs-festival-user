@@ -7,6 +7,9 @@ module.exports = {
   extends: 'airbnb',
   plugins: ['react', 'jsx-a11y', 'import'],
   rules: {
+    'no-lonely-if': 0,
+    'react/forbid-prop-types': 0,
+    'react/no-array-index-key': 0,
     'react/no-did-update-set-state': 0,
     'react/require-default-props': 0,
     'no-unused-expressions': 0,
@@ -19,7 +22,7 @@ module.exports = {
     'react/destructuring-assignment': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'react/jsx-filename-extension': 0,
-    'max-len': [2, 130, 2],
+    'max-len': [2, 200, 2],
     'no-param-reassign': 0,
   },
 };

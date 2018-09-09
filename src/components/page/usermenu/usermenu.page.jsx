@@ -7,16 +7,34 @@ import './usermenu.page.scss';
 class UserMenuPage extends Component {
   static propTypes = {
     timeTable: PropTypes.func.isRequired,
+    bill: PropTypes.func.isRequired,
+    store: PropTypes.func.isRequired,
   };
 
   render() {
     return (
       <div className="usermenu-container">
-        <Button type="button" outline color="primary" className="border-button">
+        <Button
+          type="button"
+          outline
+          color="primary"
+          className="border-button"
+          onClick={() => {
+            this.props.store();
+          }}
+        >
           <img src="/images/image/store.svg" alt="" className="usermenu-img" />
           <span>상점</span>
         </Button>
-        <Button type="button" outline color="primary" className="border-button">
+        <Button
+          type="button"
+          outline
+          color="primary"
+          className="border-button"
+          onClick={() => {
+            this.props.bill();
+          }}
+        >
           <img src="/images/image/history.svg" alt="" className="usermenu-img" />
           <span>계산서</span>
         </Button>
