@@ -102,10 +102,11 @@ const userMenu = handleActions(
       ];
       draft.myStoreProduct = [
         {
-          what: '토끼',
+          name: '강아지',
+          price: 4100,
+          stock: 13,
+          count: 1,
           class: 'U 1-2',
-          price: 3600,
-          count: 2,
         },
       ];
       draft.myBill = [{ storename: 'H1-3', what: [{ name: '' }] }];
@@ -153,19 +154,28 @@ const userMenu = handleActions(
     }),
 
     [ADD_STORE_PRODUCT]: (state, action) => {
-      console.log(state.myStoreProduct);
+      // const data = [
+      //   state.myStoreProduct,
+      //   {
+      //     ...state.stores
+      //       .filter(value => value.storename === action.payload.className)[0]
+      //       .what.filter(value => value.name === action.payload.product)[0],
+      //     count: 1,
+      //     class: action.payload.className,
+      //   },
+      // ];
+      const array = Array.prototype.concat(state.myStoreProduct, {
+        ...state.stores
+          .filter(value => value.storename === action.payload.className)[0]
+          .what.filter(value => value.name === action.payload.product)[0],
+        count: 1,
+        class: action.payload.className,
+      });
+
+      console.log(array);
       return {
         ...state,
-        myStoreProduct: [
-          ...state.myStoreProduct,
-          {
-            ...state.stores
-              .filter(value => value.storename === action.payload.className)[0]
-              .what.filter(value => value.name === action.payload.product)[0],
-            count: 1,
-            class: action.payload.className,
-          },
-        ],
+        myStoreProduct: array,
       };
     },
     // produce(state, (draft) => {

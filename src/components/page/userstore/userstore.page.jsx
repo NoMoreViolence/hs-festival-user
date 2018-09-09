@@ -169,8 +169,9 @@ class UserStorePage extends Component {
                     [`the${i + 1}${j + 1}`]: new Date(),
                   });
                 } else {
-                  console.log(this.props.myStoreProduct.findIndex(f => f.what !== value.name && f.class === object.storename));
-                  if (this.props.myStoreProduct.findIndex(f => f.what !== value.name && f.class === object.storename) !== -1) {
+                  console.log(this.props.myStoreProduct.filter(d => d.name !== value.name && d.class === object.storename));
+                  console.log(this.props.myStoreProduct.every(f => f.name !== value.name && f.class === object.storename));
+                  if (this.props.myStoreProduct.every(f => f.name !== value.name && f.class === object.storename) === true) {
                     this.props.add({ className: object.storename, product: value.name });
                     toast(`${value.name} 상품이 장바구니에 추가 되었습니다 !`, {});
                     this.setState({
