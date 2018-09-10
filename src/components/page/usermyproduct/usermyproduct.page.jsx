@@ -9,6 +9,7 @@ class UserMyProductPage extends Component {
     myStoreProduct: PropTypes.array.isRequired,
     up: PropTypes.func.isRequired,
     down: PropTypes.func.isRequired,
+    del: PropTypes.func.isRequired,
   };
 
   shouldComponentUpdate() {
@@ -20,7 +21,13 @@ class UserMyProductPage extends Component {
     const showProduct = data => data.map((object, i) => (
       <tr className="shopping-product-tr" key={i}>
         <td className="first-number">
-          <img src="/images/image/logout.svg" alt="" />
+          <span
+            onClick={() => {
+              this.props.del(object.name);
+            }}
+          >
+            <img src="/images/image/logout.svg" alt="" />
+          </span>
         </td>
         <td>{object.name}</td>
         <td>

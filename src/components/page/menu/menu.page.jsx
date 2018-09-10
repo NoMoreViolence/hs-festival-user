@@ -29,6 +29,7 @@ class MenuPage extends Component {
     add: PropTypes.func.isRequired,
     up: PropTypes.func.isRequired,
     down: PropTypes.func.isRequired,
+    del: PropTypes.func.isRequired,
     // myBill: PropTypes.array.isRequired,
   };
 
@@ -131,7 +132,7 @@ class MenuPage extends Component {
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
-              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} up={this.props.up} down={this.props.down} />
+              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} up={this.props.up} down={this.props.down} del={this.props.del} />
             </div>
             <div className="selected-container">
               <UserStorePage stores={this.props.stores} myStoreProduct={this.props.myStoreProduct} add={this.props.add} />

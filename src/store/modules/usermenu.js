@@ -36,7 +36,7 @@ export const UserMenuActions = {
   add: createAction(ADD_STORE_PRODUCT, value => value),
   up: createAction(UP_STORE_PRODUCT, value => value),
   down: createAction(DOWN_STORE_PRODUCT, value => value),
-  del: createAction(ADD_STORE_PRODUCT, value => value),
+  del: createAction(DEL_STORE_PRODUCT, value => value),
 
   buy: createAction(BUY, buy),
 };
