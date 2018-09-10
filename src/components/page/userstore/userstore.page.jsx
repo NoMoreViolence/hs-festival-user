@@ -204,7 +204,7 @@ class UserStorePage extends Component {
         <thead>
           <tr>
             <th style={{ minWidth: '150px' }}>
-              <img src="/images/image/whatfor.svg" alt="" />
+              <img src="/images/image/class.svg" alt="" />
             </th>
             <th style={{ minWidth: '150px' }}>
               <img src="/images/image/face.svg" alt="" />

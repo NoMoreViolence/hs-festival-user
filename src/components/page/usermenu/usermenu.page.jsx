@@ -24,7 +24,7 @@ class UserMenuPage extends Component {
           }}
         >
           <img src="/images/image/store.svg" alt="" className="usermenu-img" />
-          <span>상점</span>
+          <span>축제부스</span>
         </Button>
         <Button
           type="button"

@@ -1,0 +1,57 @@
+.myproduct-container {
+  .shopping-header {
+    // border-bottom: 1px solid red;
+    margin: 1rem;
+    font-size: 2rem;
+    font-weight: 300;
+  }
+  .table-responsive {
+    // border-top: 1px solid #007bff;
+  }
+
+  .shopping-product-tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .payment-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    // margin: 1rem;
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+
+    .total-pay-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .total-pay-heading {
+        font-size: 1.5rem;
+        font-weight: 300;
+        padding-right: 0.5rem;
+      }
+
+      .total-pay {
+        font-size: 1.5rem;
+        font-weight: 300;
+      }
+    }
+
+    .btn-pay {
+      display: flex;
+      justify-content: left;
+    }
+  }
+}
+
+// 거슬리는 table효과 지움 -> 광역효과임
+.table {
+  margin-bottom: 0 !important;
+}
+
+.table th {
+  border-top: 0 !important;
+}
