@@ -34,8 +34,8 @@ export const UserMenuActions = {
   update: createAction(UPDATE_STORE, storeUpdate),
 
   add: createAction(ADD_STORE_PRODUCT, value => value),
-  Up: createAction(UP_STORE_PRODUCT, value => value),
-  Down: createAction(DOWN_STORE_PRODUCT, value => value),
+  up: createAction(UP_STORE_PRODUCT, value => value),
+  down: createAction(DOWN_STORE_PRODUCT, value => value),
   del: createAction(ADD_STORE_PRODUCT, value => value),
 
   buy: createAction(BUY, buy),
@@ -57,47 +57,27 @@ const initialState = {
 const userMenu = handleActions(
   {
     [DATAIN]: (state, action) => produce(state, (draft) => {
-      draft.timeTable = [
-        { time: '09:00 - 10:00', what: 'MR.탄 씨의 축사' },
-        { time: '10:00 - 13:00', what: '먹거리 장터' },
-        { time: '13:00 - 16:00', what: '공연이나 해라 이것들아' },
-      ];
+      draft.timeTable = [{ time: '09:00 - 10:00', what: 'MR.탄 씨의 축사' }, { time: '10:00 - 13:00', what: '먹거리 장터' }, { time: '13:00 - 16:00', what: '공연이나 해라 이것들아' }];
       draft.stores = [
         {
           storename: 'H 1-1',
           message: 'WHY DO FUCKBOIS',
-          what: [
-            { name: '핫도그', price: 10, stock: 301 },
-            { name: '김치', price: 99, stock: 305 },
-            { name: '드래곤', price: 234, stock: 3000 },
-          ],
+          what: [{ name: '핫도그', price: 10, stock: 301 }, { name: '김치', price: 99, stock: 305 }, { name: '드래곤', price: 234, stock: 3000 }],
         },
         {
           storename: 'H 1-2',
           message: '잊지마',
-          what: [
-            { name: '머그컵', price: 340, stock: 23 },
-            { name: '간장게장', price: 5934, stock: 123 },
-            { name: '휴대폰', price: 2000, stock: 3123 },
-          ],
+          what: [{ name: '머그컵', price: 340, stock: 23 }, { name: '간장게장', price: 5934, stock: 123 }, { name: '휴대폰', price: 2000, stock: 3123 }],
         },
         {
           storename: 'U 1-1',
           message: '달리반피카소',
-          what: [
-            { name: '에스프레소', price: 3600, stock: 12 },
-            { name: '콜드브루', price: 4100, stock: 13 },
-            { name: '아메리카노', price: 4100, stock: 14 },
-          ],
+          what: [{ name: '에스프레소', price: 3600, stock: 12 }, { name: '콜드브루', price: 4100, stock: 13 }, { name: '아메리카노', price: 4100, stock: 14 }],
         },
         {
           storename: 'U 1-2',
           message: 'Journey',
-          what: [
-            { name: '토끼', price: 3600, stock: 12 },
-            { name: '강아지', price: 4100, stock: 13 },
-            { name: '고양이', price: 4100, stock: 14 },
-          ],
+          what: [{ name: '토끼', price: 3600, stock: 12 }, { name: '강아지', price: 4100, stock: 13 }, { name: '고양이', price: 4100, stock: 14 }],
         },
       ];
       draft.myStoreProduct = [
@@ -123,27 +103,15 @@ const userMenu = handleActions(
       draft.stores = [
         {
           storename: 'H1-1',
-          what: [
-            { name: '핫도그', price: 10, stock: 301 },
-            { name: '김치', price: 99, stock: 305 },
-            { name: '드래곤', price: 234, stock: 3000 },
-          ],
+          what: [{ name: '핫도그', price: 10, stock: 301 }, { name: '김치', price: 99, stock: 305 }, { name: '드래곤', price: 234, stock: 3000 }],
         },
         {
           storename: 'H1-2',
-          what: [
-            { name: '머그컵', price: 340, stock: 23 },
-            { name: '간장게장', price: 5934, stock: 123 },
-            { name: '휴대폰', price: 2000, stock: 3123 },
-          ],
+          what: [{ name: '머그컵', price: 340, stock: 23 }, { name: '간장게장', price: 5934, stock: 123 }, { name: '휴대폰', price: 2000, stock: 3123 }],
         },
         {
           storename: 'H1-3',
-          what: [
-            { name: '에스프레소', price: 3600, stock: 12 },
-            { name: '콜드브루', price: 4100, stock: 13 },
-            { name: '아메리카노', price: 4100, stock: 14 },
-          ],
+          what: [{ name: '에스프레소', price: 3600, stock: 12 }, { name: '콜드브루', price: 4100, stock: 13 }, { name: '아메리카노', price: 4100, stock: 14 }],
         },
       ];
     }),
@@ -165,9 +133,7 @@ const userMenu = handleActions(
       //   },
       // ];
       const array = Array.prototype.concat(state.myStoreProduct, {
-        ...state.stores
-          .filter(value => value.storename === action.payload.className)[0]
-          .what.filter(value => value.name === action.payload.product)[0],
+        ...state.stores.filter(value => value.storename === action.payload.className)[0].what.filter(value => value.name === action.payload.product)[0],
         count: 1,
         class: action.payload.className,
       });
@@ -195,14 +161,10 @@ const userMenu = handleActions(
       draft.myStoreProduct = state.myStoreProduct.filter(value => value.name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.myStoreProduct = state.myStoreProduct.map(
-        value => (value.name === action.payload ? { ...value, count: value.count + 1 } : value),
-      );
+      draft.myStoreProduct = state.myStoreProduct.map(value => (value.name === action.payload ? { ...value, count: value.count + 1 } : value));
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.myStoreProduct = state.myStoreProduct.map(
-        value => (value.name === action.payload ? { ...value, count: value.count - 1 } : value),
-      );
+      draft.myStoreProduct = state.myStoreProduct.map(value => (value.name === action.payload ? { ...value, count: value.count - 1 } : value));
     }),
 
     [BUY_PENDING]: (state, action) => produce(state, (draft) => {

@@ -27,6 +27,8 @@ class MenuPage extends Component {
     stores: PropTypes.array.isRequired,
     myStoreProduct: PropTypes.array.isRequired,
     add: PropTypes.func.isRequired,
+    up: PropTypes.func.isRequired,
+    down: PropTypes.func.isRequired,
     // myBill: PropTypes.array.isRequired,
   };
 
@@ -113,13 +115,7 @@ class MenuPage extends Component {
             <p className="lead">{`행운권 번호: ${luckyNumber}`}</p>
             <p className="lead">2018 / 10 / 4</p>
           </Container>
-          <div className="menu-buttons">
-            {this.props.admin === true ? (
-              <div>aewijfaio;ew</div>
-            ) : (
-              <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
-            )}
-          </div>
+          <div className="menu-buttons">{this.props.admin === true ? <div>aewijfaio;ew</div> : <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />}</div>
         </Jumbotron>
 
         {this.state.userTimeTable && (
@@ -135,7 +131,7 @@ class MenuPage extends Component {
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
-              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} />
+              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} up={this.props.up} down={this.props.down} />
             </div>
             <div className="selected-container">
               <UserStorePage stores={this.props.stores} myStoreProduct={this.props.myStoreProduct} add={this.props.add} />

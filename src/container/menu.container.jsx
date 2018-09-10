@@ -25,6 +25,8 @@ class MenuContainer extends React.Component {
     stores: PropTypes.array.isRequired,
     myStoreProduct: PropTypes.array.isRequired,
     add: PropTypes.func.isRequired,
+    up: PropTypes.func.isRequired,
+    down: PropTypes.func.isRequired,
     myBill: PropTypes.array.isRequired,
   };
 
@@ -46,6 +48,8 @@ class MenuContainer extends React.Component {
         stores={this.props.stores}
         myStoreProduct={this.props.myStoreProduct}
         add={this.props.add}
+        up={this.props.up}
+        down={this.props.down}
         myBill={this.props.myBill}
       />
     );
@@ -77,6 +81,8 @@ const mapDispatchToProps = dispatch => ({
   error: bindActionCreators(LoginActions.error, dispatch),
   logout: bindActionCreators(LoginActions.logout, dispatch),
   add: bindActionCreators(UserMenuActions.add, dispatch),
+  up: bindActionCreators(UserMenuActions.up, dispatch),
+  down: bindActionCreators(UserMenuActions.down, dispatch),
 });
 
 export default connect(
