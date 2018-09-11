@@ -13,7 +13,7 @@ class UserTimeTablePage extends Component {
       <tr key={i}>
         <th scope="row">{i + 1}</th>
         <td>{object.time}</td>
-        <td>{object.what}</td>
+        <td>{object.content}</td>
       </tr>
     ));
 

@@ -7,30 +7,31 @@ import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
 import UserStorePage from '../userstore/userstore.page';
 import UserMyProductPage from '../usermyproduct/usermyproduct.page';
+import UserBillPage from '../userbill/userbill.page';
 import './menu.page.scss';
 
 class MenuPage extends Component {
   static propTypes = {
-    logined: PropTypes.bool.isRequired,
+    // logined: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
-    basicInfo: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    _id: PropTypes.number.isRequired,
     money: PropTypes.number.isRequired,
-    luckyNumber: PropTypes.number.isRequired,
-    bringDataOfUser: PropTypes.func.isRequired,
-    // bringSuccess: PropTypes.bool.isRequired,
-    // bringPending: PropTypes.bool.isRequired,
-    error: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+    bill: PropTypes.array.isRequired,
+
     timeTable: PropTypes.array.isRequired,
     stores: PropTypes.array.isRequired,
-    myStoreProduct: PropTypes.array.isRequired,
+    storeProduct: PropTypes.array.isRequired,
+
     add: PropTypes.func.isRequired,
     up: PropTypes.func.isRequired,
     down: PropTypes.func.isRequired,
     del: PropTypes.func.isRequired,
-    // myBill: PropTypes.array.isRequired,
+    buy: PropTypes.func.isRequired,
+
+    history: PropTypes.any.isRequired,
   };
 
   state = {
@@ -39,24 +40,6 @@ class MenuPage extends Component {
     userBill: false,
     userStore: false,
   };
-
-  componentDidMount() {
-    if (this.props.username === '' && this.props.logined === true) {
-      this.props
-        .bringDataOfUser()
-        .then((res) => {
-          console.log('bringDataOfUser');
-          toast(`환영합니다 ${this.props.username} 님 !`, { position: toast.POSITION.BOTTOM_CENTER });
-        })
-        .catch((err) => {
-          console.log('Error');
-          toast('에러 발생 ! 재 로그인해 주세요', { position: toast.POSITION.BOTTOM_CENTER });
-          localStorage.clear();
-          this.props.error();
-          this.props.history.push('/');
-        });
-    }
-  }
 
   changeTimeTable = () => {
     this.setState({
@@ -83,13 +66,13 @@ class MenuPage extends Component {
   };
 
   render() {
-    const { username, money, luckyNumber } = this.props;
+    const { name, money, _id } = this.props;
     return (
       <div className="menu-container">
         <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="menu-jumbo">
           <Container>
             <div className="name-and-logout">
-              <p className="display-4">{`${username}`}</p>
+              <p className="display-4">{`${name}`}</p>
               <span
                 className="logout-button"
                 onClick={() => {
@@ -102,7 +85,7 @@ class MenuPage extends Component {
                   } else {
                     this.props.logout();
                     localStorage.clear();
-                    toast(`${this.props.username}님! 로그아웃 처리 되었습니다 !`, { position: toast.POSITION.BOTTOM_CENTER });
+                    toast(`${this.props.name}님! 로그아웃 처리 되었습니다 !`, { position: toast.POSITION.BOTTOM_CENTER });
                     this.props.history.push('/');
                   }
                 }}
@@ -111,12 +94,18 @@ class MenuPage extends Component {
               </span>
             </div>
 
-            <p className="lead">{`학번: ${this.props.basicInfo}`}</p>
+            <p className="lead">{`학번: ${this.props.id}`}</p>
             <p className="lead">{`남은 돈: ${money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}</p>
-            <p className="lead">{`행운권 번호: ${luckyNumber}`}</p>
+            <p className="lead">{`행운권 번호: ${_id}`}</p>
             <p className="lead">2018 / 10 / 4</p>
           </Container>
-          <div className="menu-buttons">{this.props.admin === true ? <div>aewijfaio;ew</div> : <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />}</div>
+          <div className="menu-buttons">
+            {this.props.admin === true ? (
+              <div>aewijfaio;ew</div>
+            ) : (
+              <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
+            )}
+          </div>
         </Jumbotron>
 
         {this.state.userTimeTable && (
@@ -124,18 +113,25 @@ class MenuPage extends Component {
             <UserTimeTablePage timeTable={this.props.timeTable} />
           </div>
         )}
-        {/* {this.state.userBill && (
+        {this.state.userBill && (
           <div className="selected-container">
-            <UserTimeTablePage />
+            <UserBillPage bill={this.props.bill} />
           </div>
-        )} */}
+        )}
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
-              <UserMyProductPage myStoreProduct={this.props.myStoreProduct} up={this.props.up} down={this.props.down} del={this.props.del} />
+              <UserMyProductPage
+                storeProduct={this.props.storeProduct}
+                up={this.props.up}
+                down={this.props.down}
+                del={this.props.del}
+                buy={this.props.buy}
+                money={this.props.money}
+              />
             </div>
             <div className="selected-container">
-              <UserStorePage stores={this.props.stores} myStoreProduct={this.props.myStoreProduct} add={this.props.add} />
+              <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} />
             </div>
           </React.Fragment>
         )}

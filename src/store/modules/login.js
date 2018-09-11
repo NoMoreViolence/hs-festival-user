@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import * as axios from 'axios';
+import axios from 'axios';
 
 const ERROR = 'login/ERROR';
 
@@ -17,16 +17,18 @@ const LOGIN_AUTO_FAILURE = 'login/LOGIN_AUTO_FAILURE';
 const LOGOUT = 'login/LOGOUT';
 
 // 자동 로그인
+// Return User Infomation
 export const loginAuto = () => {
   console.log('login auto');
-  return axios.default.get('https://baconipsum.com/api/?type=meat-and-filler', {
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {
     body: { token: localStorage.getItem('token') },
   });
 };
 // 로그인 요청
+// Just return token
 export const loginRequest = (id, pw) => {
   console.log('login');
-  return axios.default.get(
+  return axios.get(
     'https://baconipsum.com/api/?type=meat-and-filler',
     {
       body: {
@@ -56,7 +58,6 @@ const login = handleActions(
     [ERROR]: state => produce(state, (draft) => {
       draft.logined = false;
     }),
-
     [LOGOUT]: state => produce(state, (draft) => {
       draft.logined = false;
     }),

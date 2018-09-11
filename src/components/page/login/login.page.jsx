@@ -16,11 +16,16 @@ class LoginPage extends Component {
     pending: PropTypes.bool.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
     contain: PropTypes.func.isRequired,
+    dataInStore: PropTypes.func.isRequired,
+    dataInTime: PropTypes.func.isRequired,
   };
 
   render() {
     const { id, pw } = this.state;
-    const { login, pending } = this.props;
+    const {
+      login, pending, history, contain,
+    } = this.props;
+
     return (
       <div className="login-container">
         <div className="login-inputs">
@@ -46,27 +51,31 @@ class LoginPage extends Component {
             outline
             color="primary"
             onClick={() => {
-              toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
-              pending === true
-                ? toast('로그인이 진행 중 입니다 !', { type: 'info', position: toast.POSITION.BOTTOM_CENTER })
-                : login(id, pw)
+              if (pending === true) {
+                toast('로그인이 진행 중 입니다 !', { type: 'info', position: toast.POSITION.BOTTOM_CENTER });
+              } else {
+                toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
+                login(id, pw)
                   .then((res) => {
-                    this.props.contain({
+                    contain({
                       admin: false,
-                      username: '추승원',
-                      basicInfo: 'H3120',
-                      luckyNumber: 123,
+                      name: '추승원',
+                      id: 'H3120',
+                      _id: 123,
                       money: 18000,
                       bill: [],
                     });
                     toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                     localStorage.setItem('token', 'fucking token value');
-                    this.props.history.push('/menu');
+                    this.props.dataInStore();
+                    this.props.dataInTime();
+                    history.push('/menu');
                   })
                   .catch((err) => {
                     toast('로그인 에러 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                     console.log(err.response);
                   });
+              }
             }}
           >
             로그인

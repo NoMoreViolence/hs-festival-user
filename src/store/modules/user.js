@@ -1,89 +1,163 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import * as axios from 'axios';
+import axios from 'axios';
 
-const CONTAIN = 'user/CONTAIN';
-const MONEY_UPDATE = 'user/MONEY_UPDATE';
+const BACK_TO_START = 'user/BACK_TO_START'; // All clear
 
-const BRING_DATA_OF_USER = 'BRING_DATA_OF_USER';
-const BRING_DATA_OF_USER_PENDING = 'BRING_DATA_OF_USER_PENDING';
-const BRING_DATA_OF_USER_SUCCESS = 'BRING_DATA_OF_USER_SUCCESS';
-const BRING_DATA_OF_USER_FAILURE = 'BRING_DATA_OF_USER_FAILURE';
+const CONTAIN = 'user/CONTAIN'; // User Data contain
+const MONEY_UPDATE = 'user/MONEY_UPDATE'; // Update current money
+const MONEY_UPDATE_PENDING = 'user/MONEY_UPDATE_PENDING'; // Update current money
+const MONEY_UPDATE_SUCCESS = 'user/MONEY_UPDATE_SUCCESS'; // Update current money
+const MONEY_UPDATE_FAILURE = 'user/MONEY_UPDATE_FAILURE'; // Update current money
 
-const bringDataOfUser = () => {
-  console.log('bringDataOfUser');
-  return axios.post('/', { body: { token: localStorage.getItem('token') } });
+const ADD_STORE_PRODUCT = 'usermenu/ADD_STORE_PRODUCT';
+const DEL_STORE_PRODUCT = 'usermenu/DEL_STORE_PRODUCT';
+const UP_STORE_PRODUCT = 'usermenu/UP_STORE_PRODUCT';
+const DOWN_STORE_PRODUCT = 'usermenu/DOWN_STORE_PRODUCT';
+
+const BUY = 'usermenu/BUY';
+const BUY_PENDING = 'usermenu/BUY_PENDING';
+const BUY_SUCCESS = 'usermenu/BUY_SUCCESS';
+const BUY_FAILURE = 'usermenu/BUY_FAILURE';
+
+// Buy request
+const buy = (hello) => {
+  console.log('buy');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {
+    headers: { token: localStorage.getItem('token') },
+    body: { store: hello },
+  });
+
+  // return axios.get('/api/store/buy', {
+  //   headers: { token: localStorage.getItem('token') },
+  //   body: { store: hello },
+  // });
+};
+
+const updateBill = () => {
+  console.log('update Bill');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  // return axios.get('/api/store/log', { headers: localStorage.getItem('token') });
 };
 
 export const UserActions = {
-  contain: createAction(CONTAIN, value => value),
-  moneyUpdate: createAction(MONEY_UPDATE, value => value),
-  bringDataOfUser: createAction(BRING_DATA_OF_USER, bringDataOfUser),
+  backToStart: createAction(BACK_TO_START, value => value),
+  contain: createAction(CONTAIN, value => value), // Contain user informaion
+  moneyUpdate: createAction(MONEY_UPDATE, updateBill), // Update Money  & Bills
+
+  add: createAction(ADD_STORE_PRODUCT, value => value), // add product
+  up: createAction(UP_STORE_PRODUCT, value => value), // up product count
+  down: createAction(DOWN_STORE_PRODUCT, value => value), // down product count
+  del: createAction(DEL_STORE_PRODUCT, value => value), // del product
+  buy: createAction(BUY, buy), // buy product
 };
 
 const initialState = {
-  admin: false,
-  username: '',
-  basicInfo: '', // 학번
-  luckyNumber: -1,
+  admin: false, // 관리자 구분
+  name: '', // 이름
+  id: '', // 학번
+  _id: -1, // 럭키 넘버
+  // About Store
   money: 0,
-  userBill: [],
-  bringPending: false,
-  bringSuccess: false,
-  bringFailure: false,
+  bill: [],
+  storeProduct: [],
+  buyPending: false,
+  buySuccess: false,
+  buyFailure: false,
 };
 
 const user = handleActions(
   {
+    [BACK_TO_START]: state => initialState,
     [CONTAIN]: (state, action) => produce(state, (draft) => {
       draft.admin = action.payload.admin;
-      draft.username = action.payload.username;
-      draft.basicInfo = action.payload.basicInfo;
-      draft.luckyNumber = action.payload.luckyNumber;
-      draft.money = action.payload.money;
-      draft.userBill = action.payload.userBill;
-    }),
-    [MONEY_UPDATE]: (state, action) => produce(state, (draft) => {
-      draft.money = action.payload;
-      draft.userBill = action.payload;
-    }),
-    [BRING_DATA_OF_USER_PENDING]: (state, action) => produce(state, (draft) => {
-      draft.bringPending = true;
-      draft.bringSuccess = false;
-      draft.bringFailure = false;
-    }),
-    [BRING_DATA_OF_USER_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.bringPending = false;
-      draft.bringSuccess = true;
-      draft.bringFailure = false;
-      draft.admin = false;
-      draft.username = '추승원';
-      draft.basicInfo = 'H3120';
-      draft.luckyNumber = 123;
-      draft.money = 1500;
-      draft.userBill = [
+      draft.name = action.payload.name;
+      draft.id = action.payload.id;
+      draft._id = action.payload._id;
+      draft.money = 18000;
+      draft.bill = [
         {
-          type: 'up',
-          who: '학생회 중 한명',
-          where: '응 충전이야',
-          what: '응 충전이야',
-          count: '응 충전이야',
-          how: 1500,
+          chargeType: false,
+          storename: 'H1-3',
+          what: [{ name: '에스프레소', price: 7200, number: 2 }, { name: '콜드브루', price: 4100, number: 1 }],
+          approved: false,
         },
         {
-          type: 'down',
-          who: '병신아 이건 돈 쓰는거야',
-          where: 'H1-1',
-          what: ['핫도그', '김치'],
-          count: [2, 1],
-          how: 119,
+          chargeType: false,
+          storename: 'H1-1',
+          what: [{ name: '에스프레소', price: 7200, number: 2 }, { name: '콜드브루', price: 4100, number: 1 }],
+          approved: true,
+        },
+        {
+          chargeType: true,
+          recharger: '인승진',
+          approver: '',
+          how: 10000,
+          approved: false,
+        },
+        {
+          chargeType: true,
+          recharger: '윤지훈',
+          approver: '김민구',
+          how: 5000,
+          approved: true,
         },
       ];
     }),
-    [BRING_DATA_OF_USER_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.bringPending = false;
-      draft.bringSuccess = false;
-      draft.bringFailure = true;
+
+    [MONEY_UPDATE_PENDING]: state => state,
+    [MONEY_UPDATE_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.money = action.payload.money;
+      draft.bill = action.payload.bill;
+    }),
+    [MONEY_UPDATE_FAILURE]: state => state,
+
+    [ADD_STORE_PRODUCT]: (state, action) => {
+      const array = Array.prototype.concat(state.storeProduct, {
+        ...state.stores
+          .filter(value => value.class === action.payload.className)[0]
+          .items.filter(value => value.item_name === action.payload.product)[0],
+        count: 1,
+        class: action.payload.className,
+      });
+
+      return {
+        ...state,
+        storeProduct: array,
+      };
+    },
+    [DEL_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
+      // del data
+      draft.storeProduct = state.storeProduct.filter(value => value.item_name !== action.payload);
+    }),
+    [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value),
+      );
+    }),
+    [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value),
+      );
+    }),
+
+    [BUY_PENDING]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = true;
+      draft.buySuccess = false;
+      draft.buyFailure = false;
+    }),
+    [BUY_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = false;
+      draft.buySuccess = true;
+      draft.buyFailure = false;
+      draft.storeProduct = [];
+      // draft.money = action.payload.hello
+      // draft.myBill = [{}];
+    }),
+    [BUY_FAILURE]: (state, action) => produce(state, (draft) => {
+      draft.buyPending = false;
+      draft.buySuccess = false;
+      draft.buyFailure = true;
     }),
   },
   initialState,

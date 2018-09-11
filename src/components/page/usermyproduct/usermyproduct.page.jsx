@@ -6,14 +6,16 @@ import { toast } from 'react-toastify';
 
 class UserMyProductPage extends Component {
   static propTypes = {
-    myStoreProduct: PropTypes.array.isRequired,
+    storeProduct: PropTypes.array.isRequired,
     up: PropTypes.func.isRequired,
     down: PropTypes.func.isRequired,
     del: PropTypes.func.isRequired,
+    money: PropTypes.number.isRequired,
+    buy: PropTypes.func.isRequired,
   };
 
   shouldComponentUpdate() {
-    console.log(this.props.myStoreProduct);
+    console.log(this.props.storeProduct);
     return true;
   }
 
@@ -56,7 +58,10 @@ class UserMyProductPage extends Component {
     ));
     return (
       <div className="myproduct-container">
-        <h1 className="shopping-header">장바구니</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <h1 className="shopping-header">장바구니</h1>
+          <h1 className="shopping-header">{this.props.storeProduct.length !== 0 && this.props.storeProduct[0].class}</h1>
+        </div>
         <Table responsive hover className="timetable-container">
           <tbody>
             <tr className="shopping-product-tr" style={{ fontWeight: 'bold' }}>
@@ -65,20 +70,46 @@ class UserMyProductPage extends Component {
               <td>개수</td>
               <td>가격</td>
             </tr>
-            {showProduct(this.props.myStoreProduct)}
+            {showProduct(this.props.storeProduct)}
           </tbody>
         </Table>
         <div className="payment-wrapper">
           <div className="total-pay-wrapper">
             <div className="total-pay-heading">총 금액: </div>
             <div className="total-pay">
-              {this.props.myStoreProduct
+              {this.props.storeProduct
                 .reduce((sum, current) => sum + current.price * current.count, 0)
                 .toString()
                 .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
             </div>
           </div>
-          <Button className="btn-pay" outline color="primary">
+          <Button
+            className="btn-pay"
+            outline
+            color="primary"
+            onClick={() => {
+              if (
+                this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.price * current.count, 0)
+                && this.props.storeProduct.length !== 0
+              ) {
+                toast('구매 요청 시작');
+                this.props
+                  .buy(this.props.storeProduct)
+                  .then((res) => {
+                    console.log(res);
+                    toast('구매가 완료 되었습니다 !', { type: 'success' });
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    toast('구매 실패 입니다 !', { type: 'error' });
+                  });
+              } else {
+                this.props.money < this.props.storeProduct.reduce((sum, current) => sum + current.price * current.count, 0)
+                  ? toast('구매할 돈이 부족합니다 !', { type: 'error' })
+                  : toast('구매할 상품을 선택해 주세요 !', { type: 'error' });
+              }
+            }}
+          >
             결제
           </Button>
         </div>

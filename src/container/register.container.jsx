@@ -8,12 +8,11 @@ import Register from '../components/page/register/register.page';
 
 class RegisterContainer extends React.Component {
   static propTypes = {
+    changeDoubleCheck: PropTypes.func.isRequired,
     doubleCheckPending: PropTypes.bool.isRequired,
     doubleCheckSuccess: PropTypes.bool.isRequired,
-    doubleCheckFailure: PropTypes.bool.isRequired,
     registerPending: PropTypes.bool.isRequired,
     registerSuccess: PropTypes.bool.isRequired,
-    registerFailure: PropTypes.bool.isRequired,
     doubleCheckId: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
   };
@@ -21,12 +20,11 @@ class RegisterContainer extends React.Component {
   render() {
     return (
       <Register
+        changeDoubleCheck={this.props.changeDoubleCheck}
         doubleCheckPending={this.props.doubleCheckPending}
         doubleCheckSuccess={this.props.doubleCheckSuccess}
-        doubleCheckFailure={this.props.doubleCheckFailure}
         registerPending={this.props.registerPending}
         registerSuccess={this.props.registerSuccess}
-        registerFailure={this.props.registerFailure}
         doubleCheckId={this.props.doubleCheckId}
         register={this.props.register}
       />
@@ -37,17 +35,16 @@ class RegisterContainer extends React.Component {
 const mapStateToProps = (state) => {
   const { register } = state;
   return {
+    changeDoubleCheck: register.changeDoubleCheck,
     doubleCheckPending: register.doubleCheckPending,
     doubleCheckSuccess: register.doubleCheckSuccess,
-    doubleCheckFailure: register.doubleCheckFailure,
     registerPending: register.registerPending,
     registerSuccess: register.registerSuccess,
-    registerFailure: register.registerFailure,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  doubleCheckId: bindActionCreators(RegisterActions.DoubleCheckId, dispatch),
+  doubleCheckId: bindActionCreators(RegisterActions.doubleCheckId, dispatch),
   register: bindActionCreators(RegisterActions.register, dispatch),
 });
 

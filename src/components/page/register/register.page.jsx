@@ -6,7 +6,6 @@ import './register.page.scss';
 
 class RegisterPage extends Component {
   state = {
-    checked: false,
     random: '',
     id: '',
     pw: '',
@@ -14,19 +13,21 @@ class RegisterPage extends Component {
   };
 
   static propTypes = {
+    changeDoubleCheck: PropTypes.func.isRequired,
     doubleCheckPending: PropTypes.bool.isRequired,
-    registerPending: PropTypes.bool.isRequired,
+    doubleCheckSuccess: PropTypes.bool.isRequired,
     doubleCheckId: PropTypes.func.isRequired,
+    registerPending: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired,
   };
 
   render() {
     const {
-      random, id, pw, rePw, checked,
+      random, id, pw, rePw,
     } = this.state;
 
     const {
-      doubleCheckId, register, doubleCheckPending, registerPending,
+      doubleCheckId, register, doubleCheckPending, registerPending, doubleCheckSuccess,
     } = this.props;
 
     return (
@@ -49,15 +50,15 @@ class RegisterPage extends Component {
             placeholder="ID"
             value={id}
             onChange={(e) => {
+              this.props.changeDoubleCheck();
               this.setState({
-                checked: false,
                 id: e.target.value,
               });
             }}
           />
           <Button
             outline
-            disabled={checked}
+            disabled={doubleCheckSuccess}
             color="primary"
             onClick={() => {
               if (doubleCheckPending !== true) {
@@ -103,14 +104,12 @@ class RegisterPage extends Component {
             color="primary"
             onClick={() => {
               if (registerPending === false) {
-                if (pw === rePw && checked === true) {
+                if (pw === rePw && doubleCheckSuccess === true) {
                   toast('회원가입 시작...', { position: toast.POSITION.BOTTOM_CENTER });
                   register(id, pw, random)
                     .then((res) => {
-                      console.log('');
                       toast('회원가입 성공 ! 로그인 해 주세요', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                       this.setState({
-                        checked: false,
                         id: '',
                         pw: '',
                         rePw: '',
@@ -122,7 +121,7 @@ class RegisterPage extends Component {
                       toast('ERR message', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                     });
                 }
-                if (checked === false) {
+                if (doubleCheckSuccess === false) {
                   toast('ID 중복확인을 해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
                 } else if (pw !== rePw) {
                   toast('비밀번호가 일치하지 않습니다 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });

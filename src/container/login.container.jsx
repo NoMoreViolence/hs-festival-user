@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { LoginActions } from '../store/modules/login';
 import Login from '../components/page/login/login.page';
 import { UserActions } from '../store/modules/user';
+import { UserMenuActions } from '../store/modules/usermenu';
 
 class LoginContainer extends React.Component {
   static propTypes = {
@@ -14,6 +15,8 @@ class LoginContainer extends React.Component {
     error: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     contain: PropTypes.func.isRequired,
+    dataInStore: PropTypes.func.isRequired,
+    dataInTime: PropTypes.func.isRequired,
   };
 
   render() {
@@ -24,6 +27,8 @@ class LoginContainer extends React.Component {
         error={this.props.error}
         login={this.props.login}
         contain={this.props.contain}
+        dataInStore={this.props.dataInStore}
+        dataInTime={this.props.dataInTime}
       />
     );
   }
@@ -37,6 +42,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   contain: bindActionCreators(UserActions.contain, dispatch),
   login: bindActionCreators(LoginActions.login, dispatch),
+  dataInStore: bindActionCreators(UserMenuActions.dataInStore, dispatch),
+  dataInTime: bindActionCreators(UserMenuActions.dataInTime, dispatch),
 });
 
 export default connect(

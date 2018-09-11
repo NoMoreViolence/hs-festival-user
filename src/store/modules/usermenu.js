@@ -1,189 +1,152 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import * as axios from 'axios';
+import axios from 'axios';
 
-const DATAIN = 'usermenu/DATAIN';
+const DATAIN_TIME = 'DATAIN_TIME';
+const DATAIN_TIME_PENDING = 'DATAIN_TIME_PENDING';
+const DATAIN_TIME_SUCCESS = 'DATAIN_TIME_SUCCESS';
+const DATAIN_TIME_FAILURE = 'DATAIN_TIME_FAILURE';
 
-const UPDATE_STORE = 'usermenu/UPDATE_STORE';
-const UPDATE_STORE_PENDING = 'usermenu/UPDATE_STORE_PENDING';
-const UPDATE_STORE_SUCCESS = 'usermenu/UPDATE_STORE_SUCCESS';
-const UPDATE_STORE_FAILURE = 'usermenu/UPDATE_STORE_FAILURE';
+const DATAIN_STORE = 'usermenu/DATAIN_STORE';
+const DATAIN_STORE_PENDING = 'usermenu/DATAIN_STORE_PENDING';
+const DATAIN_STORE_SUCCESS = 'usermenu/DATAIN_STORE_PENDING';
+const DATAIN_STORE_FAILURE = 'usermenu/DATAIN_STORE_PENDING';
 
-const ADD_STORE_PRODUCT = 'usermenu/ADD_STORE_PRODUCT';
-const DEL_STORE_PRODUCT = 'usermenu/DEL_STORE_PRODUCT';
-const UP_STORE_PRODUCT = 'usermenu/UP_STORE_PRODUCT';
-const DOWN_STORE_PRODUCT = 'usermenu/DOWN_STORE_PRODUCT';
-
-const BUY = 'usermenu/BUY';
-const BUY_PENDING = 'usermenu/BUY_PENDING';
-const BUY_SUCCESS = 'usermenu/BUY_SUCCESS';
-const BUY_FAILURE = 'usermenu/BUY_FAILURE';
-
-const storeUpdate = () => {
-  console.log('store update');
-  return axios.default.get('/', { body: { token: localStorage.getItem('token') } });
+const bringUserStore = () => {
+  console.log('Request user store');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
+  // return axios.get('/api/store', { headers: { token: localStorage.getItem('token') } });
 };
 
-const buy = (hello) => {
-  console.log(buy);
-  return axios.default.get('/', { body: { store: hello, token: localStorage.getItem('token') } });
+const bringUserTimeTable = () => {
+  console.log('Request time table');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
+  // return axios.get('/api/timetable', { headers: { token: localStorage.getItem('token') } });
 };
 
 export const UserMenuActions = {
-  dataIn: createAction(DATAIN, value => value),
-  update: createAction(UPDATE_STORE, storeUpdate),
-
-  add: createAction(ADD_STORE_PRODUCT, value => value),
-  up: createAction(UP_STORE_PRODUCT, value => value),
-  down: createAction(DOWN_STORE_PRODUCT, value => value),
-  del: createAction(DEL_STORE_PRODUCT, value => value),
-
-  buy: createAction(BUY, buy),
+  dataInStore: createAction(DATAIN_STORE, bringUserStore),
+  dataInTime: createAction(DATAIN_TIME, bringUserTimeTable),
 };
 
 const initialState = {
   timeTable: [],
   stores: [],
-  myStoreProduct: [],
-  myBill: [],
-  updatePending: false,
-  updateSuccess: false,
-  updateFailure: false,
-  buyPending: false,
-  buySuccess: false,
-  buyFailure: false,
 };
 
 const userMenu = handleActions(
   {
-    [DATAIN]: (state, action) => produce(state, (draft) => {
-      draft.timeTable = [{ time: '09:00 - 10:00', what: 'MR.탄 씨의 축사' }, { time: '10:00 - 13:00', what: '먹거리 장터' }, { time: '13:00 - 16:00', what: '공연이나 해라 이것들아' }];
+    [DATAIN_TIME_PENDING]: state => state,
+    [DATAIN_TIME_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.timeTable = [
+        { id: 1, time: '09:00 - 10:00', content: 'MR.탄 씨의 축사' },
+        { id: 2, time: '10:00 - 13:00', content: '먹거리 장터' },
+        { id: 3, time: '13:00 - 16:00', content: '공연이나 해라 이것들아' },
+      ];
+    }),
+    [DATAIN_TIME_FAILURE]: state => state,
+    [DATAIN_STORE_PENDING]: state => state,
+    [DATAIN_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.stores = [
         {
-          storename: 'H 1-1',
-          message: 'WHY DO FUCKBOIS',
-          what: [{ name: '핫도그', price: 10, stock: 301 }, { name: '김치', price: 99, stock: 305 }, { name: '드래곤', price: 234, stock: 3000 }],
+          class: 'H 1-1',
+          introduction: 'WHY DO FUCKBOIS',
+          items: [
+            {
+              item_name: '키드밀리',
+              item_price: 300,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '씨잼',
+              item_price: 42,
+              canbuy: false,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '빌틀딱스',
+              item_price: 42,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+          ],
         },
         {
-          storename: 'H 1-2',
-          message: '잊지마',
-          what: [{ name: '머그컵', price: 340, stock: 23 }, { name: '간장게장', price: 5934, stock: 123 }, { name: '휴대폰', price: 2000, stock: 3123 }],
+          class: 'H 1-2',
+          introduction: '잊지마',
+          items: [
+            {
+              item_name: '마미손',
+              item_price: 300,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '나플라',
+              item_price: 42,
+              canbuy: false,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '루피',
+              item_price: 42,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+          ],
         },
         {
-          storename: 'U 1-1',
-          message: '달리반피카소',
-          what: [{ name: '에스프레소', price: 3600, stock: 12 }, { name: '콜드브루', price: 4100, stock: 13 }, { name: '아메리카노', price: 4100, stock: 14 }],
+          class: 'USN 1-1',
+          introduction: '달리반 피카소',
+          items: [
+            {
+              item_name: '에스프레소',
+              item_price: 3600,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '콜드 브루',
+              item_price: 5500,
+              canbuy: false,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '아메리카노',
+              item_price: 4100,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+          ],
         },
         {
-          storename: 'U 1-2',
-          message: 'Journey',
-          what: [{ name: '토끼', price: 3600, stock: 12 }, { name: '강아지', price: 4100, stock: 13 }, { name: '고양이', price: 4100, stock: 14 }],
+          class: 'USN 1-2',
+          introduction: 'Journey',
+          items: [
+            {
+              item_name: '토끼',
+              item_price: 3500,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '강아지',
+              item_price: 2000,
+              canbuy: false,
+              item_phrase: 'HOT',
+            },
+            {
+              item_name: '고양이',
+              item_price: 5000,
+              canbuy: true,
+              item_phrase: 'HOT',
+            },
+          ],
         },
       ];
-      draft.myStoreProduct = [
-        {
-          name: '강아지',
-          price: 4100,
-          stock: 13,
-          count: 1,
-          class: 'U 1-2',
-        },
-      ];
-      draft.myBill = [{ storename: 'H1-3', what: [{ name: '' }] }];
     }),
-    [UPDATE_STORE_PENDING]: (state, action) => produce(state, (draft) => {
-      draft.updatePending = true;
-      draft.updateSuccess = false;
-      draft.updateFailure = false;
-    }),
-    [UPDATE_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.updatePending = false;
-      draft.updateSuccess = true;
-      draft.updateFailure = false;
-      draft.stores = [
-        {
-          storename: 'H1-1',
-          what: [{ name: '핫도그', price: 10, stock: 301 }, { name: '김치', price: 99, stock: 305 }, { name: '드래곤', price: 234, stock: 3000 }],
-        },
-        {
-          storename: 'H1-2',
-          what: [{ name: '머그컵', price: 340, stock: 23 }, { name: '간장게장', price: 5934, stock: 123 }, { name: '휴대폰', price: 2000, stock: 3123 }],
-        },
-        {
-          storename: 'H1-3',
-          what: [{ name: '에스프레소', price: 3600, stock: 12 }, { name: '콜드브루', price: 4100, stock: 13 }, { name: '아메리카노', price: 4100, stock: 14 }],
-        },
-      ];
-    }),
-    [UPDATE_STORE_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.updatePending = false;
-      draft.updateSuccess = false;
-      draft.updateFailure = true;
-    }),
-
-    [ADD_STORE_PRODUCT]: (state, action) => {
-      // const data = [
-      //   state.myStoreProduct,
-      //   {
-      //     ...state.stores
-      //       .filter(value => value.storename === action.payload.className)[0]
-      //       .what.filter(value => value.name === action.payload.product)[0],
-      //     count: 1,
-      //     class: action.payload.className,
-      //   },
-      // ];
-      const array = Array.prototype.concat(state.myStoreProduct, {
-        ...state.stores.filter(value => value.storename === action.payload.className)[0].what.filter(value => value.name === action.payload.product)[0],
-        count: 1,
-        class: action.payload.className,
-      });
-
-      console.log(array);
-      return {
-        ...state,
-        myStoreProduct: array,
-      };
-    },
-    // produce(state, (draft) => {
-    //   //  add Data
-    //   const addData = {
-    //     ...state.stores
-    //       .filter(value => value.storename === action.payload.className)[0]
-    //       .what.filter(value => value.name === action.payload.product)[0],
-    //     count: 1,
-    //     class: action.payload.className,
-    //   };
-
-    //   draft.myStoreProduct = state.myStoreProduct.concat(addData);
-    // }),
-    [DEL_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      // del data
-      draft.myStoreProduct = state.myStoreProduct.filter(value => value.name !== action.payload);
-    }),
-    [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.myStoreProduct = state.myStoreProduct.map(value => (value.name === action.payload ? { ...value, count: value.count + 1 } : value));
-    }),
-    [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.myStoreProduct = state.myStoreProduct.map(value => (value.name === action.payload ? { ...value, count: value.count - 1 } : value));
-    }),
-
-    [BUY_PENDING]: (state, action) => produce(state, (draft) => {
-      draft.buyPending = true;
-      draft.buySuccess = false;
-      draft.buyFailure = false;
-    }),
-    [BUY_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.buyPending = false;
-      draft.buySuccess = true;
-      draft.buyFailure = false;
-      draft.myStoreProduct = [];
-      draft.myBill = [{ text: 'awef', what: 'awef' }];
-    }),
-    [BUY_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.buyPending = false;
-      draft.buySuccess = false;
-      draft.buyFailure = true;
-    }),
+    [DATAIN_STORE_FAILURE]: state => state,
   },
   initialState,
 );

@@ -2,6 +2,8 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 
+const CHANGE_DOUBLE_CHECK = 'register/CHANGE_DOUBLE_CHECK';
+
 const DOUBLE_CHECK_ID = 'register/DOUBLE_CHECK_ID';
 const DOUBLE_CHECK_ID_PENDING = 'register/DOUBLE_CHECK_ID_PENDING';
 const DOUBLE_CHECK_ID_SUCCESS = 'register/DOUBLE_CHECK_ID_SUCCESS';
@@ -14,15 +16,18 @@ const REGISTER_FAILURE = 'register/REGISTER_FAILURE';
 
 export const doubleCheckRequest = (id) => {
   console.log('doubleCheck');
-  return axios.get('', { body: { id } });
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  // return axios.get(`/api/signup/check/${id}`);
 };
 export const registerRequest = (id, password, randomKey) => {
   console.log('register');
-  return axios.get('', { body: { id, password, randomKey } });
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  // return axios.post('/api/signup', { body: { key: randomKey, id, password } });
 };
 
 export const RegisterActions = {
-  DoubleCheckId: createAction(DOUBLE_CHECK_ID, doubleCheckRequest),
+  changeDoubleCheck: createAction(CHANGE_DOUBLE_CHECK, value => value),
+  doubleCheckId: createAction(DOUBLE_CHECK_ID, doubleCheckRequest),
   register: createAction(REGISTER, registerRequest),
 };
 
@@ -37,6 +42,9 @@ const initialState = {
 
 const register = handleActions(
   {
+    [CHANGE_DOUBLE_CHECK]: state => produce(state, (draft) => {
+      draft.doubleCheckSuccess = false;
+    }),
     [DOUBLE_CHECK_ID_PENDING]: state => produce(state, (draft) => {
       draft.doubleCheckPending = true;
       draft.doubleCheckSuccess = false;
