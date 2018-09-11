@@ -35,7 +35,6 @@ class RegisterContainer extends React.Component {
 const mapStateToProps = (state) => {
   const { register } = state;
   return {
-    changeDoubleCheck: register.changeDoubleCheck,
     doubleCheckPending: register.doubleCheckPending,
     doubleCheckSuccess: register.doubleCheckSuccess,
     registerPending: register.registerPending,
@@ -44,6 +43,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  // changeDoubleCheck: bindActionCreators(RegisterActions.changeDOubleCheck, dispatch),
+  changeDoubleCheck: bindActionCreators(RegisterActions.changeDoubleCheck, dispatch),
   doubleCheckId: bindActionCreators(RegisterActions.doubleCheckId, dispatch),
   register: bindActionCreators(RegisterActions.register, dispatch),
 });

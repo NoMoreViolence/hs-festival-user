@@ -1,0 +1,18 @@
+.bill-type {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  font-size: 1.3rem;
+
+  .bill-changed {
+    font-weight: 300;
+  }
+
+  .red {
+    color: red;
+  }
+
+  .blue {
+    color: blue;
+  }
+}

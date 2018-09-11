@@ -113,11 +113,7 @@ class MenuPage extends Component {
             <UserTimeTablePage timeTable={this.props.timeTable} />
           </div>
         )}
-        {this.state.userBill && (
-          <div className="selected-container">
-            <UserBillPage bill={this.props.bill} />
-          </div>
-        )}
+        {this.state.userBill && <UserBillPage bill={this.props.bill} elementNumber={this.props.bill.length} />}
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">

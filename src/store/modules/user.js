@@ -24,7 +24,6 @@ const BUY_FAILURE = 'usermenu/BUY_FAILURE';
 const buy = (hello) => {
   console.log('buy');
   return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {
-    headers: { token: localStorage.getItem('token') },
     body: { store: hello },
   });
 
@@ -88,29 +87,31 @@ const user = handleActions(
       draft.bill = [
         {
           chargeType: false,
-          storename: 'H1-3',
+          time: new Date(),
+          class: 'HACK 1-3',
+          before: 10000,
+          after: 5000,
+          changed: 5000,
           what: [{ name: '에스프레소', price: 7200, number: 2 }, { name: '콜드브루', price: 4100, number: 1 }],
           approved: false,
         },
         {
           chargeType: false,
-          storename: 'H1-1',
+          time: new Date(),
+          class: 'HACK 1-1',
+          before: 10000,
+          after: 5000,
+          changed: 5000,
           what: [{ name: '에스프레소', price: 7200, number: 2 }, { name: '콜드브루', price: 4100, number: 1 }],
           approved: true,
         },
         {
           chargeType: true,
-          recharger: '인승진',
-          approver: '',
-          how: 10000,
-          approved: false,
-        },
-        {
-          chargeType: true,
-          recharger: '윤지훈',
+          time: new Date(),
           approver: '김민구',
-          how: 5000,
-          approved: true,
+          before: 10000,
+          after: 5000,
+          changed: 5000,
         },
       ];
     }),

@@ -49,22 +49,26 @@ const userMenu = handleActions(
     [DATAIN_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.stores = [
         {
+          store_id: 1,
           class: 'HACK 1-1',
           introduction: 'WHY DO FUCKBOIS',
           items: [
             {
+              item_id: 1,
               item_name: '키드밀리',
               item_price: 300,
               canbuy: true,
               item_phrase: 'HOT',
             },
             {
+              item_id: 2,
               item_name: '씨잼',
               item_price: 42,
               canbuy: false,
               item_phrase: 'HOT',
             },
             {
+              item_id: 3,
               item_name: '빌틀딱스',
               item_price: 42,
               canbuy: true,
@@ -73,22 +77,26 @@ const userMenu = handleActions(
           ],
         },
         {
+          store_id: 2,
           class: 'HACK 1-2',
           introduction: '잊지마',
           items: [
             {
+              item_id: 4,
               item_name: '마미손',
               item_price: 300,
               canbuy: true,
               item_phrase: 'HOT',
             },
             {
+              item_id: 5,
               item_name: '나플라',
               item_price: 42,
               canbuy: false,
               item_phrase: 'HOT',
             },
             {
+              item_id: 6,
               item_name: '루피',
               item_price: 42,
               canbuy: true,
@@ -97,22 +105,26 @@ const userMenu = handleActions(
           ],
         },
         {
+          store_id: 3,
           class: 'USN 1-1',
           introduction: '달리반 피카소',
           items: [
             {
+              item_id: 7,
               item_name: '에스프레소',
               item_price: 3600,
               canbuy: true,
               item_phrase: 'HOT',
             },
             {
+              item_id: 8,
               item_name: '콜드 브루',
               item_price: 5500,
               canbuy: false,
               item_phrase: 'HOT',
             },
             {
+              item_id: 9,
               item_name: '아메리카노',
               item_price: 4100,
               canbuy: true,
@@ -121,22 +133,26 @@ const userMenu = handleActions(
           ],
         },
         {
+          store_id: 4,
           class: 'USN 1-2',
           introduction: 'Journey',
           items: [
             {
+              item_id: 10,
               item_name: '토끼',
               item_price: 3500,
               canbuy: true,
               item_phrase: 'HOT',
             },
             {
+              item_id: 11,
               item_name: '강아지',
               item_price: 2000,
               canbuy: false,
               item_phrase: 'HOT',
             },
             {
+              item_id: 12,
               item_name: '고양이',
               item_price: 5000,
               canbuy: true,
