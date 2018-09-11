@@ -75,6 +75,16 @@ const user = handleActions(
       draft.id = action.payload.id;
       draft._id = action.payload._id;
       draft.money = 18000;
+      draft.storeProduct = [
+        {
+          item_name: '키드밀리',
+          item_price: 300,
+          canbuy: true,
+          item_phrase: 'HOT',
+          class: 'HACK 1-1',
+          count: 1,
+        },
+      ];
       draft.bill = [
         {
           chargeType: false,
@@ -112,20 +122,9 @@ const user = handleActions(
     }),
     [MONEY_UPDATE_FAILURE]: state => state,
 
-    [ADD_STORE_PRODUCT]: (state, action) => {
-      const array = Array.prototype.concat(state.storeProduct, {
-        ...state.stores
-          .filter(value => value.class === action.payload.className)[0]
-          .items.filter(value => value.item_name === action.payload.product)[0],
-        count: 1,
-        class: action.payload.className,
-      });
-
-      return {
-        ...state,
-        storeProduct: array,
-      };
-    },
+    [ADD_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
+      draft.storeProduct = [...state.storeProduct, action.payload];
+    }),
     [DEL_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
       // del data
       draft.storeProduct = state.storeProduct.filter(value => value.item_name !== action.payload);

@@ -9,8 +9,8 @@ const DATAIN_TIME_FAILURE = 'DATAIN_TIME_FAILURE';
 
 const DATAIN_STORE = 'usermenu/DATAIN_STORE';
 const DATAIN_STORE_PENDING = 'usermenu/DATAIN_STORE_PENDING';
-const DATAIN_STORE_SUCCESS = 'usermenu/DATAIN_STORE_PENDING';
-const DATAIN_STORE_FAILURE = 'usermenu/DATAIN_STORE_PENDING';
+const DATAIN_STORE_SUCCESS = 'usermenu/DATAIN_STORE_SUCCESS';
+const DATAIN_STORE_FAILURE = 'usermenu/DATAIN_STORE_FAILURE';
 
 const bringUserStore = () => {
   console.log('Request user store');
@@ -49,7 +49,7 @@ const userMenu = handleActions(
     [DATAIN_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.stores = [
         {
-          class: 'H 1-1',
+          class: 'HACK 1-1',
           introduction: 'WHY DO FUCKBOIS',
           items: [
             {
@@ -73,7 +73,7 @@ const userMenu = handleActions(
           ],
         },
         {
-          class: 'H 1-2',
+          class: 'HACK 1-2',
           introduction: '잊지마',
           items: [
             {

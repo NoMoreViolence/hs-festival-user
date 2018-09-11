@@ -124,25 +124,6 @@ class UserStorePage extends Component {
     add: PropTypes.func.isRequired,
   };
 
-  // render() {
-  //   const showStore = data => (
-  //     <div>
-  //       <div className="store-subject">
-  //         <span>
-  //           <img src="/images/image/store.svg" alt="" />
-  //         </span>
-  //       </div>
-  //       {data.map((object, i) => (
-  //         <div className="store-unit" key={i}>
-  //           <div className="store-name">
-  //             <span>{object.storename}</span>
-  //           </div>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  //   return <React.Fragment>{showStore(this.props.stores)}</React.Fragment>;
-  // }
   render() {
     const showStore = data => data.map((object, i) => (
       <React.Fragment key={i}>
@@ -153,27 +134,25 @@ class UserStorePage extends Component {
             });
           }}
         >
-          <td>{object.storename}</td>
-          <td>{object.message}</td>
+          <td>{object.class}</td>
+          <td>{object.introduction}</td>
         </tr>
         {this.state[i] && (
         <React.Fragment>
-          {object.what.map((value, j) => (
+          {object.items.map((value, j) => (
             <tr
               style={{ background: 'rgb(222, 226, 230)' }}
               key={j + 1}
               onClick={() => {
                 if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 5) {
-                  toast(`한번 더 ${value.name} 을/를 클릭하면 장바구니로 이동`, {});
+                  toast(`한번 더 ${value.item_name} 을/를 클릭하면 장바구니로 이동`, {});
                   this.setState({
                     [`the${i + 1}${j + 1}`]: new Date(),
                   });
                 } else {
-                  console.log(this.props.storeProduct.filter(d => d.name !== value.name && d.class === object.storename));
-                  console.log(this.props.storeProduct.every(f => f.name !== value.name && f.class === object.storename));
-                  if (this.props.storeProduct.every(f => f.name !== value.name && f.class === object.storename) === true) {
-                    this.props.add({ className: object.storename, product: value.name });
-                    toast(`${value.name} 상품이 장바구니에 추가 되었습니다 !`, {});
+                  if (this.props.storeProduct.every(f => f.item_name !== value.item_name && f.class === object.class) === true) {
+                    this.props.add({ class: object.class, count: 1, ...value });
+                    toast(`${value.item_name} 상품이 장바구니에 추가 되었습니다 !`, {});
                     this.setState({
                       [`the${i + 1}${j + 1}`]: '',
                     });
@@ -183,9 +162,9 @@ class UserStorePage extends Component {
                 }
               }}
             >
-              <td>{value.name}</td>
+              <td>{value.item_name}</td>
               <td style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <span>{value.price}</span>
+                <span>{value.item_price}</span>
               </td>
             </tr>
           ))}
