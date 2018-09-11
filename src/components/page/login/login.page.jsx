@@ -56,7 +56,8 @@ class LoginPage extends Component {
                       username: '추승원',
                       basicInfo: 'H3120',
                       luckyNumber: 123,
-                      money: 1500,
+                      money: 18000,
+                      bill: [],
                     });
                     toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                     localStorage.setItem('token', 'fucking token value');

@@ -8,7 +8,6 @@ class LoginPage extends Component {
     loginAuto: PropTypes.func.isRequired,
     history: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
     contain: PropTypes.func.isRequired,
-    dataIn: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -21,16 +20,17 @@ class LoginPage extends Component {
             admin: false,
             username: '추승원',
             basicInfo: 'H3120',
-            money: 1500,
             luckyNumber: 123,
+            money: 18000,
+            bill: [],
           });
-          this.props.dataIn();
           this.props.history.push('/menu');
           toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
         })
         .catch((err) => {
-          this.props.history.push('/');
+          localStorage.clear();
           toast('로그인 에러 발생 ! 재 로그인해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+          this.props.history.push('/');
         });
     } else {
       this.props.history.push('/');
