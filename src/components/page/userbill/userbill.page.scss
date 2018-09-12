@@ -1,3 +1,22 @@
+.important {
+  margin: {
+    top: 0.5rem !important;
+    bottom: 0.5rem !important;
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+.red {
+  color: red;
+  font-weight: 400;
+}
+
+.blue {
+  color: blue;
+  font-weight: 400;
+}
+
 .bill-type {
   display: flex;
   justify-content: space-between;
@@ -7,12 +26,74 @@
   .bill-changed {
     font-weight: 300;
   }
+}
 
-  .red {
-    color: red;
+.bill-more {
+  .bill-changed {
+    display: flex;
+    justify-content: space-between;
+    span {
+      font-size: 1.5rem;
+      padding: {
+        right: 0.5rem;
+        left: 0.5rem;
+      }
+    }
   }
 
-  .blue {
-    color: blue;
+  .bill-deepdown-logo {
+    padding: {
+      right: 0.5rem;
+      left: 0.5rem;
+      top: 1rem;
+    }
+
+    font-size: 1.2rem;
+  }
+
+  .bill-deepdown-content {
+    padding: {
+      right: 0.5rem;
+      left: 0.5rem;
+      top: 0.5rem;
+      bottom: 1.5rem;
+    }
+    font-size: 1.2rem;
+
+    .bill-deepdown-content-stuffs {
+      display: flex;
+      justify-content: space-between;
+      span {
+      }
+    }
+  }
+
+  .bill-time {
+    padding: {
+      right: 0.5rem;
+      left: 0.5rem;
+      top: 1rem;
+    }
+
+    font-size: 1.1rem;
+  }
+
+  .bill-time-content {
+    padding: {
+      right: 0.5rem;
+      left: 0.5rem;
+      top: 0.5rem;
+    }
+    font-size: 1.1rem;
+  }
+
+  .bill-button {
+    display: flex;
+    justify-content: space-around;
+    padding: {
+      top: 2rem;
+    }
+    button {
+    }
   }
 }

@@ -87,7 +87,7 @@ const user = handleActions(
       draft.bill = [
         {
           chargeType: false,
-          time: new Date(),
+          time: '2018 / 3 / 23',
           class: 'HACK 1-3',
           before: 10000,
           after: 5000,
@@ -97,7 +97,7 @@ const user = handleActions(
         },
         {
           chargeType: false,
-          time: new Date(),
+          time: '2018 / 3 / 23',
           class: 'HACK 1-1',
           before: 10000,
           after: 5000,
@@ -107,7 +107,7 @@ const user = handleActions(
         },
         {
           chargeType: true,
-          time: new Date(),
+          time: '2018 / 3 / 23',
           approver: '김민구',
           before: 10000,
           after: 5000,
@@ -131,14 +131,10 @@ const user = handleActions(
       draft.storeProduct = state.storeProduct.filter(value => value.item_name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value));
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value));
     }),
 
     [BUY_PENDING]: (state, action) => produce(state, (draft) => {

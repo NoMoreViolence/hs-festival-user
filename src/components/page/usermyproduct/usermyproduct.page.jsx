@@ -55,7 +55,7 @@ class UserMyProductPage extends Component {
       <div className="myproduct-container">
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <h1 className="shopping-header">장바구니</h1>
-          <h1 className="shopping-header">{this.props.storeProduct.length !== 0 && this.props.storeProduct[0].class}</h1>
+          <h1 className="shopping-class-only">{this.props.storeProduct.length !== 0 && this.props.storeProduct[0].class}</h1>
         </div>
         <Table responsive hover className="timetable-container">
           <tbody>
