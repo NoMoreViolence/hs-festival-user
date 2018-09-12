@@ -126,7 +126,10 @@ class MenuPage extends Component {
             </div>
           )}
         </Jumbotron>
+        {/* Admin menu */}
+        {this.state.adminCharge && null}
 
+        {/* User Menu */}
         {this.state.userTimeTable && (
           <div className="selected-container">
             <UserTimeTablePage timeTable={this.props.timeTable} />
@@ -136,7 +139,14 @@ class MenuPage extends Component {
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
-              <UserMyProductPage storeProduct={this.props.storeProduct} up={this.props.up} down={this.props.down} del={this.props.del} buy={this.props.buy} money={this.props.money} />
+              <UserMyProductPage
+                storeProduct={this.props.storeProduct}
+                up={this.props.up}
+                down={this.props.down}
+                del={this.props.del}
+                buy={this.props.buy}
+                money={this.props.money}
+              />
             </div>
             <div className="selected-container">
               <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} />

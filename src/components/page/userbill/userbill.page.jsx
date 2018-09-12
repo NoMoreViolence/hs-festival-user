@@ -21,7 +21,7 @@ class UserBillPage extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.bill !== this.props.bill) {
       const elements = this.props.bill.map(object => (object.chargeType ? false : !object.approved));
       console.log(elements);
@@ -69,16 +69,12 @@ class UserBillPage extends Component {
                 <span>{`${object.before} → ${object.after}`}</span>
               </div>
             ) : (
-              object.what.map((stuff, base) => {
-                console.log('hell');
-                console.log(`${stuff} ${base}`);
-                return (
-                  <div className="bill-deepdown-content-stuffs" key={base}>
-                    <span>{`${stuff.name} X ${stuff.number}`}</span>
-                    <span>{stuff.price}</span>
-                  </div>
-                );
-              })
+              object.what.map((stuff, base) => (
+                <div className="bill-deepdown-content-stuffs" key={base}>
+                  <span>{`${stuff.name} X ${stuff.number}`}</span>
+                  <span>{stuff.price}</span>
+                </div>
+              ))
             )}
           </div>
           <div className="bill-time">
@@ -89,7 +85,11 @@ class UserBillPage extends Component {
           </div>
           {!object.chargeType && (
           <div className="bill-button">
-            {!object.approved && <Button outline color="danger">결제 취소</Button>}
+            {!object.approved && (
+            <Button outline color="danger">
+                    결제 취소
+            </Button>
+            )}
             <Button outline color="primary" disabled={object.approved}>
               {object.approved ? '결제 확인 됨' : '결제 확인'}
             </Button>
