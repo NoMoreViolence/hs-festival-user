@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withRouter from 'react-router-dom/withRouter';
 import { Jumbotron, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
+import AdminMenuPage from '../adminmenu/adminmenu.page';
 import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
 import UserStorePage from '../userstore/userstore.page';
@@ -39,6 +40,22 @@ class MenuPage extends Component {
     userTimeTable: false,
     userBill: false,
     userStore: false,
+    adminCharge: false,
+    adminConfirm: false,
+  };
+
+  changeCharge = () => {
+    this.setState({
+      adminCharge: true,
+      adminConfirm: false,
+    });
+  };
+
+  changeConfirm = () => {
+    this.setState({
+      adminConfirm: true,
+      adminCharge: false,
+    });
   };
 
   changeTimeTable = () => {
@@ -99,13 +116,15 @@ class MenuPage extends Component {
             <p className="lead">{`행운권 번호: ${_id}`}</p>
             <p className="lead">2018 / 10 / 4</p>
           </Container>
-          <div className="menu-buttons">
-            {this.props.admin === true ? (
-              <div>aewijfaio;ew</div>
-            ) : (
-              <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
-            )}
-          </div>
+          {this.props.name === '' ? null : (
+            <div className="menu-buttons">
+              {this.props.admin === true ? (
+                <AdminMenuPage confirm={this.changeConfirm} charge={this.changeCharge} />
+              ) : (
+                <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
+              )}
+            </div>
+          )}
         </Jumbotron>
 
         {this.state.userTimeTable && (
@@ -117,14 +136,7 @@ class MenuPage extends Component {
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
-              <UserMyProductPage
-                storeProduct={this.props.storeProduct}
-                up={this.props.up}
-                down={this.props.down}
-                del={this.props.del}
-                buy={this.props.buy}
-                money={this.props.money}
-              />
+              <UserMyProductPage storeProduct={this.props.storeProduct} up={this.props.up} down={this.props.down} del={this.props.del} buy={this.props.buy} money={this.props.money} />
             </div>
             <div className="selected-container">
               <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} />
