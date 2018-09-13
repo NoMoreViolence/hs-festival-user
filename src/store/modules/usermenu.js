@@ -38,6 +38,7 @@ const userMenu = handleActions(
   {
     [DATAIN_TIME_PENDING]: state => state,
     [DATAIN_TIME_SUCCESS]: (state, action) => produce(state, (draft) => {
+      // draft.timeTable = action.payload;
       draft.timeTable = [
         { order: 1, time: '09:00 - 10:00', content: 'MR.탄 씨의 축사' },
         { order: 2, time: '10:00 - 13:00', content: '먹거리 장터' },
@@ -47,6 +48,7 @@ const userMenu = handleActions(
     [DATAIN_TIME_FAILURE]: state => state,
     [DATAIN_STORE_PENDING]: state => state,
     [DATAIN_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
+      // draft.stores = action.payload;
       draft.stores = [
         {
           store_id: 1,

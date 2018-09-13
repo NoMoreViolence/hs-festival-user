@@ -11,10 +11,20 @@ const DEL_STORE_PRODUCT = 'user/DEL_STORE_PRODUCT';
 const UP_STORE_PRODUCT = 'user/UP_STORE_PRODUCT';
 const DOWN_STORE_PRODUCT = 'user/DOWN_STORE_PRODUCT';
 
-const GET_BILL_HISTORY = 'user/GET_HISTORY';
-const GET_BILL_HISTORY_PENDING = 'user/GET_HISTORY_PENDING';
-const GET_BILL_HISTORY_SUCCESS = 'user/GET_HISTORY_SUCCESS';
-const GET_BILL_HISTORY_FAILURE = 'user/GET_HISTORY_FAILURE';
+const GET_BILL_HISTORY = 'user/GET_BILL_HISTORY';
+const GET_BILL_HISTORY_PENDING = 'user/GET_BILL_HISTORY_PENDING';
+const GET_BILL_HISTORY_SUCCESS = 'user/GET_BILL_HISTORY_SUCCESS';
+const GET_BILL_HISTORY_FAILURE = 'user/GET_BILL_HISTORY_FAILURE';
+
+const CANCEL_BILL = 'user/CANCEL_BILL';
+const CANCEL_BILL_PENDING = 'user/CANCEL_BILL_PENDING';
+const CANCEL_BILL_SUCCESS = 'user/CANCEL_BILL_SUCCESS';
+const CANCEL_BILL_FAILURE = 'user/CANCEL_BILL_FAILURE';
+
+const CONFIRM_BILL = 'user/CONFIRM_BILL';
+const CONFIRM_BILL_PENDING = 'user/CONFIRM_BILL_PENDING';
+const CONFIRM_BILL_SUCCESS = 'user/CONFIRM_BILL_SUCCESS';
+const CONFIRM_BILL_FAILURE = 'user/CONFIRM_BILL_FAILURE';
 
 const BUY_PRODUCT = 'user/BUY_PRODUCT';
 const BUY_PRODUCT_PENDING = 'user/BUY_PRODUCT_PENDING';
@@ -35,14 +45,29 @@ const buy = (buyData) => {
 // GET Bill history
 const getBillHistory = () => {
   console.log('get bill history');
-
   return axios.get('https://baconipsum.com/api/?type=meat-and-filler', { body: {} });
-  // return axios.get('https://baconipsum.com/api/?type=meat-and-filler', { headers: { token: localStorage.getItem('token') } });
+  // return axios.get('/api/history', { headers: { token: localStorage.getItem('token') } });
+};
+
+// Confirm bill
+const confirmBill = (id) => {
+  console.log('confirm bill');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  // return axios.get(`/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
+};
+
+// Confirm bill
+const cancelBill = (id) => {
+  console.log('cancel bill');
+  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  // return axios.get(`/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
 };
 
 export const UserActions = {
   contain: createAction(CONTAIN, value => value), // Contain user informaion
   getBillHistory: createAction(GET_BILL_HISTORY, getBillHistory),
+  confirmBill: createAction(CONFIRM_BILL, confirmBill),
+  cancelBill: createAction(CANCEL_BILL, cancelBill),
   cleanData: createAction(CLEAN_DATA, value => value),
 
   add: createAction(ADD_STORE_PRODUCT, value => value), // add product
@@ -131,6 +156,7 @@ const user = handleActions(
             before: 28000,
             after: 9500,
           },
+          spend_id: '345',
           confirmed: false,
           class: 'USN 1-1',
           items: [
@@ -155,6 +181,7 @@ const user = handleActions(
             before: 50000,
             after: 28000,
           },
+          spend_id: '2131',
           confirmed: true,
           class: 'USN 1-1',
           items: [
@@ -179,6 +206,7 @@ const user = handleActions(
             before: 0,
             after: 50000,
           },
+          charge_id: '123',
           admin_name: '김민구',
           admin_id: 1234,
           amount: 50000,
@@ -186,6 +214,12 @@ const user = handleActions(
       ];
     }),
     [GET_BILL_HISTORY_FAILURE]: state => state,
+    [CANCEL_BILL_PENDING]: state => state,
+    [CANCEL_BILL_SUCCESS]: state => state,
+    [CANCEL_BILL_FAILURE]: state => state,
+    [CONFIRM_BILL_PENDING]: state => state,
+    [CONFIRM_BILL_SUCCESS]: state => state,
+    [CONFIRM_BILL_FAILURE]: state => state,
   },
   initialState,
 );

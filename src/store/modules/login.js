@@ -23,6 +23,7 @@ export const loginAuto = () => {
   return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {
     body: { token: localStorage.getItem('token') },
   });
+  // axios.get('/verify/login', { headers: { token: localStorage.getItem('token') } });
 };
 // 로그인 요청
 // Just return token
@@ -38,6 +39,17 @@ export const loginRequest = (id, pw) => {
     },
     {},
   );
+
+  // return axios.post(
+  //   '/verify/login',
+  //   {
+  //     body: {
+  //       id,
+  //       password,
+  //     },
+  //   },
+  //   {},
+  // );
 };
 
 export const LoginActions = {

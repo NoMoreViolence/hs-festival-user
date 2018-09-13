@@ -17,12 +17,12 @@ const REGISTER_FAILURE = 'register/REGISTER_FAILURE';
 export const doubleCheckRequest = (id) => {
   console.log('doubleCheck');
   return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
-  // return axios.get(`/api/signup/check/${id}`);
+  // return axios.get(`/verify/signup/check/${id}`);
 };
 export const registerRequest = (id, password, randomKey) => {
   console.log('register');
   return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
-  // return axios.post('/api/signup', { body: { key: randomKey, id, password } });
+  // return axios.post('/verify/signup', { body: { key: randomKey, id, password } });
 };
 
 export const RegisterActions = {

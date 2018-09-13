@@ -2,107 +2,59 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 
+// 요청 리스트
 const GET_REQUEST_LIST = 'admin/GET_REQUEST_LIST';
 const GET_REQUEST_LIST_PENDING = 'admin/GET_REQUEST_LIST_PENDING';
 const GET_REQUEST_LIST_SUCCESS = 'admin/GET_REQUEST_LIST_SUCCESS';
 const GET_REQUEST_LIST_FAILURE = 'admin/GET_REQUEST_LIST_FAILURE';
 
+// 충전 요청
 const CHARGE_REQUEST = 'admin/CHARGE_REQUEST';
 const CHARGE_REQUEST_PENDING = 'admin/CHARGE_REQUEST_PENDING';
 const CHARGE_REQUEST_SUCCESS = 'admin/CHARGE_REQUEST_SUCCESS';
 const CHARGE_REQUEST_FAILURE = 'admin/CHARGE_REQUEST_FAILURE';
 
+// 확인 요청
 const CHARGE_SUBMIT = 'admin/CHARGE_SUBMIT';
 const CHARGE_SUBMIT_PENDING = 'admin/CHARGE_SUBMIT_PENDING';
 const CHARGE_SUBMIT_SUCCESS = 'admin/CHARGE_SUBMIT_SUCCESS';
 const CHARGE_SUBMIT_FAILURE = 'admin/CHARGE_SUBMIT_FAILURE';
 
+// 학생 검색
 const GET_REQUEST_STU = 'admin/GET_REQUEST_STU';
 const GET_REQUEST_STU_PENDING = 'admin/GET_REQUEST_STU_PENDING';
 const GET_REQUEST_STU_SUCCESS = 'admin/GET_REQUEST_STU_SUCCESS';
 const GET_REQUEST_STU_FAILURE = 'admin/GET_REQUEST_STU_FAILURE';
 
+// 상점 정보 요청
 const GET_REQUEST_STORE = 'admin/GET_REQUEST_STU';
 const GET_REQUEST_STORE_PENDING = 'admin/GET_REQUEST_PENDING';
 const GET_REQUEST_STORE_SUCCESS = 'admin/GET_REQUEST_STORE_SUCCESS';
 const GET_REQUEST_STORE_FAILURE = 'admin/GET_REQUEST_STORE_FAILURE';
 
-const LOGOUT = 'login/LOGOUT';
-
-// 자동 로그인
-// Return User Infomation
-export const loginAuto = () => {
-  console.log('login auto');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {
-    body: { token: localStorage.getItem('token') },
-  });
-};
-// 로그인 요청
-// Just return token
-export const loginRequest = (id, pw) => {
-  console.log('login');
-  return axios.get(
-    'https://baconipsum.com/api/?type=meat-and-filler',
-    {
-      body: {
-        id,
-        pw,
-      },
-    },
-    {},
-  );
+const requestList = () => {
+  console.log('request List');
+  return axios.get('/');
 };
 
-export const LoginActions = {
-  login: createAction(LOGIN, loginRequest),
-  loginAuto: createAction(LOGIN_AUTO, loginAuto),
-  logout: createAction(LOGOUT, value => value),
-  error: createAction(ERROR, value => value),
+export const AdminActions = {
+  getRequestList: createAction(GET_REQUEST_LIST, requestList),
 };
 
 const initialState = {
-  pending: false,
-  logined: false,
-  error: false,
+  requestList: [],
 };
 
-const login = handleActions(
+const admin = handleActions(
   {
-    [ERROR]: state => produce(state, (draft) => {
-      draft.logined = false;
+    [GET_REQUEST_LIST_PENDING]: state => state,
+    [GET_REQUEST_LIST_SUCCESS]: (state, action) => produce(state, (draft) => {
+      // draft.requestList = action.payload;
+      draft.requestList = [{ id: 1 }];
     }),
-    [LOGOUT]: state => produce(state, (draft) => {
-      draft.logined = false;
-    }),
-
-    [LOGIN_PENDING]: state => produce(state, (draft) => {
-      draft.pending = true;
-      draft.error = false;
-    }),
-    [LOGIN_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = false;
-      draft.logined = true;
-    }),
-    [LOGIN_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = true;
-    }),
-    [LOGIN_AUTO_PENDING]: state => produce(state, (draft) => {
-      draft.pending = true;
-      draft.error = false;
-    }),
-    [LOGIN_AUTO_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = false;
-      draft.logined = true;
-    }),
-    [LOGIN_AUTO_FAILURE]: (state, action) => produce(state, (draft) => {
-      draft.pending = false;
-      draft.error = true;
-    }),
+    [GET_REQUEST_LIST_FAILURE]: state => state,
   },
   initialState,
 );
 
-export default login;
+export default admin;

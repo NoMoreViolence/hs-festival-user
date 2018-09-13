@@ -8,6 +8,8 @@ class AdminMenuPage extends Component {
   static propTypes = {
     confirm: PropTypes.func.isRequired,
     charge: PropTypes.func.isRequired,
+    store: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
   };
 
   render() {
@@ -15,11 +17,19 @@ class AdminMenuPage extends Component {
       <div className="adminmenu-container">
         <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.confirm()}>
           <img src="/images/image/confirm.svg" alt="" />
-          <span>충전 승인</span>
+          <span>승인</span>
         </Button>
-        <Button type="button" outline color="primary" className="" onClick={() => this.props.charge()}>
+        <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.charge()}>
           <img src="/images/image/require.svg" alt="" />
-          <span>충전 신청</span>
+          <span>신청</span>
+        </Button>
+        <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.store()}>
+          <img src="/images/image/store.svg" alt="" />
+          <span>정보</span>
+        </Button>
+        <Button type="button" outline color="primary" className="" onClick={() => this.props.search()}>
+          <img src="/images/image/search.svg" alt="" />
+          <span>검색</span>
         </Button>
       </div>
     );
