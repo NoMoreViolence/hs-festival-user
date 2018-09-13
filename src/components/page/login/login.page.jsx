@@ -18,6 +18,7 @@ class LoginPage extends Component {
     contain: PropTypes.func.isRequired,
     dataInStore: PropTypes.func.isRequired,
     dataInTime: PropTypes.func.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
   };
 
   render() {
@@ -67,8 +68,10 @@ class LoginPage extends Component {
                     });
                     toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
                     localStorage.setItem('token', 'fucking token value');
+
                     this.props.dataInStore();
                     this.props.dataInTime();
+                    this.props.getBillHistory();
                     history.push('/menu');
                   })
                   .catch((err) => {

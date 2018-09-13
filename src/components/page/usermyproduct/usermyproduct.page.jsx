@@ -12,6 +12,9 @@ class UserMyProductPage extends Component {
     del: PropTypes.func.isRequired,
     money: PropTypes.number.isRequired,
     buy: PropTypes.func.isRequired,
+
+    getBillHistory: PropTypes.func.isRequired,
+    dataInStore: PropTypes.func.isRequired,
   };
 
   render() {
@@ -83,16 +86,15 @@ class UserMyProductPage extends Component {
             outline
             color="primary"
             onClick={() => {
-              if (
-                this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.item_price * current.count, 0)
-                && this.props.storeProduct.length !== 0
-              ) {
+              if (this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.item_price * current.count, 0) && this.props.storeProduct.length !== 0) {
                 toast('구매 요청 시작');
                 this.props
                   .buy(this.props.storeProduct)
                   .then((res) => {
                     console.log(res);
                     toast('구매가 완료 되었습니다 !', { type: 'success' });
+                    this.props.dataInStore();
+                    this.props.getBillHistory();
                   })
                   .catch((err) => {
                     console.log(err);

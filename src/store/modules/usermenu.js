@@ -2,10 +2,10 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 
-const DATAIN_TIME = 'DATAIN_TIME';
-const DATAIN_TIME_PENDING = 'DATAIN_TIME_PENDING';
-const DATAIN_TIME_SUCCESS = 'DATAIN_TIME_SUCCESS';
-const DATAIN_TIME_FAILURE = 'DATAIN_TIME_FAILURE';
+const DATAIN_TIME = 'usermenu/DATAIN_TIME';
+const DATAIN_TIME_PENDING = 'usermenu/DATAIN_TIME_PENDING';
+const DATAIN_TIME_SUCCESS = 'usermenu/DATAIN_TIME_SUCCESS';
+const DATAIN_TIME_FAILURE = 'usermenu/DATAIN_TIME_FAILURE';
 
 const DATAIN_STORE = 'usermenu/DATAIN_STORE';
 const DATAIN_STORE_PENDING = 'usermenu/DATAIN_STORE_PENDING';
@@ -39,9 +39,9 @@ const userMenu = handleActions(
     [DATAIN_TIME_PENDING]: state => state,
     [DATAIN_TIME_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.timeTable = [
-        { id: 1, time: '09:00 - 10:00', content: 'MR.탄 씨의 축사' },
-        { id: 2, time: '10:00 - 13:00', content: '먹거리 장터' },
-        { id: 3, time: '13:00 - 16:00', content: '공연이나 해라 이것들아' },
+        { order: 1, time: '09:00 - 10:00', content: 'MR.탄 씨의 축사' },
+        { order: 2, time: '10:00 - 13:00', content: '먹거리 장터' },
+        { order: 3, time: '13:00 - 16:00', content: '공연이나 해라 이것들아' },
       ];
     }),
     [DATAIN_TIME_FAILURE]: state => state,
@@ -50,8 +50,8 @@ const userMenu = handleActions(
       draft.stores = [
         {
           store_id: 1,
-          class: 'HACK 1-1',
           introduction: 'WHY DO FUCKBOIS',
+          class: 'HACK 1-1',
           items: [
             {
               item_id: 1,
@@ -78,8 +78,8 @@ const userMenu = handleActions(
         },
         {
           store_id: 2,
-          class: 'HACK 1-2',
           introduction: '잊지마',
+          class: 'HACK 1-2',
           items: [
             {
               item_id: 4,
@@ -106,8 +106,8 @@ const userMenu = handleActions(
         },
         {
           store_id: 3,
-          class: 'USN 1-1',
           introduction: '달리반 피카소',
+          class: 'USN 1-1',
           items: [
             {
               item_id: 7,
@@ -134,8 +134,8 @@ const userMenu = handleActions(
         },
         {
           store_id: 4,
-          class: 'USN 1-2',
           introduction: 'Journey',
+          class: 'USN 1-2',
           items: [
             {
               item_id: 10,

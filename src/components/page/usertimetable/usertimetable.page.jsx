@@ -6,7 +6,12 @@ import './usertimetable.page.scss';
 class UserTimeTablePage extends Component {
   static propTypes = {
     timeTable: PropTypes.array.isRequired,
+    dataInTime: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    this.props.dataInTime();
+  }
 
   render() {
     const returnTime = value => value.map((object, i) => (

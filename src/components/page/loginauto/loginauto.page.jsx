@@ -10,6 +10,7 @@ class LoginPage extends Component {
     contain: PropTypes.func.isRequired,
     dataInStore: PropTypes.func.isRequired,
     dataInTime: PropTypes.func.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -24,12 +25,12 @@ class LoginPage extends Component {
             id: 'H3120',
             _id: 123,
             money: 18000,
-            bill: [],
           });
           this.props.history.push('/menu');
-          // 이 두개의 Props는 오직 사용자를 위한 코드임, 관리자 메뉴를 따로 만들어야 함
+          // 이 세개의 Props는 오직 사용자를 위한 코드임, 관리자 메뉴를 따로 만들어야 함
           this.props.dataInStore();
           this.props.dataInTime();
+          this.props.getBillHistory();
           toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
         })
         .catch((err) => {

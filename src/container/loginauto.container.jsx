@@ -14,16 +14,12 @@ class LoginAutoContainer extends React.Component {
     contain: PropTypes.func.isRequired,
     dataInStore: PropTypes.func.isRequired,
     dataInTime: PropTypes.func.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
   };
 
   render() {
     return (
-      <LoginAuto
-        loginAuto={this.props.loginAuto}
-        contain={this.props.contain}
-        dataInStore={this.props.dataInStore}
-        dataInTime={this.props.dataInTime}
-      />
+      <LoginAuto loginAuto={this.props.loginAuto} contain={this.props.contain} dataInStore={this.props.dataInStore} dataInTime={this.props.dataInTime} getBillHistory={this.props.getBillHistory} />
     );
   }
 }
@@ -35,6 +31,7 @@ const mapDispatchToProps = dispatch => ({
   contain: bindActionCreators(UserActions.contain, dispatch),
   dataInStore: bindActionCreators(UserMenuActions.dataInStore, dispatch),
   dataInTime: bindActionCreators(UserMenuActions.dataInTime, dispatch),
+  getBillHistory: bindActionCreators(UserActions.getBillHistory, dispatch),
 });
 
 export default connect(

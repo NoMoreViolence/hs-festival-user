@@ -7,6 +7,7 @@ import './userbill.page.scss';
 class UserBillPage extends Component {
   static propTypes = {
     bill: PropTypes.array.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
   };
 
   state = {
@@ -14,7 +15,8 @@ class UserBillPage extends Component {
   };
 
   componentDidMount() {
-    const elements = this.props.bill.map(object => (object.chargeType ? false : !object.approved));
+    this.props.getBillHistory();
+    const elements = this.props.bill.map(object => (object._type === '충전' ? false : !object.confirmed));
     console.log(elements);
     this.setState({
       elementShowNone: elements,
@@ -23,7 +25,7 @@ class UserBillPage extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.bill !== this.props.bill) {
-      const elements = this.props.bill.map(object => (object.chargeType ? false : !object.approved));
+      const elements = this.props.bill.map(object => (object._type === '충전' ? false : !object.confirmed));
       console.log(elements);
       this.setState({
         elementShowNone: elements,
@@ -37,8 +39,8 @@ class UserBillPage extends Component {
     const bills = data => data.map((object, i) => (
       <div className="selected-container important" key={i}>
         <div className="bill-type">
-          <span className={`${object.chargeType ? 'red' : 'blue'}`}>{object.chargeType ? '충전' : '소비'}</span>
-          <span className="bill-changed">{`${object.before} → ${object.after}`}</span>
+          <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>{object._type === '충전' ? '충전' : '소비'}</span>
+          <span className="bill-changed">{`${object.moneyFlow.before} → ${object.moneyFlow.after}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
           <span
             onClick={() => {
               const changed = this.state.elementShowNone.map((source, j) => (j === i ? !source : source));
@@ -53,26 +55,30 @@ class UserBillPage extends Component {
         <div className="bill-more" style={{ display: this.state.elementShowNone[i] ? 'block' : 'none', padding: '1rem' }}>
           <div className="bill-changed">
             <div>
-              <span className={`${object.chargeType ? 'red' : 'blue'}`}>{object.chargeType ? '+' : '-'}</span>
-              <span className={`${object.chargeType ? 'red' : 'blue'}`}>{object.changed}</span>
+              <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>{object._type === '충전' ? '+' : '-'}</span>
+              <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>
+                {object._type === '충전'
+                  ? object.moneyFlow.after.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                  : (object.moneyFlow.before - object.moneyFlow.after).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
+              </span>
             </div>
             <div>
-              <span>{object.chargeType ? object.approver : object.class}</span>
+              <span>{object._type === '충전' ? object.admin_name : object.class}</span>
             </div>
           </div>
           <div className="bill-deepdown-logo">
             <span>거래내용: </span>
           </div>
           <div className="bill-deepdown-content">
-            {object.chargeType ? (
+            {object._type === '충전' ? (
               <div className="bill-deepdown-content-stuffs">
-                <span>{`${object.before} → ${object.after}`}</span>
+                <span>{`${object.moneyFlow.before.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} → ${object.moneyFlow.after.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}</span>
               </div>
             ) : (
-              object.what.map((stuff, base) => (
+              object.items.map((stuff, base) => (
                 <div className="bill-deepdown-content-stuffs" key={base}>
-                  <span>{`${stuff.name} X ${stuff.number}`}</span>
-                  <span>{stuff.price}</span>
+                  <span>{`${stuff.item_name} X ${stuff.item_count}`}</span>
+                  <span>{stuff.item_price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
                 </div>
               ))
             )}
@@ -81,17 +87,17 @@ class UserBillPage extends Component {
             <span>거래 시간</span>
           </div>
           <div className="bill-time-content">
-            <span>{object.time.toString()}</span>
+            <span>{object.updatedAt.toString()}</span>
           </div>
-          {!object.chargeType && (
+          {object._type === '소비' && (
           <div className="bill-button">
-            {!object.approved && (
+            {!object.confirmed && (
             <Button outline color="danger">
                     결제 취소
             </Button>
             )}
-            <Button outline color="primary" disabled={object.approved}>
-              {object.approved ? '결제 확인 됨' : '결제 확인'}
+            <Button outline color="primary" disabled={object.confirmed}>
+              {object.confirmed ? '결제 확인 됨' : '결제 확인'}
             </Button>
           </div>
           )}

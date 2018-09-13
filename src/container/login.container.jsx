@@ -17,6 +17,7 @@ class LoginContainer extends React.Component {
     contain: PropTypes.func.isRequired,
     dataInStore: PropTypes.func.isRequired,
     dataInTime: PropTypes.func.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
   };
 
   render() {
@@ -29,6 +30,7 @@ class LoginContainer extends React.Component {
         contain={this.props.contain}
         dataInStore={this.props.dataInStore}
         dataInTime={this.props.dataInTime}
+        getBillHistory={this.props.getBillHistory}
       />
     );
   }
@@ -44,6 +46,7 @@ const mapDispatchToProps = dispatch => ({
   login: bindActionCreators(LoginActions.login, dispatch),
   dataInStore: bindActionCreators(UserMenuActions.dataInStore, dispatch),
   dataInTime: bindActionCreators(UserMenuActions.dataInTime, dispatch),
+  getBillHistory: bindActionCreators(UserActions.getBillHistory, dispatch),
 });
 
 export default connect(

@@ -20,10 +20,14 @@ class MenuPage extends Component {
     _id: PropTypes.number.isRequired,
     money: PropTypes.number.isRequired,
     logout: PropTypes.func.isRequired,
+    cleanData: PropTypes.func.isRequired,
     bill: PropTypes.array.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
 
     timeTable: PropTypes.array.isRequired,
+    dataInTime: PropTypes.func.isRequired,
     stores: PropTypes.array.isRequired,
+    dataInStore: PropTypes.func.isRequired,
     storeProduct: PropTypes.array.isRequired,
 
     add: PropTypes.func.isRequired,
@@ -101,8 +105,11 @@ class MenuPage extends Component {
                     });
                   } else {
                     this.props.logout();
+                    this.props.cleanData();
                     localStorage.clear();
-                    toast(`${this.props.name}님! 로그아웃 처리 되었습니다 !`, { position: toast.POSITION.BOTTOM_CENTER });
+                    toast(`${this.props.name}님! 로그아웃 처리 되었습니다 !`, {
+                      position: toast.POSITION.BOTTOM_CENTER,
+                    });
                     this.props.history.push('/');
                   }
                 }}
@@ -132,10 +139,10 @@ class MenuPage extends Component {
         {/* User Menu */}
         {this.state.userTimeTable && (
           <div className="selected-container">
-            <UserTimeTablePage timeTable={this.props.timeTable} />
+            <UserTimeTablePage timeTable={this.props.timeTable} dataInTime={this.props.dataInTime} />
           </div>
         )}
-        {this.state.userBill && <UserBillPage bill={this.props.bill} elementNumber={this.props.bill.length} />}
+        {this.state.userBill && <UserBillPage bill={this.props.bill} elementNumber={this.props.bill.length} getBillHistory={this.props.getBillHistory} />}
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">
@@ -146,10 +153,12 @@ class MenuPage extends Component {
                 del={this.props.del}
                 buy={this.props.buy}
                 money={this.props.money}
+                getBillHistory={this.props.getBillHistory}
+                dataInStore={this.props.dataInStore}
               />
             </div>
             <div className="selected-container">
-              <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} />
+              <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} dataInStore={this.props.dataInStore} />
             </div>
           </React.Fragment>
         )}

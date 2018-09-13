@@ -122,7 +122,13 @@ class UserStorePage extends Component {
     stores: PropTypes.array.isRequired,
     storeProduct: PropTypes.array.isRequired,
     add: PropTypes.func.isRequired,
+
+    dataInStore: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    this.props.dataInStore();
+  }
 
   render() {
     const showStore = data => data.map((object, i) => (

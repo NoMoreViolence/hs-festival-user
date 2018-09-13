@@ -7,6 +7,7 @@ import { UserActions } from '../store/modules/user';
 import { LoginActions } from '../store/modules/login';
 
 import Menu from '../components/page/menu/menu.page';
+import { UserMenuActions } from '../store/modules/usermenu';
 
 class MenuContainer extends React.Component {
   static propTypes = {
@@ -17,10 +18,14 @@ class MenuContainer extends React.Component {
     _id: PropTypes.number.isRequired,
     money: PropTypes.number.isRequired,
     logout: PropTypes.func.isRequired,
+    cleanData: PropTypes.func.isRequired,
     bill: PropTypes.array.isRequired,
+    getBillHistory: PropTypes.func.isRequired,
 
     timeTable: PropTypes.array.isRequired,
+    dataInTime: PropTypes.func.isRequired,
     stores: PropTypes.array.isRequired,
+    dataInStore: PropTypes.func.isRequired,
     storeProduct: PropTypes.array.isRequired,
 
     add: PropTypes.func.isRequired,
@@ -40,10 +45,14 @@ class MenuContainer extends React.Component {
         money={this.props.money}
         _id={this.props._id}
         bill={this.props.bill}
+        getBillHistory={this.props.getBillHistory}
         storeProduct={this.props.storeProduct}
         logout={this.props.logout}
+        cleanData={this.props.cleanData}
         timeTable={this.props.timeTable}
+        dataInTime={this.props.dataInTime}
         stores={this.props.stores}
+        dataInStore={this.props.dataInStore}
         add={this.props.add}
         up={this.props.up}
         down={this.props.down}
@@ -72,7 +81,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  getBillHistory: bindActionCreators(UserActions.getBillHistory, dispatch),
+  dataInStore: bindActionCreators(UserMenuActions.dataInStore, dispatch),
+  dataInTime: bindActionCreators(UserMenuActions.dataInTime, dispatch),
   logout: bindActionCreators(LoginActions.logout, dispatch),
+  cleanData: bindActionCreators(UserActions.cleanData, dispatch),
   add: bindActionCreators(UserActions.add, dispatch),
   up: bindActionCreators(UserActions.up, dispatch),
   down: bindActionCreators(UserActions.down, dispatch),
