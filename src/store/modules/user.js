@@ -99,7 +99,7 @@ const user = handleActions(
       draft.name = action.payload.name;
       draft.id = action.payload.id;
       draft._id = action.payload._id;
-      draft.money = 18000;
+      draft.money = action.payload.money;
       draft.storeProduct = [
         {
           item_name: '키드밀리',
@@ -120,10 +120,14 @@ const user = handleActions(
       draft.storeProduct = state.storeProduct.filter(value => value.item_name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value));
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value),
+      );
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value));
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value),
+      );
     }),
 
     [BUY_PRODUCT_PENDING]: (state, action) => produce(state, (draft) => {

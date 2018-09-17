@@ -19,19 +19,21 @@ class LoginPage extends Component {
       this.props
         .loginAuto()
         .then((res) => {
+          const { data } = res.action.payload.data;
           this.props.contain({
-            admin: true,
-            name: '추승원',
-            id: 'H3120',
-            _id: 123,
-            money: 18000,
+            admin: data.user.admin,
+            name: data.user.name,
+            id: data.user.class_id,
+            _id: data.user._id,
+            money: data.user.money,
+            bill: [],
           });
-          this.props.history.push('/menu');
+          toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
           // 이 세개의 Props는 오직 사용자를 위한 코드임, 관리자 메뉴를 따로 만들어야 함
           this.props.dataInStore();
           this.props.dataInTime();
           this.props.getBillHistory();
-          toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+          this.props.history.push('/menu');
         })
         .catch((err) => {
           localStorage.clear();

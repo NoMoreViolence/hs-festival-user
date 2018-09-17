@@ -58,16 +58,17 @@ class LoginPage extends Component {
                 toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
                 login(id, pw)
                   .then((res) => {
+                    const { data } = res.action.payload.data;
                     contain({
-                      admin: false,
-                      name: '추승원',
-                      id: 'H3120',
-                      _id: 123,
-                      money: 18000,
+                      admin: data.user.admin,
+                      name: data.user.name,
+                      id: data.user.class_id,
+                      _id: data.user._id,
+                      money: data.user.money,
                       bill: [],
                     });
+                    localStorage.setItem('token', data.token);
                     toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
-                    localStorage.setItem('token', 'fucking token value');
 
                     this.props.dataInStore();
                     this.props.dataInTime();

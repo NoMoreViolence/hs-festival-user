@@ -14,14 +14,14 @@ const DATAIN_STORE_FAILURE = 'usermenu/DATAIN_STORE_FAILURE';
 
 const bringUserStore = () => {
   console.log('Request user store');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
-  // return axios.get('/api/store', { headers: { token: localStorage.getItem('token') } });
+  // return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
+  return axios.get('http://52.78.136.185:3000/api/store', { headers: { token: localStorage.getItem('token') } });
 };
 
 const bringUserTimeTable = () => {
   console.log('Request time table');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
-  // return axios.get('/api/timetable', { headers: { token: localStorage.getItem('token') } });
+  // return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
+  return axios.get('http://52.78.136.185:3000/api/timetable', { headers: { token: localStorage.getItem('token') } });
 };
 
 export const UserMenuActions = {
@@ -39,11 +39,7 @@ const userMenu = handleActions(
     [DATAIN_TIME_PENDING]: state => state,
     [DATAIN_TIME_SUCCESS]: (state, action) => produce(state, (draft) => {
       // draft.timeTable = action.payload;
-      draft.timeTable = [
-        { order: 1, time: '09:00 - 10:00', content: 'MR.탄 씨의 축사' },
-        { order: 2, time: '10:00 - 13:00', content: '먹거리 장터' },
-        { order: 3, time: '13:00 - 16:00', content: '공연이나 해라 이것들아' },
-      ];
+      draft.timeTable = action.payload.data.table;
     }),
     [DATAIN_TIME_FAILURE]: state => state,
     [DATAIN_STORE_PENDING]: state => state,
