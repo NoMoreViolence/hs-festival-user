@@ -23,20 +23,20 @@ class UserMyProductPage extends Component {
         <td className="first-number">
           <span
             onClick={() => {
-              this.props.del(object.item_name);
+              this.props.del(object.name);
             }}
           >
             <img src="/images/image/logout.svg" alt="" />
           </span>
         </td>
-        <td>{object.item_name}</td>
+        <td>{object.name}</td>
         <td>
           <span
             onClick={() => {
               if (object.count === 1) {
                 toast('이상한 짓 하지 마세요');
               } else {
-                this.props.down(object.item_name);
+                this.props.down(object.name);
               }
             }}
           >
@@ -45,13 +45,13 @@ class UserMyProductPage extends Component {
           <span style={{ paddingRight: '0.75rem', paddingLeft: '0.75rem' }}>{object.count}</span>
           <span
             onClick={() => {
-              this.props.up(object.item_name);
+              this.props.up(object.name);
             }}
           >
             <img src="/images/image/up.svg" alt="" />
           </span>
         </td>
-        <td>{(object.item_price * object.count).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
+        <td>{(object.price * object.count).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
       </tr>
     ));
     return (
@@ -76,7 +76,7 @@ class UserMyProductPage extends Component {
             <div className="total-pay-heading">총 금액: </div>
             <div className="total-pay">
               {this.props.storeProduct
-                .reduce((sum, current) => sum + current.item_price * current.count, 0)
+                .reduce((sum, current) => sum + current.price * current.count, 0)
                 .toString()
                 .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
             </div>
@@ -86,7 +86,10 @@ class UserMyProductPage extends Component {
             outline
             color="primary"
             onClick={() => {
-              if (this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.item_price * current.count, 0) && this.props.storeProduct.length !== 0) {
+              if (
+                this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.price * current.count, 0)
+                && this.props.storeProduct.length !== 0
+              ) {
                 toast('구매 요청 시작');
                 this.props
                   .buy(this.props.storeProduct)
@@ -101,7 +104,7 @@ class UserMyProductPage extends Component {
                     toast('구매 실패 입니다 !', { type: 'error' });
                   });
               } else {
-                this.props.money < this.props.storeProduct.reduce((sum, current) => sum + current.item_price * current.count, 0)
+                this.props.money < this.props.storeProduct.reduce((sum, current) => sum + current.price * current.count, 0)
                   ? toast('구매할 돈이 부족합니다 !', { type: 'error' })
                   : toast('구매할 상품을 선택해 주세요 !', { type: 'error' });
               }

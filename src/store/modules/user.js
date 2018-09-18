@@ -100,16 +100,6 @@ const user = handleActions(
       draft.id = action.payload.id;
       draft._id = action.payload._id;
       draft.money = action.payload.money;
-      draft.storeProduct = [
-        {
-          item_name: '키드밀리',
-          item_price: 300,
-          canbuy: true,
-          item_phrase: 'HOT',
-          class: 'HACK 1-1',
-          count: 1,
-        },
-      ];
     }),
 
     [ADD_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
@@ -117,16 +107,16 @@ const user = handleActions(
     }),
     [DEL_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
       // del data
-      draft.storeProduct = state.storeProduct.filter(value => value.item_name !== action.payload);
+      draft.storeProduct = state.storeProduct.filter(value => value.name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
       draft.storeProduct = state.storeProduct.map(
-        value => (value.item_name === action.payload ? { ...value, count: value.count + 1 } : value),
+        value => (value.name === action.payload ? { ...value, count: value.count + 1 } : value),
       );
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
       draft.storeProduct = state.storeProduct.map(
-        value => (value.item_name === action.payload ? { ...value, count: value.count - 1 } : value),
+        value => (value.name === action.payload ? { ...value, count: value.count - 1 } : value),
       );
     }),
 

@@ -151,14 +151,14 @@ class UserStorePage extends Component {
               key={j + 1}
               onClick={() => {
                 if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 5) {
-                  toast(`한번 더 ${value.item_name} 을/를 클릭하면 장바구니로 이동`, {});
+                  toast(`한번 더 ${value.name} 을/를 클릭하면 장바구니로 이동`, {});
                   this.setState({
                     [`the${i + 1}${j + 1}`]: new Date(),
                   });
                 } else {
-                  if (this.props.storeProduct.every(f => f.item_name !== value.item_name && f.class === object.class) === true) {
+                  if (this.props.storeProduct.every(f => f.name !== value.name && f.class === object.class) === true) {
                     this.props.add({ class: object.class, count: 1, ...value });
-                    toast(`${value.item_name} 상품이 장바구니에 추가 되었습니다 !`, {});
+                    toast(`${value.name} 상품이 장바구니에 추가 되었습니다 !`, {});
                     this.setState({
                       [`the${i + 1}${j + 1}`]: '',
                     });
@@ -168,9 +168,9 @@ class UserStorePage extends Component {
                 }
               }}
             >
-              <td>{value.item_name}</td>
+              <td>{value.name}</td>
               <td style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <span>{value.item_price}</span>
+                <span>{value.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
               </td>
             </tr>
           ))}
