@@ -92,7 +92,7 @@ class UserMyProductPage extends Component {
               ) {
                 toast('구매 요청 시작');
                 this.props
-                  .buy(this.props.storeProduct)
+                  .buy({ _id: this.props.storeProduct[0].store_id, items: this.props.storeProduct })
                   .then((res) => {
                     console.log(res);
                     toast('구매가 완료 되었습니다 !', { type: 'success' });

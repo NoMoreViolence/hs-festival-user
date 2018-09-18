@@ -34,12 +34,14 @@ const BUY_PRODUCT_FAILURE = 'user/BUY_PRODUCT_FAILURE';
 // Buy request
 const buy = (buyData) => {
   console.log('buy');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
 
-  // return axios.post('/api/store/buy', {
-  //   headers: { token: localStorage.getItem('token') },
-  //   body: { items: [{ item_id: '1', item_count: '5' }, { item_id: '2', item_count: '3' }]},
-  // });
+  return axios.post(
+    'http://52.78.136.185:3000/api/store/buy',
+    {
+      data: buyData,
+    },
+    { headers: { token: localStorage.getItem('token') } },
+  );
 };
 
 // GET Bill history
@@ -99,7 +101,8 @@ const user = handleActions(
       draft.name = action.payload.name;
       draft.id = action.payload.id;
       draft._id = action.payload._id;
-      draft.money = action.payload.money;
+      draft.money = 1500000;
+      // draft.money = action.payload.money;
     }),
 
     [ADD_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
