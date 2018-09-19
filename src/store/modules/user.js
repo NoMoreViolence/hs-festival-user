@@ -34,34 +34,29 @@ const BUY_PRODUCT_FAILURE = 'user/BUY_PRODUCT_FAILURE';
 // Buy request
 const buy = (buyData) => {
   console.log('buy');
-
-  return axios.post(
-    'http://52.78.136.185:3000/api/store/buy',
-    {
-      data: buyData,
-    },
-    { headers: { token: localStorage.getItem('token') } },
-  );
+  console.log(buyData);
+  console.log(localStorage.getItem('token'));
+  return axios.post('http://52.78.136.185:3000/api/store/buy', buyData, { headers: { token: localStorage.getItem('token'), 'Content-Type': 'application/json' } });
 };
 
 // GET Bill history
 const getBillHistory = () => {
   console.log('get bill history');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler', { body: {} });
+  return axios.get('http://52.78.136.185:3000/api/history', { headers: { token: localStorage.getItem('token') } });
   // return axios.get('/api/history', { headers: { token: localStorage.getItem('token') } });
 };
 
 // Confirm bill
 const confirmBill = (id) => {
   console.log('confirm bill');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  return axios.get(`http://52.78.136.185:3000/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
   // return axios.get(`/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
 };
 
 // Confirm bill
 const cancelBill = (id) => {
   console.log('cancel bill');
-  return axios.get('https://baconipsum.com/api/?type=meat-and-filler');
+  return axios.get(`http://52.78.136.185:3000/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
   // return axios.get(`/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
 };
 
@@ -73,8 +68,8 @@ export const UserActions = {
   cleanData: createAction(CLEAN_DATA, value => value),
 
   add: createAction(ADD_STORE_PRODUCT, value => value), // add product
-  up: createAction(UP_STORE_PRODUCT, value => value), // up product count
-  down: createAction(DOWN_STORE_PRODUCT, value => value), // down product count
+  up: createAction(UP_STORE_PRODUCT, value => value), // up product item_count
+  down: createAction(DOWN_STORE_PRODUCT, value => value), // down product item_count
   del: createAction(DEL_STORE_PRODUCT, value => value), // del product
   buy: createAction(BUY_PRODUCT, buy), // buy product
 };
@@ -101,7 +96,7 @@ const user = handleActions(
       draft.name = action.payload.name;
       draft.id = action.payload.id;
       draft._id = action.payload._id;
-      draft.money = 1500000;
+      draft.money = action.payload.money;
       // draft.money = action.payload.money;
     }),
 
@@ -113,14 +108,10 @@ const user = handleActions(
       draft.storeProduct = state.storeProduct.filter(value => value.name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.name === action.payload ? { ...value, count: value.count + 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count + 1 } : value));
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.name === action.payload ? { ...value, count: value.count - 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count - 1 } : value));
     }),
 
     [BUY_PRODUCT_PENDING]: (state, action) => produce(state, (draft) => {
@@ -133,7 +124,7 @@ const user = handleActions(
       draft.buySuccess = true;
       draft.buyFailure = false;
       draft.storeProduct = [];
-      // draft.money = action.payload.hello
+      draft.money = state.money - action.payload.data.data.items[0].reduce((i, c) => i + c.item_price, 0);
       // draft.myBill = [{}];
     }),
     [BUY_PRODUCT_FAILURE]: (state, action) => produce(state, (draft) => {
@@ -145,70 +136,7 @@ const user = handleActions(
     [GET_BILL_HISTORY_PENDING]: state => state,
     [GET_BILL_HISTORY_SUCCESS]: (state, action) => produce(state, (draft) => {
       // draft.bill = action.payload;
-      draft.bill = [
-        {
-          _type: '소비',
-          updatedAt: '2018 / 3 / 23',
-          moneyFlow: {
-            before: 28000,
-            after: 9500,
-          },
-          spend_id: '345',
-          confirmed: false,
-          class: 'USN 1-1',
-          items: [
-            {
-              item_id: 1,
-              item_name: '에스프레소',
-              item_price: 7200,
-              item_count: 2,
-            },
-            {
-              item_id: 1,
-              item_name: '아메리카노',
-              item_price: 4100,
-              item_count: 1,
-            },
-          ],
-        },
-        {
-          _type: '소비',
-          updatedAt: '2018 / 3 / 23',
-          moneyFlow: {
-            before: 50000,
-            after: 28000,
-          },
-          spend_id: '2131',
-          confirmed: true,
-          class: 'USN 1-1',
-          items: [
-            {
-              item_id: 123,
-              item_name: '갈비동',
-              item_price: 14000,
-              item_count: 2,
-            },
-            {
-              item_id: 34,
-              item_name: '라멘',
-              item_price: 8000,
-              item_count: 1,
-            },
-          ],
-        },
-        {
-          _type: '충전',
-          updatedAt: '2018 / 3 / 23',
-          moneyFlow: {
-            before: 0,
-            after: 50000,
-          },
-          charge_id: '123',
-          admin_name: '김민구',
-          admin_id: 1234,
-          amount: 50000,
-        },
-      ];
+      draft.bill = action.payload.data;
     }),
     [GET_BILL_HISTORY_FAILURE]: state => state,
     [CANCEL_BILL_PENDING]: state => state,

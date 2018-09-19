@@ -157,7 +157,7 @@ class UserStorePage extends Component {
                   });
                 } else {
                   if (this.props.storeProduct.every(f => f.name !== value.name && f.class === object.class) === true) {
-                    this.props.add({ class: object.class, count: 1, ...value });
+                    this.props.add({ class: object.class, item_count: 1, ...value });
                     toast(`${value.name} 상품이 장바구니에 추가 되었습니다 !`, {});
                     this.setState({
                       [`the${i + 1}${j + 1}`]: '',

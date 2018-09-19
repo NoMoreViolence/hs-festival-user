@@ -13,6 +13,8 @@ import './menu.page.scss';
 
 class MenuPage extends Component {
   static propTypes = {
+    loginAuto: PropTypes.func.isRequired,
+    contain: PropTypes.func.isRequired,
     // logined: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
@@ -23,6 +25,8 @@ class MenuPage extends Component {
     cleanData: PropTypes.func.isRequired,
     bill: PropTypes.array.isRequired,
     getBillHistory: PropTypes.func.isRequired,
+    confirmBill: PropTypes.func.isRequired,
+    cancelBill: PropTypes.func.isRequired,
 
     timeTable: PropTypes.array.isRequired,
     dataInTime: PropTypes.func.isRequired,
@@ -187,7 +191,17 @@ class MenuPage extends Component {
             <UserTimeTablePage timeTable={this.props.timeTable} dataInTime={this.props.dataInTime} />
           </div>
         )}
-        {this.state.userBill && <UserBillPage bill={this.props.bill} elementNumber={this.props.bill.length} getBillHistory={this.props.getBillHistory} />}
+        {this.state.userBill && (
+          <UserBillPage
+            bill={this.props.bill}
+            elementNumber={this.props.bill.length}
+            getBillHistory={this.props.getBillHistory}
+            confirmBill={this.props.confirmBill}
+            cancelBill={this.props.cancelBill}
+            loginAuto={this.props.loginAuto}
+            contain={this.props.contain}
+          />
+        )}
         {this.state.userStore && (
           <React.Fragment>
             <div className="selected-container">

@@ -11,6 +11,7 @@ import { UserMenuActions } from '../store/modules/usermenu';
 
 class MenuContainer extends React.Component {
   static propTypes = {
+    loginAuto: PropTypes.func.isRequired,
     logined: PropTypes.bool.isRequired,
     admin: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
@@ -21,6 +22,9 @@ class MenuContainer extends React.Component {
     cleanData: PropTypes.func.isRequired,
     bill: PropTypes.array.isRequired,
     getBillHistory: PropTypes.func.isRequired,
+    confirmBill: PropTypes.func.isRequired,
+    cancelBill: PropTypes.func.isRequired,
+    contain: PropTypes.func.isRequired,
 
     timeTable: PropTypes.array.isRequired,
     dataInTime: PropTypes.func.isRequired,
@@ -38,6 +42,8 @@ class MenuContainer extends React.Component {
   render() {
     return (
       <Menu
+        loginAuto={this.props.loginAuto}
+        contain={this.props.contain}
         logined={this.props.logined}
         admin={this.props.admin}
         name={this.props.name}
@@ -46,6 +52,8 @@ class MenuContainer extends React.Component {
         _id={this.props._id}
         bill={this.props.bill}
         getBillHistory={this.props.getBillHistory}
+        confirmBill={this.props.confirmBill}
+        cancelBill={this.props.cancelBill}
         storeProduct={this.props.storeProduct}
         logout={this.props.logout}
         cleanData={this.props.cleanData}
@@ -81,7 +89,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  loginAuto: bindActionCreators(LoginActions.loginAuto, dispatch),
+  contain: bindActionCreators(UserActions.contain, dispatch),
   getBillHistory: bindActionCreators(UserActions.getBillHistory, dispatch),
+  confirmBill: bindActionCreators(UserActions.confirmBill, dispatch),
+  cancelBill: bindActionCreators(UserActions.cancelBill, dispatch),
   dataInStore: bindActionCreators(UserMenuActions.dataInStore, dispatch),
   dataInTime: bindActionCreators(UserMenuActions.dataInTime, dispatch),
   logout: bindActionCreators(LoginActions.logout, dispatch),
