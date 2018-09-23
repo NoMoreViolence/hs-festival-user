@@ -2,6 +2,11 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 
+export const searchUser = () => {
+  console.log('searchUser');
+  return axios.get('/');
+};
+
 // 요청 리스트
 const GET_REQUEST_LIST = 'admin/GET_REQUEST_LIST';
 const GET_REQUEST_LIST_PENDING = 'admin/GET_REQUEST_LIST_PENDING';

@@ -15,13 +15,13 @@ const DATAIN_STORE_FAILURE = 'usermenu/DATAIN_STORE_FAILURE';
 const bringUserStore = () => {
   console.log('Request user store');
   // return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
-  return axios.get('http://52.78.136.185:3000/api/store', { headers: { token: localStorage.getItem('token') } });
+  return axios.get('/api/store', { headers: { token: localStorage.getItem('token') } });
 };
 
 const bringUserTimeTable = () => {
   console.log('Request time table');
   // return axios.get('https://baconipsum.com/api/?type=meat-and-filler', {});
-  return axios.get('http://52.78.136.185:3000/api/timetable', { headers: { token: localStorage.getItem('token') } });
+  return axios.get('/api/timetable', { headers: { token: localStorage.getItem('token') } });
 };
 
 export const UserMenuActions = {

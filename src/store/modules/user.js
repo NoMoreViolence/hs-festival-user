@@ -36,27 +36,29 @@ const buy = (buyData) => {
   console.log('buy');
   console.log(buyData);
   console.log(localStorage.getItem('token'));
-  return axios.post('http://52.78.136.185:3000/api/store/buy', buyData, { headers: { token: localStorage.getItem('token'), 'Content-Type': 'application/json' } });
+  return axios.post('/api/store/buy', buyData, {
+    headers: { token: localStorage.getItem('token'), 'Content-Type': 'application/json' },
+  });
 };
 
 // GET Bill history
 const getBillHistory = () => {
   console.log('get bill history');
-  return axios.get('http://52.78.136.185:3000/api/history', { headers: { token: localStorage.getItem('token') } });
+  return axios.get('/api/history', { headers: { token: localStorage.getItem('token') } });
   // return axios.get('/api/history', { headers: { token: localStorage.getItem('token') } });
 };
 
 // Confirm bill
 const confirmBill = (id) => {
   console.log('confirm bill');
-  return axios.get(`http://52.78.136.185:3000/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
+  return axios.get(`/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
   // return axios.get(`/api/history/${id}/use`, { headers: { token: localStorage.getItem('token') } });
 };
 
 // Confirm bill
 const cancelBill = (id) => {
   console.log('cancel bill');
-  return axios.get(`http://52.78.136.185:3000/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
+  return axios.get(`/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
   // return axios.get(`/api/history/${id}/cancel`, { headers: { token: localStorage.getItem('token') } });
 };
 
@@ -108,10 +110,14 @@ const user = handleActions(
       draft.storeProduct = state.storeProduct.filter(value => value.name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count + 1 } : value));
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.name === action.payload ? { ...value, item_count: value.item_count + 1 } : value),
+      );
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count - 1 } : value));
+      draft.storeProduct = state.storeProduct.map(
+        value => (value.name === action.payload ? { ...value, item_count: value.item_count - 1 } : value),
+      );
     }),
 
     [BUY_PRODUCT_PENDING]: (state, action) => produce(state, (draft) => {
