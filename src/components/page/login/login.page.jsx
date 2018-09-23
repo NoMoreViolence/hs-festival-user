@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Input, Button } from 'reactstrap';
 import './login.page.scss';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 import { withRouter } from 'react-router-dom';
 
 class LoginPage extends Component {
@@ -20,6 +21,8 @@ class LoginPage extends Component {
     dataInTime: PropTypes.func.isRequired,
     getBillHistory: PropTypes.func.isRequired,
   };
+
+  login = null;
 
   render() {
     const { id, pw } = this.state;
@@ -55,7 +58,7 @@ class LoginPage extends Component {
               if (pending === true) {
                 toast('로그인이 진행 중 입니다 !', { type: 'info', position: toast.POSITION.BOTTOM_CENTER });
               } else {
-                toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
+                this.login = toast('로그인 중...', { position: toast.POSITION.BOTTOM_CENTER, autoClose: 10000 });
                 login(id, pw)
                   .then((res) => {
                     const { data } = res.action.payload.data;
@@ -68,7 +71,12 @@ class LoginPage extends Component {
                       bill: [],
                     });
                     localStorage.setItem('token', data.token);
-                    toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+                    toast.update(this.login, {
+                      render: '로그인 성공 ! 환영합니다',
+                      type: toast.TYPE.SUCCESS,
+                      position: toast.POSITION.BOTTOM_CENTER,
+                      autoClose: 3000,
+                    });
 
                     this.props.dataInStore();
                     this.props.dataInTime();
@@ -76,7 +84,12 @@ class LoginPage extends Component {
                     history.push('/menu');
                   })
                   .catch((err) => {
-                    toast('로그인 에러 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                    toast.update(this.login, {
+                      render: '로그인 에러 !',
+                      type: toast.TYPE.ERROR,
+                      position: toast.POSITION.BOTTOM_CENTER,
+                      autoClose: 3000,
+                    });
                     console.log(err.response);
                   });
               }

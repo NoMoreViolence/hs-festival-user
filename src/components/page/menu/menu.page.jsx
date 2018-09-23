@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withRouter from 'react-router-dom/withRouter';
 import { Jumbotron, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 import AdminMenuPage from '../adminmenu/adminmenu.page';
 import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
@@ -53,6 +54,8 @@ class MenuPage extends Component {
     adminStore: false,
     adminSearch: false,
   };
+
+  logout = null;
 
   changeCharge = () => {
     this.setState({
@@ -150,8 +153,11 @@ class MenuPage extends Component {
                 className="logout-button"
                 onClick={() => {
                   // 처음 로그아웃 버튼을 누르거나, 로그아웃 버튼을 누르는 시간 간격이 너무 길면 다시 누르게끔 함
-                  if (this.state.checkDate === '' || (new Date() - this.state.checkDate) / 1000 > 5) {
-                    toast('정말 로그아웃 하시려면 한번 더 눌러주세요', { position: toast.POSITION.BOTTOM_CENTER });
+                  if (this.state.checkDate === '' || (new Date() - this.state.checkDate) / 1000 > 3) {
+                    this.logout = toast('정말 로그아웃 하시려면 한번 더 눌러주세요', {
+                      position: toast.POSITION.BOTTOM_CENTER,
+                      autoClose: 3000,
+                    });
                     this.setState({
                       checkDate: new Date(),
                     });
@@ -159,8 +165,14 @@ class MenuPage extends Component {
                     this.props.logout();
                     this.props.cleanData();
                     localStorage.clear();
-                    toast(`${this.props.name}님! 로그아웃 처리 되었습니다 !`, {
+                    toast.update(this.logout, {
+                      render: `${this.props.name}님! 로그아웃 처리 되었습니다 !`,
                       position: toast.POSITION.BOTTOM_CENTER,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 0.6s',
+                      }),
+                      autoClose: 3000,
                     });
                     this.props.history.push('/');
                   }
@@ -177,7 +189,14 @@ class MenuPage extends Component {
           </Container>
           {this.props.name === '' ? null : (
             <div className="menu-buttons">
-              {this.props.admin === true && <AdminMenuPage confirm={this.changeConfirm} charge={this.changeCharge} store={this.changeStoreAdmin} search={this.changeSearch} />}
+              {this.props.admin === true && (
+                <AdminMenuPage
+                  confirm={this.changeConfirm}
+                  charge={this.changeCharge}
+                  store={this.changeStoreAdmin}
+                  search={this.changeSearch}
+                />
+              )}
               <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
             </div>
           )}
@@ -217,7 +236,12 @@ class MenuPage extends Component {
               />
             </div>
             <div className="selected-container">
-              <UserStorePage stores={this.props.stores} storeProduct={this.props.storeProduct} add={this.props.add} dataInStore={this.props.dataInStore} />
+              <UserStorePage
+                stores={this.props.stores}
+                storeProduct={this.props.storeProduct}
+                add={this.props.add}
+                dataInStore={this.props.dataInStore}
+              />
             </div>
           </React.Fragment>
         )}

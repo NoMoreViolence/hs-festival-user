@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 
 class LoginPage extends Component {
   static propTypes = {
@@ -13,9 +14,11 @@ class LoginPage extends Component {
     getBillHistory: PropTypes.func.isRequired,
   };
 
+  autologin = null;
+
   componentDidMount() {
     if (localStorage.getItem('token')) {
-      toast('자동 로그인 중...', { position: toast.POSITION.BOTTOM_CENTER });
+      this.autologin = toast('자동 로그인 중...', { position: toast.POSITION.BOTTOM_CENTER, autoClose: 10000 });
       this.props
         .loginAuto()
         .then((res) => {
@@ -28,7 +31,16 @@ class LoginPage extends Component {
             money: data.user.money,
             bill: [],
           });
-          toast('로그인 성공 ! 환영합니다', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+          toast.update(this.autologin, {
+            render: '로그인 성공 ! 환영합니다',
+            type: toast.TYPE.SUCCESS,
+            position: toast.POSITION.BOTTOM_CENTER,
+            className: css({
+              transform: 'rotateY(360deg)',
+              transition: 'transform 0.6s',
+            }),
+            autoClose: 3000,
+          });
           // 이 세개의 Props는 오직 사용자를 위한 코드임, 관리자 메뉴를 따로 만들어야 함
           this.props.dataInStore();
           this.props.dataInTime();
@@ -37,7 +49,16 @@ class LoginPage extends Component {
         })
         .catch((err) => {
           localStorage.clear();
-          toast('로그인 에러 발생 ! 재 로그인해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+          toast.update(this.autologin, {
+            render: '로그인 실패 ! 재 로그인해 주세요 !',
+            type: toast.TYPE.ERROR,
+            position: toast.POSITION.BOTTOM_CENTER,
+            className: css({
+              transform: 'rotateY(360deg)',
+              transition: 'transform 0.6s',
+            }),
+            autoClose: 3000,
+          });
           this.props.history.push('/');
         });
     } else {

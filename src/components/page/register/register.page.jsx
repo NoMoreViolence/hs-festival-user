@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 import './register.page.scss';
 
 class RegisterPage extends Component {
@@ -20,6 +21,10 @@ class RegisterPage extends Component {
     registerPending: PropTypes.bool.isRequired,
     register: PropTypes.func.isRequired,
   };
+
+  idCheck = null;
+
+  register = null;
 
   render() {
     const {
@@ -62,18 +67,39 @@ class RegisterPage extends Component {
             color="primary"
             onClick={() => {
               if (doubleCheckPending !== true) {
-                toast('ID 중복확인 시작...', { position: toast.POSITION.BOTTOM_CENTER });
+                this.idCheck = toast('ID 중복확인 시작...', { position: toast.POSITION.BOTTOM_CENTER, autoClose: 10000 });
                 doubleCheckId(id)
                   .then((res) => {
                     this.setState({ checked: true });
-                    toast('ID 중복확인 성공 !', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+                    toast.update(this.idCheck, {
+                      render: 'ID 중복확인 성공 !',
+                      type: toast.TYPE.SUCCESS,
+                      position: toast.POSITION.BOTTOM_CENTER,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 0.6s',
+                      }),
+                      autoClose: 3000,
+                    });
                   })
                   .catch((err) => {
                     this.setState({ checked: false, id: '' });
-                    toast('ID 중복확인 실패 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                    toast.update(this.idCheck, {
+                      render: 'ID 중복확인 실패 !',
+                      type: toast.TYPE.ERROR,
+                      position: toast.POSITION.BOTTOM_CENTER,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 0.6s',
+                      }),
+                      autoClose: 3000,
+                    });
                   });
               } else {
-                toast('ID 중복확인이 진행 중 입니다. 잠시만 기다려 주세요 !', { position: toast.POSITION.BOTTOM_CENTER });
+                toast('ID 중복확인이 진행 중 입니다. 잠시만 기다려 주세요 !', {
+                  position: toast.POSITION.BOTTOM_CENTER,
+                  autoClose: 1000,
+                });
               }
             }}
           >
@@ -105,10 +131,19 @@ class RegisterPage extends Component {
             onClick={() => {
               if (registerPending === false) {
                 if (pw === rePw && doubleCheckSuccess === true) {
-                  toast('회원가입 시작...', { position: toast.POSITION.BOTTOM_CENTER });
+                  this.register = toast('회원가입 시작...', { position: toast.POSITION.BOTTOM_CENTER, autoClose: 10000 });
                   register(id, pw, random)
                     .then((res) => {
-                      toast('회원가입 성공 ! 로그인 해 주세요', { type: 'success', position: toast.POSITION.BOTTOM_CENTER });
+                      toast.update(this.register, {
+                        render: '회원가입 성공 ! 로그인 해 주세요',
+                        type: toast.TYPE.SUCCESS,
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: css({
+                          transform: 'rotateY(360deg)',
+                          transition: 'transform 0.6s',
+                        }),
+                        autoClose: 3000,
+                      });
                       this.setState({
                         id: '',
                         pw: '',
@@ -117,17 +152,32 @@ class RegisterPage extends Component {
                       });
                     })
                     .catch(() => {
-                      toast('회원가입 실패...', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
-                      toast('ERR message', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                      toast.update(this.register, {
+                        render: '회원가입 실패 !',
+                        type: toast.TYPE.ERROR,
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        className: css({
+                          transform: 'rotateY(360deg)',
+                          transition: 'transform 0.6s',
+                        }),
+                        autoClose: 3000,
+                      });
                     });
                 }
                 if (doubleCheckSuccess === false) {
-                  toast('ID 중복확인을 해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                  toast('ID 중복확인을 해 주세요', { type: 'error', position: toast.POSITION.BOTTOM_CENTER, autoClose: 1000 });
                 } else if (pw !== rePw) {
-                  toast('비밀번호가 일치하지 않습니다 !', { type: 'error', position: toast.POSITION.BOTTOM_CENTER });
+                  toast('비밀번호가 일치하지 않습니다 !', {
+                    type: 'error',
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    autoClose: 1000,
+                  });
                 }
               } else {
-                toast('회원가입이 진행 중입니다. 잠시만 기다려 주세요 !', { position: toast.POSITION.BOTTOM_CENTER });
+                toast('회원가입이 진행 중입니다. 잠시만 기다려 주세요 !', {
+                  position: toast.POSITION.BOTTOM_CENTER,
+                  autoClose: 1000,
+                });
               }
             }}
           >

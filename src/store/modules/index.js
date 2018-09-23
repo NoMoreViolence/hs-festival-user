@@ -6,5 +6,8 @@ import user from './user';
 import userMenu from './usermenu';
 
 export default combineReducers({
-  login, register, user, userMenu,
+  login,
+  register,
+  user,
+  userMenu,
 });

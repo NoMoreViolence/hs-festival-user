@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './usermyproduct.page.scss';
 import { Table, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 
 class UserMyProductPage extends Component {
   static propTypes = {
@@ -16,6 +17,8 @@ class UserMyProductPage extends Component {
     getBillHistory: PropTypes.func.isRequired,
     dataInStore: PropTypes.func.isRequired,
   };
+
+  buyThing = null;
 
   render() {
     const showProduct = data => data.map((object, i) => (
@@ -34,7 +37,11 @@ class UserMyProductPage extends Component {
           <span
             onClick={() => {
               if (object.item_count === 1) {
-                toast('이상한 짓 하지 마세요');
+                toast('상품 개수는 0개가 될 수 없습니다 !', {
+                  type: toast.TYPE.ERROR,
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 1000,
+                });
               } else {
                 this.props.down(object.name);
               }
@@ -86,24 +93,49 @@ class UserMyProductPage extends Component {
             outline
             color="primary"
             onClick={() => {
-              if (this.props.money > this.props.storeProduct.reduce((sum, current) => sum + current.price * current.item_count, 0) && this.props.storeProduct.length !== 0) {
-                toast('구매 요청 시작');
+              if (
+                this.props.money
+                  >= this.props.storeProduct.reduce((sum, current) => sum + current.price * current.item_count, 0)
+                && this.props.storeProduct.length !== 0
+              ) {
+                this.buyThing = toast('구매 요청 시작', {
+                  type: toast.TYPE.DEFAULT,
+                  position: toast.POSITION.TOP_LEFT,
+                  autoClose: 10000,
+                });
                 this.props
                   .buy({ store_id: this.props.storeProduct[0].store_id, items: this.props.storeProduct })
                   .then((res) => {
-                    console.log(res);
-                    toast('구매가 완료 되었습니다 !', { type: 'success' });
+                    toast.update(this.buyThing, {
+                      render: '구매 완료 !',
+                      type: toast.TYPE.SUCCESS,
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 0.6s',
+                      }),
+                      autoClose: 3000,
+                    });
                     this.props.dataInStore();
                     this.props.getBillHistory();
                   })
                   .catch((err) => {
                     console.log(err);
-                    toast('구매 실패 입니다 !', { type: 'error' });
+                    toast.update(this.buyThing, {
+                      render: '구매실패 !',
+                      type: toast.TYPE.ERROR,
+                      position: toast.POSITION.TOP_CENTER,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 0.6s',
+                      }),
+                      autoClose: 3000,
+                    });
                   });
               } else {
                 this.props.money < this.props.storeProduct.reduce((sum, current) => sum + current.price * current.item_count, 0)
-                  ? toast('구매할 돈이 부족합니다 !', { type: 'error' })
-                  : toast('구매할 상품을 선택해 주세요 !', { type: 'error' });
+                  ? toast('구매할 돈이 부족합니다 !', { type: 'error', autoClose: 1000 })
+                  : toast('구매할 상품을 선택해 주세요 !', { type: 'error', autoClose: 1000 });
               }
             }}
           >

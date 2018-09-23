@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
+import { css } from 'glamor';
 
 import InformationTemplate from './template/information/information.template';
 import LoginAutoTemplate from './template/loginauto/loginauto.template';
@@ -16,7 +17,11 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    toast('한세의 민족에 오신것을 환영합니다 !', { position: toast.POSITION.BOTTOM_CENTER });
+    toast('한세의 민족에 오신것을 환영합니다 !', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      className: css({}),
+      autoClose: 3000,
+    });
   }
 
   toggle = () => {

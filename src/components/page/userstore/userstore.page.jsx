@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button } from 'reactstrap';
+import { Table } from 'reactstrap';
 import './userstore.page.scss';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 
 class UserStorePage extends Component {
   state = {
@@ -126,6 +127,8 @@ class UserStorePage extends Component {
     dataInStore: PropTypes.func.isRequired,
   };
 
+  doubleClick = null;
+
   componentDidMount() {
     this.props.dataInStore();
   }
@@ -150,20 +153,54 @@ class UserStorePage extends Component {
               style={{ background: 'rgb(222, 226, 230)' }}
               key={j + 1}
               onClick={() => {
-                if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 5) {
-                  toast(`한번 더 ${value.name} 을/를 클릭하면 장바구니로 이동`, {});
+                if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 3) {
+                  this.doubleClick = toast(`한번 더 ${value.name} 을/를 클릭하면 장바구니로 이동`, {
+                    position: toast.POSITION.TOP_LEFT,
+                    autoClose: 3000,
+                  });
                   this.setState({
                     [`the${i + 1}${j + 1}`]: new Date(),
                   });
                 } else {
                   if (this.props.storeProduct.every(f => f.name !== value.name && f.class === object.class) === true) {
                     this.props.add({ class: object.class, item_count: 1, ...value });
-                    toast(`${value.name} 상품이 장바구니에 추가 되었습니다 !`, {});
+                    toast.update(this.doubleClick, {
+                      render: `${value.name} 상품이 장바구니에 추가 되었습니다 !`,
+                      type: toast.TYPE.SUCCESS,
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        transform: 'rotateY(360deg)',
+                        transition: 'transform 1s',
+                      }),
+                      autoClose: 3000,
+                    });
                     this.setState({
                       [`the${i + 1}${j + 1}`]: '',
                     });
                   } else {
-                    toast('같은 클래스의 상품을 선택해 주세요');
+                    if (this.props.storeProduct.some(f => f.name === value.name && object.class === f.class)) {
+                      toast.update(this.doubleClick, {
+                        render: '이미 장바구니에 들어있는 상품입니다 !',
+                        type: toast.TYPE.ERROR,
+                        position: toast.POSITION.TOP_CENTER,
+                        className: css({
+                          transform: 'rotateY(360deg)',
+                          transition: 'transform 1s',
+                        }),
+                        autoClose: 3000,
+                      });
+                    } else {
+                      toast.update(this.doubleClick, {
+                        render: '같은 클래스의 상품을 선택해 주세요 !',
+                        type: toast.TYPE.ERROR,
+                        position: toast.POSITION.TOP_CENTER,
+                        className: css({
+                          transform: 'rotateY(360deg)',
+                          transition: 'transform 0.6s',
+                        }),
+                        autoClose: 3000,
+                      });
+                    }
                   }
                 }
               }}

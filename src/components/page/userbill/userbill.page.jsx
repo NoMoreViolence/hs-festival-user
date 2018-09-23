@@ -114,7 +114,7 @@ class UserBillPage extends Component {
                     money: hello.data.user.money,
                   });
                 });
-                toast('결제 취소 확인되었습니다 !');
+                toast('결제 취소 확인되었습니다 !', { type: toast.TYPE.SUCCESS, position: toast.POSITION.TOP_RIGHT, autoClose: 3000 });
               })}
             >
                     결제 취소
@@ -137,7 +137,7 @@ class UserBillPage extends Component {
                   });
                 });
                 this.props.loginAuto();
-                toast('결제 확인 완료되었습니다 !');
+                toast('결제 최종 승인 완료되었습니다 !', { type: toast.TYPE.SUCCESS, position: toast.POSITION.TOP_RIGHT, autoClose: 3000 });
               })}
             >
               {object.confirmed ? '결제 확인 됨' : '결제 확인'}
