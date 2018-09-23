@@ -191,7 +191,7 @@ class UserStorePage extends Component {
                       });
                     } else {
                       toast.update(this.doubleClick, {
-                        render: '같은 클래스의 상품을 선택해 주세요 !',
+                        render: `${this.props.storeProduct[0].class} 클래스의 상품을 선택해 주세요 !`,
                         type: toast.TYPE.ERROR,
                         position: toast.POSITION.TOP_CENTER,
                         className: css({

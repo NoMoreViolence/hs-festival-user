@@ -63,7 +63,7 @@ class UserBillPage extends Component {
               <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>{object._type === '충전' ? '+' : '-'}</span>
               <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>
                 {object._type === '충전'
-                  ? object.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+                  ? object.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                   : (object.moneyBefore - object.moneyAfter).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
               </span>
             </div>

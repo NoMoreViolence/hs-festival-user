@@ -68,13 +68,15 @@ class UserMyProductPage extends Component {
           <h1 className="shopping-class-only">{this.props.storeProduct.length !== 0 && this.props.storeProduct[0].class}</h1>
         </div>
         <Table responsive hover className="timetable-container">
-          <tbody>
+          <thead>
             <tr className="shopping-product-tr" style={{ fontWeight: 'bold' }}>
-              <td className="first-number" />
-              <td>물건</td>
-              <td>개수</td>
-              <td>가격</td>
+              <th className="first-number" />
+              <th>물건</th>
+              <th>개수</th>
+              <th>가격</th>
             </tr>
+          </thead>
+          <tbody>
             {showProduct(this.props.storeProduct)}
           </tbody>
         </Table>
