@@ -94,7 +94,12 @@ class UserBillPage extends Component {
             <span>거래 시간</span>
           </div>
           <div className="bill-time-content">
-            <span>{object.updatedAt.toString()}</span>
+            <span>
+              {`${new Date(object.updatedAt.toString()).getMonth()}월 
+                ${new Date(object.updatedAt.toString()).getDate()}일 
+                ${new Date(object.updatedAt.toString()).getHours()}시 
+                ${new Date(object.updatedAt.toString()).getMinutes()}분`}
+            </span>
           </div>
           {object._type === '소비' && (
           <div className="bill-button">
