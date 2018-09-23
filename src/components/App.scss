@@ -1,3 +1,12 @@
 .app-container {
+  width: 100%;
   background-color: #69a9ff;
+  display: flex;
+  justify-content: center;
+
+  .app-real-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: transparent;
+  }
 }

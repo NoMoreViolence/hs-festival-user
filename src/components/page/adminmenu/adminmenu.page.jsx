@@ -6,8 +6,7 @@ import './adminmenu.page.scss';
 
 class AdminMenuPage extends Component {
   static propTypes = {
-    confirm: PropTypes.func.isRequired,
-    charge: PropTypes.func.isRequired,
+    cash: PropTypes.func.isRequired,
     store: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
   };
@@ -15,21 +14,17 @@ class AdminMenuPage extends Component {
   render() {
     return (
       <div className="adminmenu-container">
-        <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.confirm()}>
-          <img src="/images/image/confirm.svg" alt="" />
-          <span>승인</span>
-        </Button>
-        <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.charge()}>
-          <img src="/images/image/require.svg" alt="" />
-          <span>신청</span>
+        <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.cash()}>
+          <img src="/images/image/money.svg" alt="" />
+          <span>캐시충전</span>
         </Button>
         <Button type="button" outline color="primary" className="border-button" onClick={() => this.props.store()}>
-          <img src="/images/image/store.svg" alt="" />
-          <span>정보</span>
+          <img src="/images/image/information.svg" alt="" />
+          <span>상점정보</span>
         </Button>
         <Button type="button" outline color="primary" className="" onClick={() => this.props.search()}>
           <img src="/images/image/search.svg" alt="" />
-          <span>검색</span>
+          <span>학생검색</span>
         </Button>
       </div>
     );

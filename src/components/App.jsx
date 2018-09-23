@@ -33,19 +33,21 @@ class App extends React.Component {
   render() {
     return (
       <div className="app-container">
-        <ToastContainer />
-        <LoginAutoTemplate />
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <React.Fragment>
-              <InformationTemplate />
-              <MainLoginCheckTemplate />
-            </React.Fragment>
-          )}
-        />
-        <Route exact path="/menu" component={MenuTemplate} />
+        <div className="app-real-container">
+          <ToastContainer />
+          <LoginAutoTemplate />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <React.Fragment>
+                <InformationTemplate />
+                <MainLoginCheckTemplate />
+              </React.Fragment>
+            )}
+          />
+          <Route exact path="/menu" component={MenuTemplate} />
+        </div>
       </div>
     );
   }

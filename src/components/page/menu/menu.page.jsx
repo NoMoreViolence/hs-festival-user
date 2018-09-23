@@ -49,30 +49,16 @@ class MenuPage extends Component {
     userTimeTable: false,
     userBill: false,
     userStore: false,
-    adminCharge: false,
-    adminConfirm: false,
+    adminCash: false,
     adminStore: false,
     adminSearch: false,
   };
 
   logout = null;
 
-  changeCharge = () => {
+  changeCash = () => {
     this.setState({
-      adminCharge: !this.state.adminCharge,
-      adminConfirm: false,
-      adminStore: false,
-      adminSearch: false,
-      userTimeTable: false,
-      userBill: false,
-      userStore: false,
-    });
-  };
-
-  changeConfirm = () => {
-    this.setState({
-      adminCharge: false,
-      adminConfirm: !this.state.adminConfirm,
+      adminCash: !this.state.adminCash,
       adminStore: false,
       adminSearch: false,
       userTimeTable: false,
@@ -83,8 +69,7 @@ class MenuPage extends Component {
 
   changeStoreAdmin = () => {
     this.setState({
-      adminConfirm: false,
-      adminCharge: false,
+      adminCash: false,
       adminStore: !this.state.adminStore,
       adminSearch: false,
       userTimeTable: false,
@@ -95,8 +80,7 @@ class MenuPage extends Component {
 
   changeSearch = () => {
     this.setState({
-      adminConfirm: false,
-      adminCharge: false,
+      adminCash: false,
       adminStore: false,
       adminSearch: !this.state.adminSearch,
       userTimeTable: false,
@@ -110,8 +94,7 @@ class MenuPage extends Component {
       userTimeTable: !this.state.userTimeTable,
       userBill: false,
       userStore: false,
-      adminCharge: false,
-      adminConfirm: false,
+      adminCash: false,
       adminStore: false,
       adminSearch: false,
     });
@@ -122,8 +105,7 @@ class MenuPage extends Component {
       userTimeTable: false,
       userBill: !this.state.userBill,
       userStore: false,
-      adminCharge: false,
-      adminConfirm: false,
+      adminCash: false,
       adminStore: false,
       adminSearch: false,
     });
@@ -134,8 +116,7 @@ class MenuPage extends Component {
       userTimeTable: false,
       userBill: false,
       userStore: !this.state.userStore,
-      adminCharge: false,
-      adminConfirm: false,
+      adminCash: false,
       adminStore: false,
       adminSearch: false,
     });
@@ -190,12 +171,7 @@ class MenuPage extends Component {
           {this.props.name === '' ? null : (
             <div className="menu-buttons">
               {this.props.admin === true && (
-                <AdminMenuPage
-                  confirm={this.changeConfirm}
-                  charge={this.changeCharge}
-                  store={this.changeStoreAdmin}
-                  search={this.changeSearch}
-                />
+                <AdminMenuPage cash={this.changeCash} store={this.changeStoreAdmin} search={this.changeSearch} />
               )}
               <UserMenuPage store={this.changeStore} bill={this.changeBill} timeTable={this.changeTimeTable} />
             </div>
