@@ -150,7 +150,7 @@ class UserStorePage extends Component {
         <React.Fragment>
           {object.items.map((value, j) => (
             <tr
-              style={{ background: 'rgb(222, 226, 230)' }}
+              style={{ background: 'rgb(238, 238, 238)', color: `${value.phrase === 'HOT' ? 'red' : value.phrase === '추천' ? '#69a9ff' : ''}` }}
               key={j + 1}
               onClick={() => {
                 if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 3) {

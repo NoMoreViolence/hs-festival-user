@@ -7,6 +7,7 @@ module.exports = {
   extends: 'airbnb',
   plugins: ['react', 'jsx-a11y', 'import'],
   rules: {
+    'no-nested-ternary': 0,
     'func-names': 0,
     'no-console': 0,
     'no-underscore-dangle': 0,
