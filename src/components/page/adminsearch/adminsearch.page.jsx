@@ -5,7 +5,6 @@ import {
   Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Button,
 } from 'reactstrap';
 import './adminsearch.page.scss';
-import btoa from 'btoa';
 import { toast } from 'react-toastify';
 
 class AdminSearchPage extends Component {
@@ -29,6 +28,13 @@ class AdminSearchPage extends Component {
   };
 
   search = null;
+
+  componentDidMount() {
+    const usersData = this.props.requestList.map(() => false);
+    this.setState({
+      users: usersData,
+    });
+  }
 
   changeUserSpendingShow = () => {
     const usersData = this.props.requestList.map(() => false);
@@ -97,7 +103,11 @@ class AdminSearchPage extends Component {
           </div>
           <div className="admin-search-right" style={{ flex: 1, paddingBottom: '0.5rem' }}>
             <div>
-              <span style={{ fontSize: '1.2rem', fontWeight: 400 }}>{`${object.sign === true ? `유저 ID: ${object.user_id}` : `랜덤 키 값: ${object.key}`}`}</span>
+              <div>
+                <span style={{ fontSize: '1.2rem', fontWeight: 400 }}>
+                  {`${object.sign === true ? `유저 ID: ${object.user_id}` : `랜덤 키 값: ${object.key}`}`}
+                </span>
+              </div>
               <Button
                 outline
                 color="primary"
@@ -106,28 +116,70 @@ class AdminSearchPage extends Component {
                   this.props.searchUserSpending(object._id);
                 }}
               >
-                거래내역 검색
+                소비내역 검색
               </Button>
             </div>
           </div>
         </div>
         {this.state.users[i] === true
           && (
-          <React.Fragment>
-            <div className="admin-search-result-spending-title">
-              <span style={{ fontSize: '2rem', fontWeight: 300 }}>거래 내역</span>
-            </div>
+          <div>
             {this.props.requestList[i].spendingData.map((spending, j) => (
-              <div key={j} className="admin-search-result-spending-data">
+              <div key={j} className="admin-search-result-spending-data" style={{ paddingBottom: '2.5rem' }}>
+                <div style={{ fontSize: '2rem' }}>
+                  <span>거래 내역</span>
+                </div>
                 <div>
-                  <span style={{ fontSize: '1.4rem', fontWeight: 300 }}>
+                  <span style={{ fontSize: '2rem' }}>{spending.confirmed ? '거래 완료됨' : '거래 대기 중'}</span>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 300, flex: 1 }}>
                     {`${spending.class}`}
+                  </span>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 300, flex: 1 }}>
+                    {spending.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
+                  </span>
+                </div>
+                <div>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 300 }}>
+                    {`${spending.moneyBefore.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} - 
+                    ${spending.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} = 
+                    ${spending.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+                  </span>
+                </div>
+                <div className="bill-deepdown-logo" style={{ paddingTop: '0.75rem' }}>
+                  <span style={{ fontSize: '1.2rem' }}>거래품목: </span>
+                </div>
+                <div className="bill-deepdown-content">
+                  {(
+                    spending.items.map(
+                      (stuff, base) => (spending.items.length !== base ? (
+                        <div className="" key={base} style={{ display: 'flex' }}>
+                          {console.log(stuff.price)}
+                          {console.log(stuff.count)}
+                          {console.log(stuff.price * stuff.count)}
+                          <span style={{ flex: 1, fontSize: '1.2rem' }}>{`${stuff.name} X ${stuff.count}`}</span>
+                          <span style={{ flex: 1, fontSize: '1.2rem' }}>{(stuff.price * stuff.count).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                        </div>
+                      ) : null),
+                    )
+                  )}
+                </div>
+                <div className="bill-time" style={{ paddingTop: '0.75rem' }}>
+                  <span style={{ fontSize: '1.2rem' }}>거래 시간</span>
+                </div>
+                <div className="bill-time-content">
+                  <span style={{ fontSize: '1.2rem' }}>
+                    {`${new Date(spending.updatedAt.toString()).getMonth()}월 
+                    ${new Date(spending.updatedAt.toString()).getDate()}일 
+                    ${new Date(spending.updatedAt.toString()).getHours()}시 
+                    ${new Date(spending.updatedAt.toString()).getMinutes()}분`}
                   </span>
                 </div>
               </div>
             ))}
-          </React.Fragment>
-          ) }
+          </div>
+          )}
       </div>
     ));
 
