@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { UserActions } from '../store/modules/user';
 import { LoginActions } from '../store/modules/login';
+import { UserMenuActions } from '../store/modules/usermenu';
+import { AdminActions } from '../store/modules/admin';
 
 import Menu from '../components/page/menu/menu.page';
-import { UserMenuActions } from '../store/modules/usermenu';
 
 class MenuContainer extends React.Component {
   static propTypes = {
@@ -37,6 +39,10 @@ class MenuContainer extends React.Component {
     down: PropTypes.func.isRequired,
     del: PropTypes.func.isRequired,
     buy: PropTypes.func.isRequired,
+
+    searchUser: PropTypes.func.isRequired,
+    searchUserSpending: PropTypes.func.isRequired,
+    requestList: PropTypes.array.isRequired,
   };
 
   render() {
@@ -66,13 +72,18 @@ class MenuContainer extends React.Component {
         down={this.props.down}
         del={this.props.del}
         buy={this.props.buy}
+        searchUser={this.props.searchUser}
+        searchUserSpending={this.props.searchUserSpending}
+        requestList={this.props.requestList}
       />
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const { user, login, userMenu } = state;
+  const {
+    user, login, userMenu, admin,
+  } = state;
 
   return {
     logined: login.logined,
@@ -85,10 +96,13 @@ const mapStateToProps = (state) => {
     stores: userMenu.stores,
     storeProduct: user.storeProduct,
     bill: user.bill,
+    requestList: admin.requestList,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  searchUser: bindActionCreators(AdminActions.searchUser, dispatch),
+  searchUserSpending: bindActionCreators(AdminActions.searchUserSpending, dispatch),
   loginAuto: bindActionCreators(LoginActions.loginAuto, dispatch),
   contain: bindActionCreators(UserActions.contain, dispatch),
   getBillHistory: bindActionCreators(UserActions.getBillHistory, dispatch),

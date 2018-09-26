@@ -5,6 +5,7 @@ import { Jumbotron, Container } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { css } from 'glamor';
 import AdminMenuPage from '../adminmenu/adminmenu.page';
+import AdminSearchPage from '../adminsearch/adminsearch.page';
 import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
 import UserStorePage from '../userstore/userstore.page';
@@ -42,6 +43,10 @@ class MenuPage extends Component {
     buy: PropTypes.func.isRequired,
 
     history: PropTypes.any.isRequired,
+
+    searchUser: PropTypes.func.isRequired,
+    searchUserSpending: PropTypes.func.isRequired,
+    requestList: PropTypes.array.isRequired,
   };
 
   state = {
@@ -178,7 +183,13 @@ class MenuPage extends Component {
           )}
         </Jumbotron>
         {/* Admin menu */}
-        {this.state.adminCharge && null}
+        {this.state.adminSearch && (
+          <AdminSearchPage
+            searchUser={this.props.searchUser}
+            searchUserSpending={this.props.searchUserSpending}
+            requestList={this.props.requestList}
+          />
+        )}
 
         {/* User Menu */}
         {this.state.userTimeTable && (

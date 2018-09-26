@@ -1,0 +1,57 @@
+.admin-search-container {
+  margin: {
+    top: 0.5rem;
+    bottom: 0.5rem;
+    right: 1rem;
+    left: 1rem;
+  }
+  padding: 1rem;
+
+  .admin-search-title {
+    span {
+      font-size: 2rem;
+      font-weight: 300;
+    }
+    padding: {
+      bottom: 1rem;
+    }
+  }
+
+  .admin-search-buttons {
+    padding: {
+      bottom: 1rem;
+    }
+    display: flex;
+    .admin-search-button {
+      display: flex;
+      flex: 1;
+      button {
+        min-width: 70px;
+        flex: 1;
+      }
+    }
+  }
+
+  .admin-search-result-title {
+    span {
+      font-size: 2rem;
+      font-weight: 300;
+    }
+    padding: {
+      bottom: 1rem;
+    }
+  }
+
+  .admin-search-result-content {
+  }
+
+  .admin-add-user-title {
+    span {
+      font-size: 2rem;
+      font-weight: 300;
+    }
+    padding: {
+      bottom: 1rem;
+    }
+  }
+}
