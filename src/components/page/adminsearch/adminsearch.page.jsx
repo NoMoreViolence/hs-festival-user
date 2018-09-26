@@ -124,11 +124,11 @@ class AdminSearchPage extends Component {
         {this.state.users[i] === true
           && (
           <div>
+            <div style={{ fontSize: '2rem', paddingBottom: '2rem' }}>
+              <span>거래 내역</span>
+            </div>
             {this.props.requestList[i].spendingData.map((spending, j) => (
               <div key={j} className="admin-search-result-spending-data" style={{ paddingBottom: '2.5rem' }}>
-                <div style={{ fontSize: '2rem' }}>
-                  <span>거래 내역</span>
-                </div>
                 <div>
                   <span style={{ fontSize: '2rem' }}>{spending.confirmed ? '거래 완료됨' : '거래 대기 중'}</span>
                 </div>

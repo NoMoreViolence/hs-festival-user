@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { css } from 'glamor';
 import AdminMenuPage from '../adminmenu/adminmenu.page';
 import AdminSearchPage from '../adminsearch/adminsearch.page';
+import AdminStorePage from '../adminstore/adminstore.page';
 import UserMenuPage from '../usermenu/usermenu.page';
 import UserTimeTablePage from '../usertimetable/usertimetable.page';
 import UserStorePage from '../userstore/userstore.page';
@@ -47,6 +48,9 @@ class MenuPage extends Component {
     searchUser: PropTypes.func.isRequired,
     searchUserSpending: PropTypes.func.isRequired,
     requestList: PropTypes.array.isRequired,
+    getAllStore: PropTypes.func.isRequired,
+    allStore: PropTypes.array.isRequired,
+    sortStoreData: PropTypes.func.isRequired,
   };
 
   state = {
@@ -188,6 +192,13 @@ class MenuPage extends Component {
             searchUser={this.props.searchUser}
             searchUserSpending={this.props.searchUserSpending}
             requestList={this.props.requestList}
+          />
+        )}
+        {this.state.adminStore && (
+          <AdminStorePage
+            getAllStore={this.props.getAllStore}
+            allStore={this.props.allStore}
+            sortStoreData={this.props.sortStoreData}
           />
         )}
 
