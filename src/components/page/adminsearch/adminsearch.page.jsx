@@ -90,8 +90,8 @@ class AdminSearchPage extends Component {
         <div className="admin-search-result-name-title" style={{ paddingBottom: '0.5rem' }}>
           <span style={{ fontSize: '2rem', fontWeight: '300' }}>{object.admin === true ? '관리자' : '비 관리자'}</span>
         </div>
-        <div className="admin-search-result-unit" style={{ display: 'flex' }}>
-          <div className="admin-search-left" style={{ flex: 1, paddingBottom: '0.5rem' }}>
+        <div className="admin-search-result-unit" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="admin-search-left" style={{ paddingBottom: '0.5rem' }}>
             <span className="admin-search-result-unit-title" style={{ fontSize: '1.2rem', fontWeight: 400 }}>
               {`${object.name} / ${object.major} / ${object.sign === true ? '회원' : '비회원'}`}
             </span>
@@ -100,14 +100,14 @@ class AdminSearchPage extends Component {
               <span>{`${object.class}반 `}</span>
               <span>{`${object.id}번 `}</span>
             </div>
-          </div>
-          <div className="admin-search-right" style={{ flex: 1, paddingBottom: '0.5rem' }}>
             <div>
-              <div>
-                <span style={{ fontSize: '1.2rem', fontWeight: 400 }}>
-                  {`${object.sign === true ? `유저 ID: ${object.user_id}` : `랜덤 키 값: ${object.key}`}`}
-                </span>
-              </div>
+              <span style={{ fontSize: '1.2rem', fontWeight: 400 }}>
+                {`${object.sign === true ? `유저 ID: ${object.user_id}` : `랜덤 키 값: ${object.key}`}`}
+              </span>
+            </div>
+          </div>
+          <div className="admin-search-right" style={{ paddingBottom: '0.5rem', display: 'flex', justifyContent: 'column' }}>
+            <div style={{ display: 'flex', justifyContent: 'column', flex: 1 }}>
               <Button
                 outline
                 color="primary"
@@ -115,6 +115,7 @@ class AdminSearchPage extends Component {
                   this.showSpending(i);
                   this.props.searchUserSpending(object._id);
                 }}
+                style={{ flex: 1 }}
               >
                 소비내역 검색
               </Button>
@@ -129,18 +130,38 @@ class AdminSearchPage extends Component {
             </div>
             {this.props.requestList[i].spendingData.map((spending, j) => (
               <div key={j} className="admin-search-result-spending-data" style={{ paddingBottom: '2.5rem' }}>
-                <div>
+                <div style={{
+                  paddingTop: '1rem',
+                  paddingBottom: '1rem',
+                  fontSize: '1.2rem',
+                  fontWeight: 300,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+                >
+                  <span>소비</span>
+                  <span className="bill-changed">{`${spending.moneyBefore} → ${spending.moneyAfter}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                  <span>
+                    <img src="/images/image/down.svg" alt="" />
+                  </span>
+                </div>
+                <div style={{}}>
                   <span style={{ fontSize: '2rem' }}>{spending.confirmed ? '거래 완료됨' : '거래 대기 중'}</span>
                 </div>
-                <div style={{ display: 'flex' }}>
-                  <span style={{ fontSize: '1.4rem', fontWeight: 300, flex: 1 }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  paddingBottom: '0.5rem',
+                }}
+                >
+                  <span style={{ fontSize: '1.2rem', fontWeight: 300 }}>
+                    {`- ${spending.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+                  </span>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 300 }}>
                     {`${spending.class}`}
                   </span>
-                  <span style={{ fontSize: '1.2rem', fontWeight: 300, flex: 1 }}>
-                    {spending.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
-                  </span>
                 </div>
-                <div>
+                <div style={{}}>
                   <span style={{ fontSize: '1.2rem', fontWeight: 300 }}>
                     {`${spending.moneyBefore.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} - 
                     ${spending.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} = 
@@ -150,16 +171,16 @@ class AdminSearchPage extends Component {
                 <div className="bill-deepdown-logo" style={{ paddingTop: '0.75rem' }}>
                   <span style={{ fontSize: '1.2rem' }}>거래품목: </span>
                 </div>
-                <div className="bill-deepdown-content">
+                <div className="bill-deepdown-content" style={{}}>
                   {(
                     spending.items.map(
                       (stuff, base) => (spending.items.length !== base ? (
-                        <div className="" key={base} style={{ display: 'flex' }}>
+                        <div className="" key={base} style={{ display: 'flex', justifyContent: 'space-between' }}>
                           {console.log(stuff.price)}
                           {console.log(stuff.count)}
                           {console.log(stuff.price * stuff.count)}
-                          <span style={{ flex: 1, fontSize: '1.2rem' }}>{`${stuff.name} X ${stuff.count}`}</span>
-                          <span style={{ flex: 1, fontSize: '1.2rem' }}>{(stuff.price * stuff.count).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+                          <span style={{ fontSize: '1.2rem' }}>{`${stuff.name} X ${stuff.count}`}</span>
+                          <span style={{ fontSize: '1.2rem' }}>{(stuff.price * stuff.count).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
                         </div>
                       ) : null),
                     )
@@ -168,7 +189,7 @@ class AdminSearchPage extends Component {
                 <div className="bill-time" style={{ paddingTop: '0.75rem' }}>
                   <span style={{ fontSize: '1.2rem' }}>거래 시간</span>
                 </div>
-                <div className="bill-time-content">
+                <div className="bill-time-content" style={{ paddingRight: '1rem', paddingLeft: '1rem' }}>
                   <span style={{ fontSize: '1.2rem' }}>
                     {`${new Date(spending.updatedAt.toString()).getMonth()}월 
                     ${new Date(spending.updatedAt.toString()).getDate()}일 
@@ -187,7 +208,7 @@ class AdminSearchPage extends Component {
       <React.Fragment>
         <div className="selected-container admin-search-container">
           <div className="admin-search-title">
-            <span>Student Search</span>
+            <span>학생 검색</span>
           </div>
           <div className="admin-search-buttons">
             <Dropdown
@@ -343,15 +364,15 @@ class AdminSearchPage extends Component {
         </div>
         <div className="selected-container admin-search-container">
           <div className="admin-search-result-title">
-            <span>Search Result</span>
+            <span>검색 결과</span>
           </div>
           <div className="admin-search-result-content">{renderResult(this.props.requestList)}</div>
         </div>
-        <div className="selected-container admin-search-container">
+        {/* <div className="selected-container admin-search-container">
           <div className="admin-add-user-title">
             <span>Add User</span>
           </div>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }

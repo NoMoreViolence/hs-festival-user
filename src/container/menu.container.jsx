@@ -46,6 +46,8 @@ class MenuContainer extends React.Component {
     getAllStore: PropTypes.func.isRequired,
     allStore: PropTypes.array.isRequired,
     sortStoreData: PropTypes.func.isRequired,
+    changeCanbuy: PropTypes.func.isRequired,
+    showStoreMore: PropTypes.func.isRequired,
   };
 
   render() {
@@ -81,6 +83,8 @@ class MenuContainer extends React.Component {
         getAllStore={this.props.getAllStore}
         allStore={this.props.allStore}
         sortStoreData={this.props.sortStoreData}
+        changeCanbuy={this.props.changeCanbuy}
+        showStoreMore={this.props.showStoreMore}
       />
     );
   }
@@ -108,6 +112,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  showStoreMore: bindActionCreators(AdminActions.showStoreMore, dispatch),
+  changeCanbuy: bindActionCreators(AdminActions.changeCanbuy, dispatch),
   sortStoreData: bindActionCreators(AdminActions.sortStoreData, dispatch),
   getAllStore: bindActionCreators(AdminActions.getAllStore, dispatch),
   searchUser: bindActionCreators(AdminActions.searchUser, dispatch),

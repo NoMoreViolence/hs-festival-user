@@ -2,19 +2,30 @@ import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import axios from 'axios';
 
+// 유저 검색
 export const searchUser = value => axios.get(`/api/admin/student${value}`, {
   headers: {
     token: localStorage.getItem('token'),
   },
 });
-
+// 유저의 소비 내역 검색
 export const searchUserSpending = value => axios.get(`/api/admin/spend/${value}`, {
   headers: { token: localStorage.getItem('token') },
 });
 
+// 모든 상점을 가져온다
 export const getAllStore = () => axios.get('api/admin/store', {
   headers: { token: localStorage.getItem('token') },
 });
+
+// 상점의 canbuy를 수정한다
+export const changeCanbuy = (store, item, value) => axios.patch(
+  `/api/admin/store/${store}`,
+  { data: { item_id: item * 1, canbuy: value === 'true' } },
+  {
+    headers: { token: localStorage.getItem('token'), 'Content-Type': 'application/x-www-form-urlencoded' },
+  },
+);
 
 const GET_USER = 'admin/GET_USER';
 const GET_USER_PENDING = 'admin/GET_USER_PENDING';
@@ -31,13 +42,21 @@ const GET_ALL_STORE_PENDING = 'admin/GET_ALL_STORE_PENDING';
 const GET_ALL_STORE_SUCCESS = 'admin/GET_ALL_STORE_SUCCESS';
 const GET_ALL_STORE_FAILURE = 'admin/GET_ALL_STORE_FAILURE';
 
+const PATCH_CANBUY = 'admin/PATCH_CANBUY';
+const PATCH_CANBUY_PENDING = 'admin/PATCH_CANBUY_PENDING';
+const PATCH_CANBUY_SUCCESS = 'admin/PATCH_CANBUY_SUCCESS';
+const PATCH_CANBUY_FAILURE = 'admin/PATCH_CANBUY_FAILURE';
+
 const SORT_DATA = 'admin/SORT_DATA';
+const SHOW_MORE = 'admin/SHOW_MORE';
 
 export const AdminActions = {
   searchUser: createAction(GET_USER, searchUser),
   searchUserSpending: createAction(GET_USER_SPNDING, searchUserSpending),
   getAllStore: createAction(GET_ALL_STORE, getAllStore),
   sortStoreData: createAction(SORT_DATA, value => value),
+  changeCanbuy: createAction(PATCH_CANBUY, changeCanbuy),
+  showStoreMore: createAction(SHOW_MORE, value => value),
 };
 
 const initialState = {
@@ -57,34 +76,48 @@ const admin = handleActions(
     }),
 
     [GET_USER_SPNDING_PENDING]: state => state,
-    [GET_USER_SPNDING_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.requestList = state.requestList.map(
-        object => (object._id === action.payload.data.data.history[0]
-          ? action.payload.data.data.history[0].user_id
-          : -1
-            ? { ...object, spendingData: action.payload.data.data.history }
-            : object),
-      );
-    }),
+    /* eslint-disable */
+    [GET_USER_SPNDING_SUCCESS]: (state, action) =>
+      produce(state, draft => {
+        draft.requestList = state.requestList.map(
+          object =>
+            object._id === action.payload.data.data.history[0]
+              ? action.payload.data.data.history[0].user_id
+              : -1
+                ? { ...object, spendingData: action.payload.data.data.history }
+                : object,
+        );
+      }),
+    /* eslint-disable */
     [GET_USER_SPNDING_FAILURE]: state => state,
 
     [GET_ALL_STORE_PENDING]: state => state,
-    [GET_ALL_STORE_SUCCESS]: (state, action) => produce(state, (draft) => {
-      draft.allStore = action.payload.data.data.store.map((object, i) => ({ ...object, show: false }));
-    }),
+    [GET_ALL_STORE_SUCCESS]: (state, action) =>
+      produce(state, draft => {
+        draft.allStore = action.payload.data.data.store.map((object, i) => ({ ...object, show: false }));
+      }),
     [GET_ALL_STORE_FAILURE]: state => state,
 
-    [SORT_DATA]: (state, action) => produce(state, (draft) => {
-      const data = JSON.parse(JSON.stringify(state.allStore));
+    [PATCH_CANBUY_PENDING]: state => state,
+    [PATCH_CANBUY_SUCCESS]: state => state,
+    [PATCH_CANBUY_FAILURE]: state => state,
 
-      if (action.payload === '기본') {
-        draft.allStore = data.sort((a, b) => a.class > b.class);
-      } else if (action.payload === '매출') {
-        draft.allStore = data.sort((a, b) => a.income < b.income);
-      } else if (action.payload === '판매') {
-        draft.allStore = data.sort((a, b) => a.buyCount < b.buyCount);
-      }
-    }),
+    [SHOW_MORE]: (state, action) =>
+      produce(state, draft => {
+        draft.allStore = state.allStore.map((object, i) => (i === action.payload ? { ...object, show: !object.show } : object));
+      }),
+    [SORT_DATA]: (state, action) =>
+      produce(state, draft => {
+        const data = JSON.parse(JSON.stringify(state.allStore));
+
+        if (action.payload === '기본') {
+          draft.allStore = data.sort((a, b) => a.class > b.class);
+        } else if (action.payload === '매출') {
+          draft.allStore = data.sort((a, b) => a.income < b.income);
+        } else if (action.payload === '판매') {
+          draft.allStore = data.sort((a, b) => a.buyCount < b.buyCount);
+        }
+      }),
   },
   initialState,
 );

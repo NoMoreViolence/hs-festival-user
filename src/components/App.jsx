@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-
+// 뻑빡 여기서는 합법이다
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 

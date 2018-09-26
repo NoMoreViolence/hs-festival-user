@@ -51,6 +51,8 @@ class MenuPage extends Component {
     getAllStore: PropTypes.func.isRequired,
     allStore: PropTypes.array.isRequired,
     sortStoreData: PropTypes.func.isRequired,
+    changeCanbuy: PropTypes.func.isRequired,
+    showStoreMore: PropTypes.func.isRequired,
   };
 
   state = {
@@ -199,6 +201,8 @@ class MenuPage extends Component {
             getAllStore={this.props.getAllStore}
             allStore={this.props.allStore}
             sortStoreData={this.props.sortStoreData}
+            changeCanbuy={this.props.changeCanbuy}
+            showStoreMore={this.props.showStoreMore}
           />
         )}
 

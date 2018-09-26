@@ -23,9 +23,59 @@
   padding: 1rem;
 
   .admin-store-title {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     font-size: 1.4rem;
-    font-weight: 300;
+    font-weight: 600;
+  }
+
+  .admin-store-content {
+    padding: {
+      top: 1rem;
+      bottom: 1rem;
+    }
+
+    .hot {
+      color: red;
+    }
+
+    .recommend {
+      color: blue;
+    }
+
+    .admin-store-content-basic-info {
+      display: flex;
+      justify-content: space-between;
+      padding: {
+        bottom: 1rem;
+      }
+
+      span {
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
+    }
+
+    .admin-store-content-item {
+      padding: {
+        bottom: 1rem;
+      }
+      display: flex;
+      justify-content: space-between;
+      .item-info {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        font-weight: 300;
+      }
+
+      .item-button {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 }
