@@ -13,6 +13,7 @@ import UserStorePage from '../userstore/userstore.page';
 import UserMyProductPage from '../usermyproduct/usermyproduct.page';
 import UserBillPage from '../userbill/userbill.page';
 import './menu.page.scss';
+import AdminCashRequestPage from '../admincashrequest/admincashrequest.page';
 
 class MenuPage extends Component {
   static propTypes = {
@@ -53,6 +54,8 @@ class MenuPage extends Component {
     sortStoreData: PropTypes.func.isRequired,
     changeCanbuy: PropTypes.func.isRequired,
     showStoreMore: PropTypes.func.isRequired,
+    getUserChargeList: PropTypes.func.isRequired,
+    userHistory: PropTypes.array.isRequired,
   };
 
   state = {
@@ -189,12 +192,8 @@ class MenuPage extends Component {
           )}
         </Jumbotron>
         {/* Admin menu */}
-        {this.state.adminSearch && (
-          <AdminSearchPage
-            searchUser={this.props.searchUser}
-            searchUserSpending={this.props.searchUserSpending}
-            requestList={this.props.requestList}
-          />
+        {this.state.adminCash && (
+          <AdminCashRequestPage getUserChargeList={this.props.getUserChargeList} userHistory={this.props.userHistory} />
         )}
         {this.state.adminStore && (
           <AdminStorePage
@@ -203,6 +202,13 @@ class MenuPage extends Component {
             sortStoreData={this.props.sortStoreData}
             changeCanbuy={this.props.changeCanbuy}
             showStoreMore={this.props.showStoreMore}
+          />
+        )}
+        {this.state.adminSearch && (
+          <AdminSearchPage
+            searchUser={this.props.searchUser}
+            searchUserSpending={this.props.searchUserSpending}
+            requestList={this.props.requestList}
           />
         )}
 

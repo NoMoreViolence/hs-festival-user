@@ -27,6 +27,15 @@ export const changeCanbuy = (store, item, value) => axios.patch(
   },
 );
 
+export const searchUserChargeHistory = data => axios.get(`/api/admin/charge?class_id=${data}`, {
+  headers: { token: localStorage.getItem('token') },
+});
+
+const USER_CHARGE_DATA = 'admin/GET_USER_CHARGE_DATA';
+const USER_CHARGE_DATA_PENDING = 'admin/GET_USER_CHARGE_DATA_PENDING';
+const USER_CHARGE_DATA_SUCCESS = 'admin/GET_USER_CHARGE_DATA_SUCCESS';
+const USER_CHARGE_DATA_FAILURE = 'admin/GET_USER_CHARGE_DATA_FAILURE';
+
 const GET_USER = 'admin/GET_USER';
 const GET_USER_PENDING = 'admin/GET_USER_PENDING';
 const GET_USER_SUCCESS = 'admin/GET_USER_SUCCESS';
@@ -57,16 +66,26 @@ export const AdminActions = {
   sortStoreData: createAction(SORT_DATA, value => value),
   changeCanbuy: createAction(PATCH_CANBUY, changeCanbuy),
   showStoreMore: createAction(SHOW_MORE, value => value),
+  getUserChargeList: createAction(USER_CHARGE_DATA, searchUserChargeHistory),
 };
 
 const initialState = {
   requestList: [],
   allStore: [],
   sortWay: '기본',
+  username: '',
+  class_id: '',
+  userHistory: [],
 };
 
 const admin = handleActions(
   {
+    [USER_CHARGE_DATA_PENDING]: state => state,
+    [USER_CHARGE_DATA_SUCCESS]: (state, action) => produce(state, (draft) => {
+      draft.userHistory = action.payload.data.data.history;
+    }),
+    [USER_CHARGE_DATA_FAILURE]: state => state,
+
     [GET_USER_PENDING]: state => state,
     [GET_USER_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.requestList = action.payload.data.data.student.map(object => ({ ...object, spendingData: [] }));

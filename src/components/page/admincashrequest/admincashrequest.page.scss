@@ -1,0 +1,70 @@
+.charge-search-container {
+  padding: 1rem;
+
+  .search-title {
+    font-size: 2rem;
+    font-weight: 500;
+    padding: {
+      bottom: 0.75rem;
+    }
+  }
+
+  .search-bar {
+    display: flex;
+    padding: {
+      bottom: 1rem;
+    }
+  }
+}
+
+.charge-result-container {
+  padding: 1rem;
+
+  .result-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+    font-weight: 500;
+    padding: {
+      bottom: 2rem;
+    }
+  }
+
+  .result-bar {
+    display: flex;
+    padding-bottom: 1rem;
+  }
+}
+
+.charge-history-container {
+  padding: 1rem;
+
+  .history-title {
+    font-size: 2rem;
+    font-weight: 500;
+    padding-bottom: 1rem;
+  }
+}
+
+.show-hh {
+  padding: {
+    bottom: 1rem;
+  }
+  .names {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .infos {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+}
