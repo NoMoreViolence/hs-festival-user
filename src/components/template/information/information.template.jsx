@@ -25,9 +25,9 @@ class InformationTemplate extends React.Component {
         <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="information-jumbo">
           <Container fluid>
             <p className="display-4">한세의 민족</p>
-            <p className="lead">탄감자의 쇄국정책 축제 잘 즐기세요!</p>
-            <p className="lead">이 개발자는 무보수로 모든걸 해결합니다~</p>
-            <p className="lead">2018 / 10 / 4 한세 멸망의 날</p>
+            <p className="lead">학교에 척화비를 세운 우리!</p>
+            <p className="lead">우리의 축제는 우리만 !</p>
+            <p className="lead">2018 / 10 / 5 한세제</p>
           </Container>
 
           <Container>

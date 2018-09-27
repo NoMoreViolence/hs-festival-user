@@ -21,9 +21,9 @@ export const getAllStore = () => axios.get('api/admin/store', {
 // 상점의 canbuy를 수정한다
 export const changeCanbuy = (store, item, value) => axios.patch(
   `/api/admin/store/${store}`,
-  { item_id: item * 1, canbuy: value === 'true' },
+  { item_id: item, canbuy: value === 'true' },
   {
-    headers: { token: localStorage.getItem('token'), 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { token: localStorage.getItem('token') },
   },
 );
 
