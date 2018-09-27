@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './admincashrequest.page.scss';
 import { Input, Button } from 'reactstrap';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 class AdminCashRequestPage extends Component {
   static propTypes = {
@@ -44,8 +45,13 @@ class AdminCashRequestPage extends Component {
                 .get(`/api/admin/charge/decline/${object._id}`, { headers: { token: localStorage.getItem('token') } })
                 .then(res => this.props
                   .getUserChargeList(this.state.class_id)
-                  .then(vl => this.setState({ real_class_id: this.state.class_id }))
-                  .catch(err => console.log(err)));
+                  .then((vl) => {
+                    this.setState({ real_class_id: this.state.class_id });
+                    toast('충전 취소가 승인되었습니다 !');
+                  })
+                  .catch((err) => {
+                    toast('충선 취소 실패입니다 !');
+                  }));
             }}
           >
               충전 신청 취소
@@ -59,8 +65,13 @@ class AdminCashRequestPage extends Component {
                 .get(`/api/admin/charge/accept/${object._id}`, { headers: { token: localStorage.getItem('token') } })
                 .then(res => this.props
                   .getUserChargeList(object.user_classid)
-                  .then(vl => this.setState({ real_class_id: this.state.class_id }))
-                  .catch(err => console.log(err)));
+                  .then((vl) => {
+                    this.setState({ real_class_id: this.state.class_id });
+                    toast('충전 신청이 승인되었습니다 !');
+                  })
+                  .catch((err) => {
+                    toast('충선 신청 실패입니다 !');
+                  }));
             }}
           >
               충전 신청 승인
@@ -94,8 +105,13 @@ class AdminCashRequestPage extends Component {
                 console.log(this.state.class_id);
                 this.props
                   .getUserChargeList(this.state.class_id)
-                  .then(res => this.setState({ real_class_id: this.state.class_id }))
-                  .catch(err => console.log(err));
+                  .then((vl) => {
+                    this.setState({ real_class_id: this.state.class_id });
+                    toast('검색이 완료되었습니다 !');
+                  })
+                  .catch((err) => {
+                    toast('검색 실패입니다 !');
+                  });
               }}
             >
               검색 하기
@@ -130,11 +146,18 @@ class AdminCashRequestPage extends Component {
                 axios
                   .post(
                     '/api/admin/charge/request',
-                    { class_id: this.props.userHistory[0] ? this.props.userHistory[0].user_classid : this.state.real_class_id, money: this.state.suggestMoney },
+                    {
+                      class_id: this.props.userHistory[0] ? this.props.userHistory[0].user_classid : this.state.real_class_id,
+                      money: this.state.suggestMoney,
+                    },
                     { headers: { token: localStorage.getItem('token') } },
                   )
-                  .then(res => console.log(res))
-                  .catch(err => console.log(err.message));
+                  .then((vl) => {
+                    toast('충전 신청이 완료되었습니다 !');
+                  })
+                  .catch((err) => {
+                    toast('충전 신청 실패입니다 !');
+                  });
               }}
             >
               충전 신청 하기
