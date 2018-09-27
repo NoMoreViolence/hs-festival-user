@@ -34,7 +34,7 @@ class AdminCashRequestPage extends Component {
           <span style={{ minWidth: '150px' }}>{object.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
           <span>{object.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
         </div>
-
+        {!object.approved && (
         <div className="buttons">
           <Button
             outline
@@ -54,7 +54,7 @@ class AdminCashRequestPage extends Component {
                   }));
             }}
           >
-              충전 신청 취소
+                충전 신청 취소
           </Button>
           <Button
             outline
@@ -70,13 +70,17 @@ class AdminCashRequestPage extends Component {
                     toast('충전 신청이 승인되었습니다 !');
                   })
                   .catch((err) => {
-                    toast('충선 신청 실패입니다 !');
-                  }));
+                    toast('충전 신청은 했지만, 데이터 불러오기에 실패했습니다 !');
+                  }))
+                .catch((res) => {
+                  toast('충전 신청 실패입니다 !');
+                });
             }}
           >
-              충전 신청 승인
+                충전 신청 승인
           </Button>
         </div>
+        )}
       </div>
     ));
 
@@ -154,6 +158,12 @@ class AdminCashRequestPage extends Component {
                   )
                   .then((vl) => {
                     toast('충전 신청이 완료되었습니다 !');
+                    this.props
+                      .getUserChargeList(
+                        this.props.userHistory[0] ? this.props.userHistory[0].user_classid : this.state.real_class_id,
+                      )
+                      .then(res => console.log(res))
+                      .catch(err => console.log(err));
                   })
                   .catch((err) => {
                     toast('충전 신청 실패입니다 !');
