@@ -150,9 +150,13 @@ class UserStorePage extends Component {
         <React.Fragment>
           {object.items.map((value, j) => (
             <tr
-              style={{ background: 'rgb(238, 238, 238)', color: `${value.phrase === 'HOT' ? 'red' : value.phrase === '추천' ? '#69a9ff' : ''}` }}
+              style={{ background: `${!value.canbuy ? 'black' : 'rgb(238, 238, 238)'}`, color: `${value.phrase === 'HOT' ? 'red' : value.phrase === '추천' ? '#69a9ff' : ''}` }}
               key={j + 1}
               onClick={() => {
+                if (!value.canbuy) {
+                  toast('구매할 수 없는 상품입니다 !');
+                  return;
+                }
                 if (this.state[`the${i + 1}${j + 1}`] === '' || (new Date() - this.state[`the${i + 1}${j + 1}`]) / 1000 > 3) {
                   this.doubleClick = toast(`한번 더 ${value.name} 을/를 클릭하면 장바구니로 이동`, {
                     position: toast.POSITION.TOP_LEFT,
