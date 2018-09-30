@@ -83,6 +83,8 @@ const admin = handleActions(
     [USER_CHARGE_DATA_PENDING]: state => state,
     [USER_CHARGE_DATA_SUCCESS]: (state, action) => produce(state, (draft) => {
       draft.userHistory = action.payload.data.data.history;
+      draft.username = action.payload.data.data.user.name;
+      draft.class_id = action.payload.data.data.user.class_id;
     }),
     [USER_CHARGE_DATA_FAILURE]: state => state,
 

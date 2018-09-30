@@ -50,6 +50,8 @@ class MenuContainer extends React.Component {
     showStoreMore: PropTypes.func.isRequired,
     getUserChargeList: PropTypes.func.isRequired,
     userHistory: PropTypes.array.isRequired,
+    username: PropTypes.string.isRequired,
+    class_id: PropTypes.string.isRequired,
   };
 
   render() {
@@ -89,6 +91,8 @@ class MenuContainer extends React.Component {
         showStoreMore={this.props.showStoreMore}
         getUserChargeList={this.props.getUserChargeList}
         userHistory={this.props.userHistory}
+        username={this.props.username}
+        class_id={this.props.class_id}
       />
     );
   }
@@ -100,6 +104,8 @@ const mapStateToProps = (state) => {
   } = state;
 
   return {
+    class_id: admin.class_id,
+    username: admin.username,
     logined: login.logined,
     admin: user.admin,
     name: user.name,

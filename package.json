@@ -121,5 +121,5 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://52.78.136.185:3000"
+  "proxy": "https://codedc.org"
 }

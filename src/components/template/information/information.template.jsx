@@ -22,7 +22,7 @@ class InformationTemplate extends React.Component {
 
     return (
       <div className="information-container">
-        <div fluid className="information-jumbo">
+        <div className="information-jumbo">
           <div className="main-logo">
             <span style={{ fontSize: '4rem' }}>한세의 민족</span>
             <span style={{ fontSize: '1rem', fontWeight: 300 }}>2018 / 10 / 5</span>

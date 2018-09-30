@@ -9,13 +9,13 @@ class AdminCashRequestPage extends Component {
   static propTypes = {
     getUserChargeList: PropTypes.func.isRequired,
     userHistory: PropTypes.array.isRequired,
+    username: PropTypes.string.isRequired,
+    class_id: PropTypes.string.isRequired,
   };
 
   state = {
     show: false,
     class_id: '',
-    real_class_id: '',
-    username: '',
     suggestMoney: 0,
   };
 
@@ -23,16 +23,29 @@ class AdminCashRequestPage extends Component {
     const renderArray = data => data.map((object, i) => (
       <div key={i} className="show-hh">
         <div className="names">
-          <span>{object.user_name}</span>
-          <span>{object.admin_name}</span>
+          <span>{`유저: ${object.user_name}`}</span>
+          {!object.approved ? (
+            <span>{object.admin_name}</span>
+          ) : (
+            <React.Fragment>
+              <span>{`신청자: ${object.requester_admin_name}`}</span>
+              <span>{`승인자: ${object.admin_name}`}</span>
+            </React.Fragment>
+          )}
         </div>
 
         <div className="infos">
-          <span style={{ minWidth: '150px', maxWidth: '300px' }}>
-            {object.moneyBefore.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
-          </span>
-          <span style={{ minWidth: '150px' }}>{object.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
-          <span>{object.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '0.75rem' }}>
+            <span style={{ minWidth: '150px', maxWidth: '300px' }}>
+              {`충전 전: ${object.moneyBefore.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+            </span>
+            <span>{`충전 후: ${object.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}</span>
+          </div>
+          <div style={{ paddingTop: '0.75rem' }}>
+            <span style={{ minWidth: '150px' }}>
+              {`충전량: ${object.money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+            </span>
+          </div>
         </div>
         {!object.approved && (
         <div className="buttons">
@@ -46,7 +59,6 @@ class AdminCashRequestPage extends Component {
                 .then(res => this.props
                   .getUserChargeList(this.state.class_id)
                   .then((vl) => {
-                    this.setState({ real_class_id: this.state.class_id });
                     toast('충전 취소가 승인되었습니다 !');
                   })
                   .catch((err) => {
@@ -66,7 +78,6 @@ class AdminCashRequestPage extends Component {
                 .then(res => this.props
                   .getUserChargeList(object.user_classid)
                   .then((vl) => {
-                    this.setState({ real_class_id: this.state.class_id });
                     toast('충전 신청이 승인되었습니다 !');
                   })
                   .catch((err) => {
@@ -106,11 +117,9 @@ class AdminCashRequestPage extends Component {
               outline
               color="primary"
               onClick={() => {
-                console.log(this.state.class_id);
                 this.props
                   .getUserChargeList(this.state.class_id)
                   .then((vl) => {
-                    this.setState({ real_class_id: this.state.class_id });
                     toast('검색이 완료되었습니다 !');
                   })
                   .catch((err) => {
@@ -124,14 +133,8 @@ class AdminCashRequestPage extends Component {
         </div>
         <div className="selected-container charge-result-container">
           <div className="result-title">
-            {this.props.userHistory[0] ? (
-              <React.Fragment>
-                <span>{this.props.userHistory[0] ? this.props.userHistory[0].user_name : ''}</span>
-                <span>{this.props.userHistory[0] ? this.props.userHistory[0].user_classid : ''}</span>
-              </React.Fragment>
-            ) : (
-              <span>{this.state.real_class_id}</span>
-            )}
+            <span>{this.props.username}</span>
+            <span>{this.props.class_id}</span>
           </div>
           <div className="result-bar">
             <Input
@@ -151,21 +154,20 @@ class AdminCashRequestPage extends Component {
                   .post(
                     '/api/admin/charge/request',
                     {
-                      class_id: this.props.userHistory[0] ? this.props.userHistory[0].user_classid : this.state.real_class_id,
-                      money: this.state.suggestMoney,
+                      class_id: this.props.class_id,
+                      money: this.state.suggestMoney * 1,
                     },
                     { headers: { token: localStorage.getItem('token') } },
                   )
                   .then((vl) => {
                     toast('충전 신청이 완료되었습니다 !');
                     this.props
-                      .getUserChargeList(
-                        this.props.userHistory[0] ? this.props.userHistory[0].user_classid : this.state.real_class_id,
-                      )
+                      .getUserChargeList(this.props.class_id)
                       .then(res => console.log(res))
                       .catch(err => console.log(err));
                   })
                   .catch((err) => {
+                    console.log(err.message);
                     toast('충전 신청 실패입니다 !');
                   });
               }}

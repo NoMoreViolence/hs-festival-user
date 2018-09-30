@@ -56,6 +56,8 @@ class MenuPage extends Component {
     showStoreMore: PropTypes.func.isRequired,
     getUserChargeList: PropTypes.func.isRequired,
     userHistory: PropTypes.array.isRequired,
+    username: PropTypes.string.isRequired,
+    class_id: PropTypes.string.isRequired,
   };
 
   state = {
@@ -193,7 +195,12 @@ class MenuPage extends Component {
         </Jumbotron>
         {/* Admin menu */}
         {this.state.adminCash && (
-          <AdminCashRequestPage getUserChargeList={this.props.getUserChargeList} userHistory={this.props.userHistory} />
+          <AdminCashRequestPage
+            getUserChargeList={this.props.getUserChargeList}
+            userHistory={this.props.userHistory}
+            username={this.props.username}
+            class_id={this.props.class_id}
+          />
         )}
         {this.state.adminStore && (
           <AdminStorePage
