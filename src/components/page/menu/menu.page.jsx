@@ -140,7 +140,7 @@ class MenuPage extends Component {
     const { name, money, _id } = this.props;
     return (
       <div className="menu-container">
-        <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="menu-jumbo">
+        <Jumbotron fluid className="menu-jumbo">
           <Container>
             <div className="name-and-logout">
               <p className="display-4">{`${name}`}</p>

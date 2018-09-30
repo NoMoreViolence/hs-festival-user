@@ -47,6 +47,10 @@ class App extends React.Component {
             )}
           />
           <Route exact path="/menu" component={MenuTemplate} />
+
+          <div className="selected-container introduce">
+            <span className="introduce">Designed by Ji-Hoon LEE in california</span>
+          </div>
         </div>
       </div>
     );

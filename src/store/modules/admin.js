@@ -130,7 +130,7 @@ const admin = handleActions(
         const data = JSON.parse(JSON.stringify(state.allStore));
 
         if (action.payload === '기본') {
-          draft.allStore = data.sort((a, b) => a.class > b.class);
+          draft.allStore = data.sort((a, b) => (a.class > b.class ? 1 : -1));
         } else if (action.payload === '매출') {
           draft.allStore = data.sort((a, b) => a.income < b.income);
         } else if (action.payload === '판매') {

@@ -6,7 +6,30 @@
     background-color: #fff;
     margin: 1rem;
     // border: none;
-    border-radius: 8px;
+    border-radius: 4px !important;
+
+    .main-logo {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .info-buttons {
+      .info-left-button {
+        border-bottom: none !important;
+        border-left: none !important;
+        border-top-right-radius: 0px !important;
+        border-top-left-radius: 0px !important;
+        border-bottom-right-radius: 0px !important;
+      }
+      .info-right-button {
+        border-left: none !important;
+        border-bottom: none !important;
+        border-right: none !important;
+        border-top-right-radius: 0px !important;
+        border-top-left-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+      }
+    }
   }
 }
 

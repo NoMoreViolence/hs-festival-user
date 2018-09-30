@@ -17,6 +17,7 @@ class UserBillPage extends Component {
 
   state = {
     elementShowNone: [],
+    modal: [],
   };
 
   componentDidMount() {
@@ -24,6 +25,7 @@ class UserBillPage extends Component {
     const elements = this.props.bill.map(object => (object._type === '충전' ? false : !object.confirmed));
     console.log(elements);
     this.setState({
+      modal: elements,
       elementShowNone: elements,
     });
   }
@@ -33,6 +35,7 @@ class UserBillPage extends Component {
       const elements = this.props.bill.map(object => (object._type === '충전' ? false : !object.confirmed));
       console.log(elements);
       this.setState({
+        modal: elements,
         elementShowNone: elements,
       });
     }
@@ -45,7 +48,9 @@ class UserBillPage extends Component {
       <div className="selected-container important" key={i}>
         <div className="bill-type">
           <span className={`${object._type === '충전' ? 'red' : 'blue'}`}>{object._type === '충전' ? '충전' : '소비'}</span>
-          <span className="bill-changed">{`${object.moneyBefore} → ${object.moneyAfter}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span>
+          <span className="bill-changed">
+            {`${object.moneyBefore} → ${object.moneyAfter}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
+          </span>
           <span
             onClick={() => {
               const changed = this.state.elementShowNone.map((source, j) => (j === i ? !source : source));
@@ -77,7 +82,13 @@ class UserBillPage extends Component {
           <div className="bill-deepdown-content">
             {object._type === '충전' ? (
               <div className="bill-deepdown-content-stuffs">
-                <span>{`${object.moneyBefore.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} → ${object.moneyAfter.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}</span>
+                <span>
+                  {`${object.moneyBefore
+                    .toString()
+                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} → ${object.moneyAfter
+                    .toString()
+                    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`}
+                </span>
               </div>
             ) : (
               object.items.map(
@@ -119,34 +130,70 @@ class UserBillPage extends Component {
                     money: hello.data.user.money,
                   });
                 });
-                toast('결제 취소 확인되었습니다 !', { type: toast.TYPE.SUCCESS, position: toast.POSITION.TOP_RIGHT, autoClose: 3000 });
-              })}
+                toast('결제 취소 확인되었습니다 !', {
+                  type: toast.TYPE.SUCCESS,
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 3000,
+                });
+              })
+                    }
             >
                     결제 취소
             </Button>
             )}
-            <Button
-              outline
-              color="primary"
-              disabled={object.confirmed}
-              onClick={() => this.props.confirmBill(object._id).then((res) => {
-                this.props.getBillHistory();
-                this.props.loginAuto().then((cd) => {
-                  const hello = cd.action.payload.data;
-                  this.props.contain({
-                    admin: hello.data.user.admin,
-                    name: hello.data.user.name,
-                    id: hello.data.user.class_id,
-                    _id: hello.data.user._id,
-                    money: hello.data.user.money,
-                  });
-                });
-                this.props.loginAuto();
-                toast('결제 최종 승인 완료되었습니다 !', { type: toast.TYPE.SUCCESS, position: toast.POSITION.TOP_RIGHT, autoClose: 3000 });
-              })}
-            >
-              {object.confirmed ? '결제 확인 됨' : '결제 확인'}
-            </Button>
+            {object.confirmed ? (
+              <Button
+                outline
+                color="primary"
+                disabled
+              >
+                    결제 확인 됨
+              </Button>
+            ) : (
+              <Button
+                outline
+                color="primary"
+                disabled={object.confirmed}
+                onClick={() => {
+                  if (this.state.modal[i] === true) {
+                    const map = this.state.modal.map((temp, j) => (i === j ? false : temp === true));
+                    this.setState({
+                      modal: map,
+                    });
+                    toast('이 버튼은 관리자를 위한 버튼입니다. 누르실 경우, 환불이 불가능 합니다', { autoClose: 3000 });
+
+                    setTimeout(() => {
+                      const realmap = this.state.modal.map((temp, j) => (i === j ? true : temp === true));
+                      this.setState({
+                        modal: realmap,
+                      });
+                    }, 3000);
+                  } else {
+                    this.props.confirmBill(object._id).then((res) => {
+                      this.props.getBillHistory();
+                      this.props.loginAuto().then((cd) => {
+                        const hello = cd.action.payload.data;
+                        this.props.contain({
+                          admin: hello.data.user.admin,
+                          name: hello.data.user.name,
+                          id: hello.data.user.class_id,
+                          _id: hello.data.user._id,
+                          money: hello.data.user.money,
+                        });
+                      });
+                      this.props.loginAuto();
+                      toast('결제 최종 승인 완료되었습니다 !', {
+                        type: toast.TYPE.SUCCESS,
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 3000,
+                      });
+                    });
+                  }
+                }}
+              >
+                    관리자 결제 확인
+              </Button>
+            )}
           </div>
           )}
         </div>

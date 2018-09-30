@@ -22,47 +22,43 @@ class InformationTemplate extends React.Component {
 
     return (
       <div className="information-container">
-        <Jumbotron fluid style={{ boxShadow: '1px 1px 1px 1px #999' }} className="information-jumbo">
-          <Container fluid>
-            <p className="display-4">한세의 민족</p>
-            <p className="lead">학교에 척화비를 세운 우리!</p>
-            <p className="lead">우리의 축제는 우리만 !</p>
-            <p className="lead">2018 / 10 / 5 한세제</p>
-          </Container>
+        <div fluid className="information-jumbo">
+          <div className="main-logo">
+            <span style={{ fontSize: '4rem' }}>한세의 민족</span>
+            <span style={{ fontSize: '1rem', fontWeight: 300 }}>2018 / 10 / 5</span>
+          </div>
 
-          <Container>
-            <Row>
-              <Col className="information-button-parent" style={{ borderRight: '1px solid #007bff' }}>
-                <Button
-                  outline
-                  color="primary"
-                  onClick={() => {
-                    this.setState({
-                      login: false,
-                      register: true,
-                    });
-                  }}
-                >
-                  회원가입
-                </Button>
-              </Col>
-              <Col className="information-button-parent">
-                <Button
-                  outline
-                  color="primary"
-                  onClick={() => {
-                    this.setState({
-                      login: true,
-                      register: false,
-                    });
-                  }}
-                >
-                  로그인
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
+          <div className="info-buttons" style={{ display: 'flex' }}>
+            <Button
+              className="info-left-button"
+              style={{ flex: 1 }}
+              outline
+              color="primary"
+              onClick={() => {
+                this.setState({
+                  login: false,
+                  register: true,
+                });
+              }}
+            >
+              회원가입
+            </Button>
+            <Button
+              className="info-right-button"
+              style={{ flex: 1 }}
+              outline
+              color="primary"
+              onClick={() => {
+                this.setState({
+                  login: true,
+                  register: false,
+                });
+              }}
+            >
+              로그인
+            </Button>
+          </div>
+        </div>
         {login && <LoginContainer />}
         {register && <RegisterContainer />}
       </div>

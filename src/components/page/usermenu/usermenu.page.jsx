@@ -22,6 +22,7 @@ class UserMenuPage extends Component {
           onClick={() => {
             this.props.store();
           }}
+          style={{ borderBottomLeft: '4px !important' }}
         >
           <img src="/images/image/store.svg" alt="" className="usermenu-img" />
           <span>축제부스</span>
@@ -36,7 +37,7 @@ class UserMenuPage extends Component {
           }}
         >
           <img src="/images/image/history.svg" alt="" className="usermenu-img" />
-          <span>계산서</span>
+          <span>결제 내역</span>
         </Button>
         <Button
           type="button"
