@@ -110,14 +110,10 @@ const user = handleActions(
       draft.storeProduct = state.storeProduct.filter(value => value.name !== action.payload);
     }),
     [UP_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.name === action.payload ? { ...value, item_count: value.item_count + 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count + 1 } : value));
     }),
     [DOWN_STORE_PRODUCT]: (state, action) => produce(state, (draft) => {
-      draft.storeProduct = state.storeProduct.map(
-        value => (value.name === action.payload ? { ...value, item_count: value.item_count - 1 } : value),
-      );
+      draft.storeProduct = state.storeProduct.map(value => (value.name === action.payload ? { ...value, item_count: value.item_count - 1 } : value));
     }),
 
     [BUY_PRODUCT_PENDING]: (state, action) => produce(state, (draft) => {

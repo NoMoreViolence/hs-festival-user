@@ -49,6 +49,9 @@ class RegisterPage extends Component {
             }}
           />
         </div>
+        <div className="pw-introduce">
+          <span>ID 규칙: 5 ~ 20 글자, 영어 소문자, 숫자 조합 사용 가능</span>
+        </div>
         <div className="id-input">
           <Input
             type="text"
@@ -107,6 +110,9 @@ class RegisterPage extends Component {
           </Button>
         </div>
         <div className="pw-input">
+          <div className="pw-introduce">
+            <span>비밀번호 규칙: 8 ~ 16글자, 영어 대소문자, 숫자, 특수기호 반드시 포함</span>
+          </div>
           <Input
             type="password"
             placeholder="PW"

@@ -82,9 +82,8 @@ const admin = handleActions(
   {
     [USER_CHARGE_DATA_PENDING]: state => state,
     [USER_CHARGE_DATA_SUCCESS]: (state, action) => produce(state, (draft) => {
+      console.log(action.payload.data.data);
       draft.userHistory = action.payload.data.data.history;
-      draft.username = action.payload.data.data.user.name;
-      draft.class_id = action.payload.data.data.user.class_id;
     }),
     [USER_CHARGE_DATA_FAILURE]: state => state,
 
@@ -98,17 +97,14 @@ const admin = handleActions(
 
     [GET_USER_SPNDING_PENDING]: state => state,
     /* eslint-disable */
-    [GET_USER_SPNDING_SUCCESS]: (state, action) =>
+    [GET_USER_SPNDING_SUCCESS]: (state, action) => {
+      console.log(action);
       produce(state, draft => {
         draft.requestList = state.requestList.map(
-          object =>
-            object._id === action.payload.data.data.history[0]
-              ? action.payload.data.data.history[0].user_id
-              : -1
-                ? { ...object, spendingData: action.payload.data.data.history }
-                : object,
+          object => (object._id === action.payload.data.data.history[0] ? action.payload.data.data.history[0].user_id : -1 ? { ...object, spendingData: action.payload.data.data.history } : object),
         );
-      }),
+      });
+    },
     /* eslint-disable */
     [GET_USER_SPNDING_FAILURE]: state => state,
 

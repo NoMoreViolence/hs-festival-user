@@ -26,7 +26,7 @@ module.exports = {
     'react/destructuring-assignment': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'react/jsx-filename-extension': 0,
-    'max-len': [2, 200, 2],
+    'max-len': [2, 6000, 2],
     'no-param-reassign': 0,
   },
 };
